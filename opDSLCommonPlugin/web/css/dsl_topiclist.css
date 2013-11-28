@@ -1,0 +1,164 @@
+@charset "UTF-8";
+/*******************************************************************************
+ * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
+
+.dsl_button,
+.dsl_clickable{
+	cursor:pointer;
+}
+.dsl_button{
+	text-align:center;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dsl_topic .dsl_created{
+	float: right;
+	color:#887f7a;
+	padding-left:8px;
+	text-align:right;
+	font-size: 95%;
+	margin: 0.1ex 0;
+}
+
+.dsl_float_clearfix{
+	clear:both;
+	display:block;
+	height:0;
+	visibility:hidden;
+}
+
+.dsl_topic .dsl_subject{
+	font-weight: bold;
+/*	padding-left:3px;	*/
+	text-align:left;
+}
+
+.dsl_topic .container_body{
+	padding-left:5px;
+}
+.dsl_topic .dsl_author_box{
+	color:#008000;
+	padding-left:5px;
+}
+.dsl_topic .dsl_comment .dsl_author_box{
+	padding-left:0;
+}
+.dsl_topic .dsl_author_box .dsl_author_suffix{
+	font-size:95%;
+}
+.dsl_topic .container_comments{
+	font-size:95%;
+	padding-left:20px;
+	padding-top:6px;
+}
+
+.dsl_mini .dsl_topic .container_body{
+	padding-left:5px;
+}
+.dsl_mini .dsl_topic .container_comments{
+	padding-left:10px;
+}
+
+.dsl_topic{
+	padding: 4px 8px;
+}
+
+.dsl_comment{
+	padding: 2px 4px;
+}
+
+.dsl_topic, .dsl_comment{
+	border: solid #d4dcd6;
+	border-width: 1px 0px 0px;
+	text-align:left;
+}
+
+.dsl_topic .inline,
+.dsl_comment .inline{
+	display: inline;
+}
+
+.dsl_mini .dsl_topiclist .dsl_topic{
+	padding: 4px;
+}
+
+.dsl_topiclist,
+.dsl_comment_list
+{
+	border:solid #d4dcd6 1px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.dsl_topic .dsl_comment_list{
+	border-radius: 5px; /*0px 0px 5px 5px;*/
+}
+.dsl_empty{
+	color:#887f7a;
+}
+
+.dsl_author{
+	background-position: 0% 50%;
+	background-repeat: no-repeat;
+}
+
+.dsl_navigationlist li,
+.dsl_author{
+	background-size: contain;
+	padding-left: 1.2em;
+}
+.dsl_navigationlist>li{
+	padding-left: .2em;
+}
+
+.dsl_topiclist .dsl_topic:nth-child(even),
+.dsl_topiclist .dsl_topic:nth-child(odd) .dsl_comment_list/*,
+.dsl_topiclist .dsl_topic:nth-child(even) .dsl_comment_list .dsl_comment:nth-child(even),
+.dsl_topiclist .dsl_topic:nth-child(odd) .dsl_comment_list .dsl_comment:nth-child(odd)*/
+{
+	background-color: white;
+}
+
+.dsl_topiclist .dsl_topic:nth-child(odd),
+.dsl_topiclist .dsl_topic:nth-child(even) .dsl_comment_list/*,
+.dsl_topiclist .dsl_topic:nth-child(odd) .dsl_comment_list .dsl_comment:nth-child(even),
+.dsl_topiclist .dsl_topic:nth-child(even) .dsl_comment_list .dsl_comment:nth-child(odd)*/
+{
+	background-color: #f8fbf8;
+}
+
+.dsl_topiclist .dsl_button.dsl_topic:hover,
+.dsl_comment_list .dsl_button.dsl_comment:hover,
+.dsl_topiclist .dsl_clickable.dsl_topic:hover,
+.dsl_comment_list .dsl_clickable.dsl_comment:hover
+{
+	-webkit-box-shadow: 0px 0px 6px 1px rgba(195,216,37,0.4) inset;
+	-moz-box-shadow: 0px 0px 6px 1px rgba(195,216,37,0.4) inset;
+	box-shadow: 0px 0px 6px 1px rgba(195,216,37,0.4) inset;
+}
+.dsl_comment h4,
+.dsl_topic h4{
+	display:inline;
+}
+
+.dsl_topiclist .dsl_topic:nth-child(1),
+.dsl_comment_list .dsl_comment:nth-child(1){
+	border: none;
+}
+
+ul, ol {
+list-style-position: outside;
+list-style-type: none;
+}

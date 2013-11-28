@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>opDSLCommonPlugin</name>
+ <channel>plugins.openpne.jp</channel>
+ <summary>Common components for DSL projects</summary>
+ <description>Common components for DSL projects</description>
+ <lead>
+  <name>_ak</name>
+  <user>_ak</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <date>2013-04-16</date>
+ <time>08:02:38</time>
+ <version>
+  <release>1.0</release>
+  <api>1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license>Eclipse Public License v1.0</license>
+ <notes>
+Common components for DSL projects
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+<file baseinstalldir="/" name="apps/api/modules/dsls/actions/actions.class.php" role="data" />
+<file baseinstalldir="/" name="apps/api/modules/dsls/config/filters.yml" role="data" />
+<file baseinstalldir="/" name="apps/api/modules/dsls/templates/commentsSuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/api/modules/dsls/templates/listPushEventsSuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/api/modules/dsls/templates/reportTopicSuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/api/modules/dsls/templates/topicsSuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_backend/modules/opDSLCommonPlugin/actions/actions.class.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_backend/modules/opDSLCommonPlugin/templates/indexSuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic/config/view.yml" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/actions/components.class.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/config/security.yml" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_activityGadget.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_addCommunityName4NewTopic.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityMyTopicList.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityTopicList.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityTopicListMini.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityTopicList_core.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityTopicLogger.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_communityTopicSender.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_focusTopicComment.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_latestTopicUpdates.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_mapGadget.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_pageLogger.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_smtCommunityTopicList.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/dsl_common/templates/_timelineSidebar.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/member/config/view.yml" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/member/templates/_memberNameHelp.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/simpleAuth/actions/actions.class.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/simpleAuth/actions/components.class.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/simpleAuth/config/security.yml" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/simpleAuth/templates/passwordRecoverySuccess.php" role="data" />
+<file baseinstalldir="/" name="apps/pc_frontend/modules/simpleAuth/templates/_pwRecoveryFix.php" role="data" />
+<file baseinstalldir="/" name="config/gadget.yml" role="data" />
+<file baseinstalldir="/" name="config/login_gadget.yml" role="data" />
+<file baseinstalldir="/" name="config/side_banner_gadget.yml" role="data" />
+<file baseinstalldir="/" name="config/smartphone_gadget.yml" role="data" />
+<file baseinstalldir="/" name="config/doctrine/schema.yml" role="data" />
+<file baseinstalldir="/" name="lib/filter/doctrine/PluginElementLogFormFilter.class.php" role="data" />
+<file baseinstalldir="/" name="lib/filter/doctrine/PluginPageLogFormFilter.class.php" role="data" />
+<file baseinstalldir="/" name="lib/form/opDSLCommonPluginConfigurationForm.class.php" role="data" />
+<file baseinstalldir="/" name="lib/form/opSimplePasswordRecoveryForm.class.php" role="data" />
+<file baseinstalldir="/" name="lib/form/doctrine/PluginElementLogForm.class.php" role="data" />
+<file baseinstalldir="/" name="lib/form/doctrine/PluginPageLogForm.class.php" role="data" />
+<file baseinstalldir="/" name="lib/helper/opCommunityTopicDslHelper.php" role="data" />
+<file baseinstalldir="/" name="lib/helper/opMapHelper.php" role="data" />
+<file baseinstalldir="/" name="lib/model/opDSLCommonConfig.class.php" role="data" />
+<file baseinstalldir="/" name="lib/model/doctrine/PluginElementLog.class.php" role="data" />
+<file baseinstalldir="/" name="lib/model/doctrine/PluginElementLogTable.class.php" role="data" />
+<file baseinstalldir="/" name="lib/model/doctrine/PluginPageLog.class.php" role="data" />
+<file baseinstalldir="/" name="lib/model/doctrine/PluginPageLogTable.class.php" role="data" />
+<file baseinstalldir="/" name="lib/util/opDSLCommunityUtil.class.php" role="data" />
+<file baseinstalldir="/" name="lib/util/opDSLGadgetsPluginUtil.class.php" role="data" />
+<file baseinstalldir="/" name="web/css/dsl_common.css" role="data" />
+<file baseinstalldir="/" name="web/css/dsl_topiclist.css" role="data" />
+<file baseinstalldir="/" name="web/js/urlparser.js" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>

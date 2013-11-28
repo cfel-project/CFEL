@@ -1,0 +1,65 @@
+###############################################################################
+# Copyright (c) 2011, 2013 IBM Corporation and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#     IBM Corporation - initial API and implementation
+###############################################################################
+dslTakePicture:
+  caption:
+    ja_JP: "写真を撮る"
+  description:
+    ja_JP: "写真取りガジェット"
+  component: [dslcam, takePicture]
+
+smtdslFilePicker:
+  caption:
+    ja_JP: "FilePicker"
+  description:
+    ja_JP: "File Pickerです"
+  component: [dslcam, smtFilePicker]
+
+smtdslEventGrid:
+  caption:
+    ja_JP: "イベント一覧"
+  description:
+    ja_JP: "自分にかかわるイベント一覧"
+  component: [dslevent, smtMyEventGrid]
+
+smtdslHomeMenu:
+  caption:
+    ja_JP: "アクションメニュー"
+  description:
+    ja_JP: "アクションメニュー"
+  component: [dslmenu, smtHomeMenu]
+
+smtinformationBox:
+  caption:
+    ja_JP: "インフォメーションボックス"
+  description:
+    ja_JP: "ホーム画面にお知らせなどの通知が可能なインフォメーションボックスを設置できます。"
+  component: [default, informationBox]
+  config:
+    value:
+      Name:       "value"
+      Caption:    "内容"
+      FormType:   "rich_textarea"
+      ValueType:  "text"
+      IsRequired: false
+
+smtdslOverrideInformationBox:
+  caption:
+    ja_JP: "InformationBoxスタイル変更"
+  description:
+    ja_JP: "InformationBoxのスタイルを変更"
+  component: [dslstyle, smtOverrideInformationBox]
+
+smtdslOverrideComments:
+  caption:
+    ja_JP: "Commentスタイル変更"
+  description:
+    ja_JP: "Commentのスタイルを変更"
+  component: [dslstyle, smtOverrideComments]

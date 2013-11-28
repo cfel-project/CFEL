@@ -1,0 +1,52 @@
+###############################################################################
+# Copyright (c) 2011, 2013 IBM Corporation and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#     IBM Corporation - initial API and implementation
+###############################################################################
+smtdslAddTakePicture:
+  caption:
+    ja_JP: "つぶやく+写真"
+  description:
+    ja_JP: "つぶやきに写真を追加する"
+  component: [dslcam, smtAddPictureButton]
+
+smtdslAddFilePickButton:
+  caption:
+    ja_JP: "つぶやく+ファイル"
+  description:
+    ja_JP: "つぶやきにファイル選択を追加する"
+  component: [dslcam, smtAddFilePickButton]
+
+
+smtdslOverrideInformationBox:
+  caption:
+    ja_JP: "InformationBoxスタイル変更"
+  description:
+    ja_JP: "InformationBoxのスタイルを変更"
+  component: [dslstyle, smtOverrideInformationBox]
+
+smtdslOverrideComments:
+  caption:
+    ja_JP: "Commentスタイル変更"
+  description:
+    ja_JP: "Commentのスタイルを変更"
+  component: [dslstyle, smtOverrideComments]
+
+smtPageMoveIndicator:
+  caption:
+    ja_JP: "ページ遷移表示"
+  description:
+    ja_JP: "ページ遷移中を目立つようにします"
+  component: [dslstyle, smtPageMoveIndicator]
+
+smtOverrideStyles:
+  caption:
+    ja_JP: "スタイル変更"
+  description:
+    ja_JP: "スマホ用の既存のスタイルを変更します。"
+  component: [dslstyle, smtOverrideStyles]

@@ -1,0 +1,255 @@
+@charset "UTF-8";
+/*******************************************************************************
+ * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
+
+/*
+	styles for event grid elements
+*/
+.event_container_row{
+	width: 100%;
+	line-height:1em;
+}
+.event_container_row .event_prev,
+.event_container_row .event_next{
+	cursor:pointer;
+	width: 1.5em;
+	text-align:center;
+}
+
+.event_container_row .event_prev{
+	float:left;
+}
+.event_container_row .event_next{
+	float:right;
+}
+
+.date_cell{
+	background-color: #fffffc;
+}
+
+.event_prev,
+.event_next,
+.date_cell{
+	box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+
+.event_container_row,
+.event_container_row .event_prev,
+.event_container_row .event_next,
+.event_container_row .date_cell{
+	height: 6em;
+}
+
+.Layout .event_container_row,
+.Layout .event_container_row .event_prev,
+.Layout .event_container_row .event_next,
+.Layout .event_container_row .date_cell{
+	height: 8em;
+}
+
+.date_indicator,
+.event_cell_message{
+	text-align: center;
+	background-color: #fbfaf5;
+}
+.Layout .date_indicator,
+.Layout .event_cell_message{
+	padding: .2em;
+}
+
+.event_container_list .row.entry,
+.date_indicator{
+	border-bottom: solid 1px #888e7e;
+}
+
+.event_container_list .row.entry:last-child{
+	border-bottom: none;
+}
+
+.smt_grid .event_container_row .date_indicator{
+	font-size: 75%;
+	line-height: 1em;
+}
+
+.triangle_left,
+.triangle_right,
+.triangle_up,
+.triangle_down{
+	position: relative;
+	width: 0;
+	height: 0;
+	border: 1em solid transparent;
+}
+
+.triangle_left{
+	border-right-color: #887f7a;
+}
+.triangle_right{
+	border-left-color: #887f7a;
+}
+.triangle_up{
+	border-bottom-color: #887f7a;
+}
+.triangle_down{
+	border-top-color: #887f7a;
+}
+
+
+.event_container_row .event_prev,
+.event_container_row .event_next,
+.event_container_row .event_container,
+.event_container_row .date_cell{
+	display: inline-block;
+}
+
+.date_cell{
+	border: solid 1px #888e7e;
+	overflow: hidden;
+}
+
+.smt_grid .event_container_row{
+	font-size:75%;
+}
+
+.event_container_row .date_cell{
+	overflow:hidden;
+	vertical-align:top;
+	border-width: 1px 1px 1px 0;
+}
+.event_container_row .date_cell:first-child{
+	-moz-border-top-left-radius: .4em;
+	-moz-border-bottom-left-radius: .4em;
+	-webkit-border-top-left-radius: .4em;
+	-webkit-border-bottom-left-radius: .4em;
+	border-top-left-radius: .4em;
+	border-bottom-left-radius: .4em;
+	border-width:1px;
+}
+.event_container_row .date_cell:last-child{
+	-moz-border-top-right-radius: .4em;
+	-moz-border-bottom-right-radius: .4em;
+	-webkit-border-top-right-radius: .4em;
+	-webkit-border-bottom-right-radius: .4em;
+	border-top-right-radius: .4em;
+	border-bottom-right-radius: .4em;
+}
+
+.event_container_list .date_cell{
+	border-width: 0 1px 1px;
+}
+
+.event_container_list .date_cell:first-child{
+	-moz-border-top-left-radius: .4em;
+	-moz-border-top-right-radius: .4em;
+	-webkit-border-top-left-radius: .4em;
+	-webkit-border-top-right-radius: .4em;
+	border-top-left-radius: .4em;
+	border-top-right-radius: .4em;
+	border-width:1px;
+}
+
+.event_container_list .date_cell:last-child{
+	-moz-border-bottom-left-radius: .4em;
+	-moz-border-bottom-right-radius: .4em;
+	-webkit-border-bottom-left-radius: .4em;
+	-webkit-border-bottom-right-radius: .4em;
+	border-bottom-left-radius: .4em;
+	border-bottom-right-radius: .4em;
+}
+
+.event_elem{
+	background-color: #e7e7eb;
+	color: #302833;
+	border-radius: .3em;
+	margin: 1px;
+	padding: .2em .3em;
+}
+
+.event_elem.attend{
+	background-color: #3e62ad;
+	color: #fbfaf5;
+}
+
+.date_cell.today .date_indicator{
+	background-color: #f2f2b0;
+	color:#494a41;
+}
+
+.event_container_list .row.entry{
+	position:relative;
+	display:block;
+	padding: .2em;
+}
+
+.parts .event_container_list .date_indicator{
+	position:absolute;
+	height:100%;
+	width: 5em;
+	border-right: solid 1px #888e7e;
+}
+
+.parts .event_container_list .row.entry{
+	padding-left: 6em;
+}
+
+
+.event_container_list .row.entry .ev_title,
+.event_container_list .row.entry .ev_content{
+	padding-left: 1em;
+	display: block;
+}
+
+.event_container_list .row.entry .ev_status{
+	position:absolute;
+	top: .2em;
+	right:.2em;
+}
+
+/*.event_container_list .date_cell.dow_0 .row.entry,*/
+.date_cell.dow_0 .date_indicator{
+	background-color:#fef4f4;
+	color: #d9333f;
+}
+
+
+/*.event_container_list .date_cell.dow_6 .row.entry,*/
+.date_cell.dow_6 .date_indicator{
+	background-color:#eaf4fc;
+	color: #223a70;
+}
+
+
+.event_summary .row .ev_date,
+.event_summary .row .ev_date_op,
+.event_summary .row .ev_body{
+	display: inline-block;
+}
+
+.event_summary .row .ev_date{
+	width:4em;
+}
+.event_summary .row .ev_date_op{
+	width:6.5em;
+}
+
+.event_container_list .row{
+	margin: 0;
+}
+
+.shadow_paper{
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
+}

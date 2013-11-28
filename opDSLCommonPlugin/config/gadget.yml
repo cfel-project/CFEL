@@ -1,0 +1,31 @@
+###############################################################################
+# Copyright (c) 2011, 2013 IBM Corporation and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#     IBM Corporation - initial API and implementation
+###############################################################################
+dslmapGadget:
+  caption:
+    ja_JP: "周辺情報"
+  description:
+    ja_JP: "DSL project 周辺情報 gadget"
+  component: [dsl_common, mapGadget]
+
+latestTopicUdpates:
+  caption:
+    ja_JP: "最新トピック書き込み+検索"
+  description:
+    ja_JP: "最近書き込みのあったトピック一覧と検索バー"
+  component: [dsl_common, latestTopicUpdates]
+
+dslNavigationList:
+  caption:
+    ja_JP: "ナビゲーションリスト"
+  description:
+    ja_JP: "ナビゲーションリストgadget"
+  component: [dsl_common, navigationList]
+

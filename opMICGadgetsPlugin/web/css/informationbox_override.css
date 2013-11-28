@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/*******************************************************************************
+ * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
+
+/*
+ styles to override information box
+*/
+.informationBox{
+	position:relative;
+	padding:.5em;
+	margin:8px 0 4px;
+	border:solid 2px #494a41;
+	-webkit-border-radius:.5em;
+	-moz-border-radius:.5em;
+	border-radius:.5em;
+
+/*.informationBox.shadow, .Bubble2.shadow */
+	-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+
+	background:#fffffc;
+	color:#494a41;
+}
+
+div.parts.informationBox{
+	margin: .8em auto;
+}
+
+.informationBox:before {
+	content:"";
+	position:absolute;
+	left:2em; /* controls horizontal position */
+	border-width:.9em 0 0 .9em; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+/*top:after*/
+	top:-.9em; /* value = - border-top-width - border-bottom-width */
+	bottom:auto;
+
+	border-color:transparent #494a41;	
+
+}
+.informationBox:after {
+	content:"";
+	position:absolute;
+	left:2.15em; /* controls horizontal position */
+	border-width:.6em 0 0 .6em; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+/*top:after*/
+	top:-.5em; /* value = - border-top-width - border-bottom-width */
+	bottom:auto;
+
+	border-color:transparent #fbfaf5;	
+
+}
+
+.informationBox div.body{
+	border: none;
+	padding: .1em;
+	background: transparent;
+}
+
+/*for smt*/
+#face.row{
+	display:none;
+}

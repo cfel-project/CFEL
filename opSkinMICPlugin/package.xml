@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>opSkinMICPlugin</name>
+ <channel>plugins.openpne.jp</channel>
+ <summary>Skin plugins for MIC project</summary>
+ <description>Skin plugins for MIC project</description>
+ <lead>
+  <name>_ak</name>
+  <user>_ak</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <date>2013-04-16</date>
+ <time>08:02:38</time>
+ <version>
+  <release>0.9</release>
+  <api>0.9</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license>Eclipse Public License v1.0</license>
+ <notes>
+Skin plugins for MIC project
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+<file baseinstalldir="/" name="apps/pc_frontend/config/view.yml" role="data" />
+<file baseinstalldir="/" name="web/css/mic.css" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>
