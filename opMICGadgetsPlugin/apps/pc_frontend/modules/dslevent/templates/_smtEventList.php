@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,7 @@ op_smt_use_javascript('/opDSLCommonPlugin/js/urlparser.js', 'last');
 	</div>
 	<div class="event_container_list">
 		<a href="javascript:" class="event_prev"><?php echo (empty($label_prev) ? "前の日" : $label_prev) ?></a>
+		<a style="float:right;" href="javascript:" class="event_next"><?php echo (empty($label_next) ? "次の日" : $label_next) ?></a>
 		<div class="event_container"></div>
-		<a href="javascript:" class="event_next"><?php echo (empty($label_next) ? "次の日" : $label_next) ?></a>
 	</div>
 </div>

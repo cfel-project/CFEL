@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,13 +25,20 @@ class opMICGadgetsPluginConfigurationForm extends BaseForm{
 		$this->setValidator('ov_event_category', new sfValidatorString(array('required' => false, 'trim' => true)));
 		$this->widgetSchema->setLabel('ov_event_category', 'Event Category');
 		$this->widgetSchema->setHelp('ov_event_category', 'set event category options here');
-
+		
+		$choices = array('1' => 'On', '0' => 'Off');
+		$this->setWidget('dsl_smttimeline_comment_delete', new sfWidgetFormSelectRadio(array('choices' => $choices)));
+		$this->setDefault('dsl_smttimeline_comment_delete', Doctrine::getTable('SnsConfig')->get('op_micgadgets_plugin_dsl_smttimeline_comment_delete', '1'));
+		$this->setValidator('dsl_smttimeline_comment_delete', new sfValidatorChoice(array('choices' => array_keys($choices))));
+		$this->widgetSchema->setLabel('dsl_smttimeline_comment_delete', 'Show delete timeline comment link for smartphone');
+		$this->widgetSchema->setHelp('dsl_smttimeline_comment_delete', 'To hide delete timeline comment link for smartphone, please set Off. Default is On.');
+		
 		$this->widgetSchema->setNameFormat('op_micgadgets_plugin[%s]');
 	}
-
+	
 	public function save(){
 //		parent::save();
-		$names = array("dsl_menu", "ov_event_category");
+		$names = array("dsl_menu", "ov_event_category", "dsl_smttimeline_comment_delete");
 		foreach($names as $name){
 			if(!is_null($this->getValue($name))){
 				Doctrine::getTable("SnsConfig")->set("op_micgadgets_plugin_".$name, $this->getValue($name));

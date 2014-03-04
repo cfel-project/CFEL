@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2011, 2013 IBM Corporation and others.
+# Copyright (c) 2011, 2014 IBM Corporation and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -50,3 +50,31 @@ smtOverrideStyles:
   description:
     ja_JP: "スマホ用の既存のスタイルを変更します。"
   component: [dslstyle, smtOverrideStyles]
+
+smtOverrideProfileForms:
+  caption:
+    ja_JP: "プロフィールフォーム変更"
+  description:
+    ja_JP: "スマホ用の既存プロフィールフォームを変更します。"
+  component: [dslmember, smtOverrideProfileForms]
+
+smtdslEmbedYoutube:
+  caption:
+    ja_JP: "Youtube埋め込み+リンク"
+  description:
+    ja_JP: "Youtube埋め込みとurlをリンクに変えます。名前変えたほうがいいですね。"
+  component: [dslstyle, smtEmbedYoutube]
+
+smtdslOverrideShowTopic:
+  caption:
+    ja_JP: "トピックページ変更"
+  description:
+    ja_JP: "スマホ用のトピックページをoverrideします"
+  component: [dsltopic, smtOverrideShowTopic]
+
+smtdslOverrideShowEvent:
+  caption:
+    ja_JP: "イベントページ変更"
+  description:
+    ja_JP: "スマホ用のイベントページをoverrideします"
+  component: [dslevent, smtOverrideShowEvent]

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@
 		{{if events.length}}
 			{{tmpl($item.data.events) "#el_event_elem_templ"}}
 		{{else}}
-			<div class="row entry">この日の予定はありません</div>
+			<div class="row entry no_event">この日の予定はありません</div>
 		{{/if}}
 		</div>
 <?php if($hideNoEventDay){?>
@@ -34,7 +34,7 @@
 			(${community_name})
 		</span>
 		<span class="ev_content">
-			<span class="event-comment-list">${body}</span>
+			<span class="event-comment-list">${body_sum}</span>
 			<div class="ev_status"><div class="event_elem{{if is_event_member}} attend">参加予定{{else}}">参加未定{{/if}}</div></div>
 		</span>
 	</div>

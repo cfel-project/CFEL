@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2011, 2013 IBM Corporation and others.
+# Copyright (c) 2011, 2014 IBM Corporation and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -21,6 +21,38 @@ dslEventGrid:
   description:
     ja_JP: "自分にかかわるイベント一覧"
   component: [dslevent, myEventGrid]
+  config:
+    cells:
+      Name:      "cells"
+      Caption:   "表示セル数"
+      FormType:  "select"
+      ValueType:  "int"
+      IsRequired: true
+      Default:    5
+      Choices:
+        3: 3
+        5: 5
+        7: 7
+    rows:
+      Name:      "rows"
+      Caption:   "表示行数"
+      FormType:  "radio"
+      ValueType:  "int"
+      IsRequired: true
+      Default:    1
+      Choices:
+        1: "一行"
+        2: "二行"
+    order:
+      Name:      "order"
+      Caption:   "表示方向"
+      FormType:  "radio"
+      ValueType:  "text"
+      IsRequired: true
+      Default:    "horizontal"
+      Choices:
+        horizontal: "横方向"
+        vertical: "縦方向"
 
 dslHomeMenu:
   caption:
@@ -42,3 +74,10 @@ dslOverrideComments:
   description:
     ja_JP: "Commentのスタイルを変更"
   component: [dslstyle, overrideComments]
+
+dslOverrideTimeline:
+  caption:
+    ja_JP: "Timeline見た目変更"
+  description:
+    ja_JP: "Timeline内の用語、スタイル変更、Youtube埋め込み"
+  component: [dslstyle, overrideTimeline]

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2011, 2013 IBM Corporation and others.
+# Copyright (c) 2011, 2014 IBM Corporation and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -17,3 +17,92 @@ dsltopic_list_community:
     sf_method: [get]
   options: { model: Community, type: object }
 
+dsl_edittopic_override:
+  url: /d_topic/edit/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: edit}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: CommunityTopic, type: object}
+
+dsl_updatetopic_override:
+  url: /d_topic/update/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: update}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: CommunityTopic, type: object}
+
+dsl_deletetopic_override:
+  url: /d_topic/delete/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: delete}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: CommunityTopic, type: object, privilege: edit}
+
+dsl_newtopic_override:
+  url: /d_topic/new/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: new}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: Community, type: object}
+
+dsl_createtopic_override:
+  url: /d_topic/create/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: create}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: Community, type: object}
+
+dsl_editevent_override:
+  url: /d_event/edit/:id
+  class: sfDoctrineRoute
+  param: { module: communityEvent2, action: edit}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: CommunityEvent, type: object}
+
+dsl_updateevent_override:
+  url: /d_event/update/:id
+  class: sfDoctrineRoute
+  param: { module: communityEvent2, action: update}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: CommunityEvent, type: object}
+
+dsl_newevent_override:
+  url: /d_event/new/:id
+  class: sfDoctrineRoute
+  param: { module: communityEvent2, action: new}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: Community, type: object}
+
+dsl_createevent_override:
+  url: /d_event/create/:id
+  class: sfDoctrineRoute
+  param: { module: communityEvent2, action: create}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: Community, type: object}
+
+dsl_showevent_override:
+  url: /d_event/:id
+  class: sfDoctrineRoute
+  param: { module: communityEvent2, action: show}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: CommunityEvent, type: object}

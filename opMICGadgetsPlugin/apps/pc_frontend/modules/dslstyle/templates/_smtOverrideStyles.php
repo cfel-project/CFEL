@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@
 	padding-left: .2em;
 }
 
+.messageBox,
 .speechBubble{
 	position: relative;
 	margin: .1em .2em;
@@ -41,11 +42,11 @@
 	content: "";
 	position: absolute;
 	right: 13px;
-	border-width: 0 .5em .5em 0;
+	border-width: 0 .55em .55em 0;
 	border-style: solid;
 	display: block;
 	width: 0;
-	bottom: -.5em;
+	bottom: -.55em;
 	left: auto;
 	border-color: transparent #698aab;
 }
@@ -62,6 +63,21 @@
 	border-color: transparent #fffffc;
 }
 
+.speechBubble.utd:before{
+	border-width: 0 0 .5em .5em;
+	bottom: auto;
+	top: -.5em;
+	border-color: #698aab transparent;
+}
+
+.speechBubble.utd:after{
+	border-width: 0 0 .5em .5em;
+	bottom: auto;
+	right: 14px;
+	top: -.3em;
+	border-color: #fffffc transparent;
+}
+
 .speechBubble.button{
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.6, #fffffc), color-stop(1, #d4dcda));
 	background:-moz-linear-gradient( center top, #fffffc 60%, #d4dcda 100% );
@@ -73,13 +89,54 @@
 	border-color: transparent #d4dcda;
 }
 
+.messageBox.dark{
+	background-color: #1e50a2;
+	color: #fffffc;
+}
+
+/*hide read  notifications*/
+#pushList .isread{
+	display:none;
+}
+
+/*
+	fix for css3 transition set in original code is not working:
+	collapse need to be set on the element from the beginning (like toggle1)
+	, and "in" class should be applied when they want to make it "expand".
+	also, height:auto for transition-property does not work as expected
+	, use max-height instead.
+	http://stackoverflow.com/questions/3508605/css-transition-height-0-to-height-auto
+	they seems to set "toggle1" class for the elements that need to be set "collapse", hence I'm going to use that class instead for this version.
+	remove this section when the original code become work as expected..
+*/
+
+body .collapse {
+	-webkit-transition: max-height 0.35s ease;
+	-moz-transition: max-height 0.35s ease;
+	-ms-transition: max-height 0.35s ease;
+	-o-transition: max-height 0.35s ease;
+	transition: max-height 0.35s ease;
+	height:auto;
+}
+
+body .collapse{
+	max-height:0;
+}
+/*collapse seems to be used as "in" ... */
+body .collapse.in{
+	max-height:100em;
+}
 
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+	if(!$("head link[rel='stylesheet'][href*='opMICGadgetsPlugin/css/gadgets.css']").length ){
+		$("<link rel='stylesheet' type='text/css' media='screen' href='<?php echo url_for("communityTopic/")."../opMICGadgetsPlugin/css/gadgets.css" ?>'>").appendTo("head");
+	}
+	var post_ovr_text = 
 	$(".navbar img.postbutton")
 	 .before(
-		$("<span style='margin:0 .5em;font-weight:bold;line-height:2em;'>つぶやく</span>")
+		$("<span class='postbutton_ovr_text' style='margin:0 .5em;font-weight:bold;line-height:2em;'>つぶやく</span>")
 	)
 	 .css({
 		"position":"absolute",
@@ -89,7 +146,70 @@ $(document).ready(function(){
 	})
 	 .attr("src", "<?php echo url_for('opMICGadgetsPlugin/images')?>/transparent.png")
 	 .parent()
-	 .addClass("speechBubble button");
+	 .addClass("speechBubble button")
+	 .find(".postbutton_ovr_text");
+
+//override postform, ncform transition//
+	var toggles = $(".toggle1").addClass("collapse");
+	$(".toggle1_close").off("click").on("click",function(){
+		toggles.removeClass("in");
+	});;
+	var postform = $(".postform").removeClass("hide").css({padding:0,"border-bottom":0});
+	var ncform = $(".ncform").removeClass("hide").css({padding:0,"border-bottom":0});;
+	$.each([postform.find(".row:last-child"), ncform.find("#pushList")], function(){
+		this.css({"padding-bottom":"1em","border-bottom":"6px solid #909090"});
+	});
+	$(".ncbutton").off("click").on("click", function(){
+		if(ncform.hasClass("in")){
+			ncform.removeClass("in");
+		}else{
+			$.getJSON( openpne.apiBase + "push/search.json",{
+				apiKey:openpne.apiKey
+			}, function(res){
+				$("#pushLoading").hide();
+				if("success" == res.status){
+					var nodes = $("#pushListTemplate").tmpl(res.data);
+					$(".friend-accept", nodes).friendLink({
+						buttonElement:".friend-notify-button",
+						ncfriendloadingElement:"#ncfriendloading",
+						ncfriendresultmessageElement:"#ncfriendresultmessage"
+					});
+					$(".friend-reject", nodes).friendUnlink({
+						buttonElement:".friend-notify-button",
+						ncfriendloadingElement:"#ncfriendloading",
+						ncfriendresultmessageElement:"#ncfriendresultmessage"
+					});
+					$("#pushList").html(nodes).show();
+				}else{
+					alert(res.message);
+				}
+				$(".nclink").pushLink();
+			});
+			$(".toggle1:not(.ncform)").removeClass("in");
+			ncform.addClass("in");
+		}
+	});
+	$(".btn-navbar").off("click").on("click", function(){
+		if($(".toggle1.nav-collapse").hasClass("in")){
+			$(".toggle1.nav-collapse").removeClass("in");
+		}else{
+			$(".toggle1:not(.nav-collapse)").removeClass("in");
+			$(".toggle1.nav-collapse").addClass("in");
+		}
+	});
+	$(".postbutton").off("click").on("click", function(){
+		if(postform.hasClass("in")){
+			postform.removeClass("in");
+			post_ovr_text.html("つぶやく");
+		}else{
+			$(".toggle1:not(.postform)").removeClass("in");
+			postform.addClass("in");
+			post_ovr_text.html("閉じる");
+		}
+	});
+
+//end override postform, ncform transition//
+
 //hide switch to pc mode 
 	$(".navbar .nav a#smt-switch").parent().hide();
 
@@ -145,44 +265,5 @@ $(document).ready(function(){
 			}
 		}
 	})();
-
-//override showEvent page//we might better to make new page for show event and use this code there..(but may costs a lot)
-	(function(){
-		var isShowEventPage = function (){
-			var paths = ("" + window.location.href).split("/");
-			return ("communityEvent" == paths[paths.length - 2]);
-		};
-		if(isShowEventPage()){
-			function overridePostHandler(selector,def_msg){
-				var evobj = $($(document).data("events").click).filter(function(){return selector == this.selector;});
-				if(evobj.length > 0){
-					var orgh = evobj[0].handler;
-					evobj[0].handler = function(){
-						if (0 >= $.trim($('input#commentBody').val()).length){
-							$('input#commentBody').val(def_msg);
-						}
-						orgh();
-					};
-				}
-			}
-			overridePostHandler("#postJoin", "参加します");
-			overridePostHandler("#postCancel", "取りやめます");
-			 $("body>ul.footer>li:nth-child(2)").hide();
-			var link_list = $("body>ul.footer>li:nth-child(1)>a");
-			if(0 < link_list.length){
-				link_list.attr("href", link_list.attr("href").replace(/\/communityEvent\//,"/dslevent/"));
-				var c_intv = setInterval(function(){
-					var f_opdt = $("#show>div.row:nth-child(5)>div.span9");
-					if(0 < f_opdt.length && f_opdt.text()){
-						clearInterval(c_intv);
-						var open_date = moment(f_opdt.text()
-						 .replace(/\D/g,"/").replace(/\/$/,"")).toDate();
-						link_list.attr("href",link_list.attr("href") + "#eventlist__strt=" + open_date.getTime());
-					}
-				}, 500);
-			}
-		}
-	})();
-	
 });
 </script>

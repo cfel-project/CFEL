@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,30 +20,10 @@ $(document).ready(function(){
 	function __getByClass(cls){
 		return $("#" + __id + " ." + cls);
 	}
-	var __conv = {
-		"community": function(itm){
-			return {
-				title: itm.src.title,
-				image: itm.src.image,
-				href: itm.src.url
-			};
-		},
-		"url": function(itm){
-			return {
-				title: itm.title,
-				href: itm.url || "javascript:" + (itm.action || "")
-			};
-		},
-		"path": function(itm){
-			return {
-				title: itm.title,
-				href: openpne.apiBase.replace(/api\.php\/$/, "")
-			};
-		}
-	};
 	function __render(items){
 		var e_width = __getByClass("hm_menu_container").width() / __menu_cols - 9;
 		var menu_entries = $.map(items, function(val,i){
+			val.html = val.html.replace(/\s/g,"<br/>");
 			return $.extend({},{
 					width:e_width,
 					height: .8 * e_width,
@@ -52,21 +32,28 @@ $(document).ready(function(){
 					cls:"hm_menu_" + val.style
 				},val);
 		});
-		__getByClass("hm_menu_container")
+		var container = __getByClass("hm_menu_container")
 		 .append(
 			$("#hm_menu_entry_tmpl").tmpl(menu_entries)
 		 );
+		setTimeout(function(){
+			container.find(".hm_menu_entry").each(function(){
+				var node = $(this);
+				var content = node.find(".hm_menu_content");
+				node.find("img").css({"height":(node.innerHeight() - (content.outerHeight({margin:true}) - content.innerHeight()) - node.find(".hm_menu_title").outerHeight({margin:true})) + "px"});
+			});
+		},1);
 	}
 	__render(__menu_items.items);
 });
 </script>
 <script id="hm_menu_entry_tmpl" type="text/x-jquery-tmpl">
-	<a class="hm_menu_entry ${cls}" href="${href}" style="width:${width}px;height:${height}px;margin:.2em;font-size:${fntsz}px;line-height:${fntsz}px;">
-		<div style="margin:1em .5em;">
+	<a class="hm_menu_entry ${cls}" href="${href}" style="width:${width}px;height:${height}px;margin:.2em;font-size:${fntsz}px;line-height:${fntsz}px;position:relative;">
+		<div class="hm_menu_content"{{if owimage}} style="background-image:url('${image}');"{{/if}}>
 			{{if image}}<div style="vertical-align:middle;">
-				<img src="${image}" style="height:${imgheight}px;border-radius:45%;"/>
+				<img src="{{if owimage}}<?php echo url_for('opMICGadgetsPlugin/images')?>/transparent.png{{else}}${image}{{/if}}" style="height:${imgheight}px;border-radius:10%;"/>
 			</div>{{/if}}
-			<div style="vertical-align:middle;line-height:1.1em;">{{html html}}</div>
+			<div class="hm_menu_title" style="vertical-align:middle;line-height:1.1em;">{{html html}}</div>
 		</div>
 	</a>
 </script>

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
  *******************************************************************************/
 ?>
 <script id="eg_date_cell_templ" type="text/x-jquery-tmpl">
-	<div class="date_cell ${optcls}" style="width:${$item.cellWidth()}px;"{{if events.length}} click_to_show_events_strt="${tm_start}"{{/if}}><div align="center" class="date_indicator">${datestr}</div>{{tmpl($item.data.events) "#eg_event_elem_templ"}}</div>
+	<div class="date_cell ${optcls}" style="${$item.optpos($item.data)}width:${$item.cellWidth()}px;"{{if events.length}} click_to_show_events_strt="${tm_start}"{{/if}}><div align="center" class="date_indicator">${datestr}</div>{{tmpl($item.data.events) "#eg_event_elem_templ"}}</div>
 </script>
 <script id="eg_event_elem_templ" type="text/x-jquery-tmpl">
 	<div class="event_elem{{if is_event_member}} attend{{/if}}">${name}</div>
@@ -19,11 +19,16 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-	var __dates = 5;
+	var __id = "eventgrid_<?php echo $gadget->id ?>";
+
+	var __double = <?php echo (2 == $gadget->getConfig('rows') ? "true" : "false"); ?>;
+	var __horizontal = <?php echo ("horizontal" == $gadget->getConfig('order') ? "true" : "false"); ?>;
+	var __dates = <?php echo $gadget->getConfig('cells'); ?>;
+	if(__double){
+		__getByClass("event_container_row").addClass("double");
+	}
 	var __dtmls = 86400000
 	var __url_dslevent_list = "<?php echo url_for("dslevent/list")."?tky=".$targetKey."&tid=".$targetId ?>";
-
-	var __id = "eventgrid_<?php echo $gadget->id ?>";
 
 	function __getByClass(cls){
 		return $("#" + __id + " ." + cls);
@@ -40,6 +45,7 @@ $(document).ready(function(){
 		var items = [];
 		var cur = start;
 		var end = start + __dtmls * __dates;
+		var idx = 0;
 		while(cur < end){
 			var cm = moment(new Date(cur));
 			items.push({
@@ -51,10 +57,14 @@ $(document).ready(function(){
 				events:[]
 			});
 			cur += __dtmls;
+			idx ++;
 		}
-		var c_width = (__getByClass("event_container_row").width()
-					 - __getByClass("event_prev").outerWidth(true)
-					 - __getByClass("event_next").outerWidth(true)) / items.length - 1;
+		var first_half =  Math.ceil(items.length / 2);
+		var c_width = Math.floor(
+			__double ? 
+			(__getByClass("event_container_row").width() / first_half)
+			: (__getByClass("event_container_row").width() - __getByClass("event_prev").outerWidth(true) - __getByClass("event_next").outerWidth(true)) / items.length
+		);
 		$.each(data, function(i, val){
 			var dt = moment(val.open_date, 'YYYY-MM-DD HH:mm:ss').toDate().getTime();
 			if(start <= dt && end > dt){
@@ -62,13 +72,21 @@ $(document).ready(function(){
 				items[idx].events.push(val);
 			}
 		});
-		__getByClass("event_container")
+		var container = __getByClass("event_container")
 			.html($("#eg_date_cell_templ")
-				.tmpl(items, {cellWidth:function(){
+				.tmpl(items, {
+					optpos:function(item){
+						var idx = $.inArray(item, items);
+						return __double ? "left:" + ( 
+							__horizontal ? ((idx % first_half) * c_width + (idx >= first_half ? c_width / 2 :0) ): (idx * c_width / 2)
+						) + "px;" : "";
+					},
+					cellWidth:function(){
 						return c_width;
 					}
 				})
-			).find("[click_to_show_events_strt]")
+			);
+		container.find("[click_to_show_events_strt]")
 			.addClass("dsl_clickable")
 			.click(function(){
 				window.location.href = [
@@ -77,6 +95,16 @@ $(document).ready(function(){
 					$(this).attr("click_to_show_events_strt")
 				].join("");
 			});
+
+		var cells = container.find(".date_cell");
+		cells.first().addClass("first");
+		cells.last().addClass("last");
+		if(__double){
+			var row_2 = container.find(
+				".date_cell:nth-child(" + (__horizontal  ? ("n+" + (first_half+1))  : "even") + ")").addClass("row_2");
+			row_2.first().addClass("first");
+			row_2.last().addClass("last");
+		}
 	}
 	function __update(options){
 		__getByClass("event_container").html("<div style='text-align:center;'>読み込み中...</div>");

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,12 @@
 	word-break: break-all;
 	align:center;
 	vertical-align:top;
+}
+.hm_menu_entry .hm_menu_content{
+	margin:.8em .5em;
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center;
 }
 
 .hm_menu_entry,
@@ -76,10 +82,10 @@
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fddea5), color-stop(1, #f8b762) );
-	background:-moz-linear-gradient( center top, #fddea5 5%, #f8b762 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fddea5', endColorstr='#f8b762');
-	background-color:#fddea5;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fddea5), color-stop(1, #f08300) );
+	background:-moz-linear-gradient( center top, #fddea5 5%, #f08300 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fddea5', endColorstr='#f08300');
+	background-color:#f08300;
 	-webkit-border-top-left-radius:6px;
 	-moz-border-radius-topleft:6px;
 	border-top-left-radius:6px;
@@ -105,10 +111,10 @@
 	text-shadow:1px 1px 0px #ffffff;
 }
 .hm_menu_1:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f8b762), color-stop(1, #fddea5) );
-	background:-moz-linear-gradient( center top, #f8b762 5%, #fddea5 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8b762', endColorstr='#fddea5');
-	background-color:#f8b762;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f08300), color-stop(1, #fddea5) );
+	background:-moz-linear-gradient( center top, #f08300 5%, #fddea5 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f08300', endColorstr='#fddea5');
+	background-color:#fddea5;
 }.hm_menu_1:active {
 	position:relative;
 	top:1px;

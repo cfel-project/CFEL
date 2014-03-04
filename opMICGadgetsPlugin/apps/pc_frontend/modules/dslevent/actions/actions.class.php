@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,6 +40,10 @@ class dsleventActions extends opCommunityTopicPluginEventActions{
 		}
 	}
 
+	protected function buildACL(sfWebRequest $request){
+		$this->acl = opCommunityTopicAclBuilder::buildCollection($this->community, array($this->getUser()->getMember()));
+	}
+
 	protected function setCommunityId(sfWebRequest $request){
 		$this->setCommunityInstance($request);
 		if(!empty($this->community)){
@@ -50,11 +54,13 @@ class dsleventActions extends opCommunityTopicPluginEventActions{
 		$this->forwardIf($request->isSmartphone(), 'dslevent', 'smtListCommunity');
 		$this->setCommunityId($request);
 		$this->communityName = $this->community->getName();
+		$this->buildACL($request);
 		return sfView::SUCCESS;
 	}
 	public function executeSmtListCommunity(sfWebRequest $request){
 		$this->setCommunityId($request);
 		$this->communityName = $this->community->getName();
+		$this->buildACL($request);
 		opSmartphoneLayoutUtil::setLayoutParameters(array('community' => $this->community));
 		return sfView::SUCCESS;
 	}

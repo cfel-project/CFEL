@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,11 @@ $(document).ready(function(){
 		var items = [];
 		var cur = start;
 		var end = start + __dtmls * __dates;
+		var __summarize = function(html, num){
+			num = num || 40;
+			var txt = $("<span>").html(html).text().trim().replace(/\s+/g, " ");
+			return (num < txt.length ? txt.substring(0, num) + "..." : txt);
+		};
 		while(cur < end){
 			var cm = moment(new Date(cur));
 			items.push({
@@ -53,7 +58,10 @@ $(document).ready(function(){
 			if(start <= dt && end > dt){
 				var idx = (dt - start) / 86400000;
 				items[idx].events.push(
-					$.extend({},{ev_url:__base_url + val.id + "#" + val.id}, val)
+					$.extend({},{
+						ev_url:__base_url + val.id + "#" + val.id,
+						body_sum: __summarize(val.body)
+					}, val)
 				);
 			}
 		});
@@ -85,10 +93,15 @@ $(document).ready(function(){
 		window.location.href = $.serialize_url(o_url);
 	}
 	var __last_start = null;
+	var __from_start_of_week = <?php echo ("w" == $dur_type ? "true": "false")?>;
 	function __updateFromUrl(){
 		var o_url = $.parse_url(window.location.href);
 		var new_time = o_url.fragments[__id + "_strt"];
-		__last_start = moment(new_time ? new Date(1 * new_time) : new Date()).sod().toDate().getTime();
+		var m = moment(new_time ? new Date(1 * new_time) : new Date());
+		if(__from_start_of_week){
+			m = m.day(0);
+		}
+		__last_start = m.sod().toDate().getTime();
 		__update({
 			start:__last_start
 		});

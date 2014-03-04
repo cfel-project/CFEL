@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -103,5 +103,60 @@ class dsleventActions extends opJsonApiActions{
 		{
 			$this->setTemplate('searchMini');
 		}*/
+	}
+	
+	protected function getCommentInText($comment){
+		return $comment->getMember()->getName().': '.$comment->getBody();
+	}	
+	protected function getComments($eventid){
+		$query = Doctrine::getTable('CommunityEventComment')->createQuery('c')
+		->where('community_event_id = ?', $eventid)
+		->orderBy('created_at asc');
+		$comments = $query->execute();
+		$atxt = array();
+		foreach($comments as $comment){
+			array_push($atxt, $this->getCommentInText($comment));
+		}
+		return $atxt;
+	}
+	public function executeReportEvent(sfWebRequest $request){
+		if("POST" == $request->getMethod()){
+			$eventId = $request['eid'];
+			$communityId = $request['cid'];
+			$community = Doctrine::getTable('Community')->find($communityId);
+			$this->event = Doctrine::getTable('CommunityEvent')->find($eventId);
+			if($this->event->getMember()->getId() == $this->member->getId()){
+				$members = $community->getMembers();
+				$addrs = array();
+				foreach($members as $member) {
+					array_push($addrs, $member->getEmailAddress());
+				}
+				$this->sendObj = array(
+						'to' => implode(",", $addrs),
+						'from' => $this->member->getEmailAddress(),
+						'subject' => '[イベント情報の更新通知] '.$this->event->getName(),
+						'path' => 'communityEvent/'.$eventId,
+						'comments' => implode("\n", $this->getComments($eventId))
+				);
+			}else{
+				$this->forward401('request is allowed only topic author');
+			}
+		}
+	}
+	public function executeGetEditLink(sfWebRequest $request){
+		$eventId = $request["id"];
+		$this->memberId = $this->member->getId();
+		if(!empty($eventId)){
+			$this->event = Doctrine::getTable('CommunityEvent')->find($eventId);
+		}
+	}
+	public function executeDelete(sfWebRequest $request){
+		$request->checkCSRFProtection();
+		$eventId = $request["id"];
+		$this->communityEvent = Doctrine::getTable("CommunityEvent")->find($eventId);
+		$this->forward404Unless($this->communityEvent->isEditable($this->member->getId()));
+		$this->communityEvent->delete();
+
+		$this->communityId = $this->communityEvent->getCommunity()->getId();
 	}
 }

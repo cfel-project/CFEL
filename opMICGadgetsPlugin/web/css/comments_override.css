@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -68,14 +68,55 @@
 
 }
 
+.timeline-post-content .timeline-post-body{
+	padding-top: 0;
+	padding-bottom: 0;
+	width: auto;
+}
+.timeline-post-content a .timestamp{
+	display:inline-block;
+}
+
+.timeline-post-comment .timeline-post-comment-body{
+	padding: .2em 0;
+}
+
+/* move member image out from the speechbubble*/
+.comments .comment-wrapper .comment-member-image,
+.timeline-post-comments .timeline-post-comment .timeline-post-comment-member-image{
+	position:absolute;
+	left: -33px;
+	top: 0px;
+}
+
+.timeline-post-control>.timeline-post-comments .timeline-post-comment .timeline-post-comment-member-image{
+	left: -45px;
+}
+.comments .comment-wrapper .comment-control{
+	margin-left: .5em;
+}
+
+.timeline-post-comments .timeline-post-comment .timeline-post-comment-body,
+.timeline-post-comments .timeline-post-comment .timeline-post-control{
+	margin-left: 0;
+}
+.timeline-post-comments .timeline-post-comment .timeline-post-control{
+	padding: 0;
+}
+/* end: move member image out from the speechbubble*/
+
+
 /*changing fixed width..*/
 .timeline-post-comment-content{
 	width:auto;
 	float:none;
 }
+.timeline-post-control .timeline-post-comments .timeline-post-comment .timeline-post-comment-content{
+	margin-left:.4em;
+}
 
 .timeline-post-comment-name-and-body{
-	padding: .2em;
+	padding: .2em 0;
 }
 
 #commentForm.row,
@@ -97,7 +138,7 @@
 .comment-wrapper .event-comment-form-input,
 .comment-wrapper .comment-form-input,
 .timeline-post-comment-form .timeline-post-comment-form-input{
-	min-width:98%;
+	min-width:97%;
 }
 
 .row .comment-content{
@@ -115,4 +156,21 @@
 /*override timeline picture size*/
 .timeline-post-body img{
 	max-height:10em;
+}
+
+.timeline-post-comment-form button.timeline-comment-button,
+input#postComment[type=submit]
+{
+	width: 6em;
+	padding: .3em;
+	text-align: center;
+}
+
+.timeline-post-comment-form input.timeline-post-comment-form-input[type=text]{
+	margin-bottom: .2em;
+}
+
+/* hide share level selection in timeline post*/
+.timeline-postform #timeline-submit-area #timeline-public-flag{
+	display:none;
 }

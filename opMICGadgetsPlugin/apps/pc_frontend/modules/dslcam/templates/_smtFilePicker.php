@@ -39,6 +39,6 @@ $(document).ready(function(){
 		<div class="result"/>
 	</div>
 	<div class="fileapi_unavailable" style="display:none;">
-		File API‚ªŽg‚¦‚Ü‚¹‚ñ
+		File APIï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
 	</div>
 </div>

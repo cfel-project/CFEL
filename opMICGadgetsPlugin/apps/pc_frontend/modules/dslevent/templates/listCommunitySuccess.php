@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,9 @@
  * Contributors:
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
+if ($acl->isAllowed($sf_user->getMemberId(), null, 'add')): ?>
+<a style="float:right;margin:.5em;" href="<?php echo url_for("communityEvent/new")."/".$communityId ?>"><?php echo __('Create') ?></a>
+<?php endif;
 include_component("dslevent", "eventList", array(
 	"targetKey" => "community",
 	"targetId" => $communityId,
@@ -18,4 +21,3 @@ include_component("dslevent", "eventList", array(
 	"title" => $communityName.": 予定一覧",
 ));
 ?>
-<a class="btn btn-block small create_new" href="<?php echo url_for("communityEvent/new")."/".$communityId ?>">新規作成</a>

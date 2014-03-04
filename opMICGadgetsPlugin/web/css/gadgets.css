@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,23 +16,39 @@
 .event_container_row{
 	width: 100%;
 	line-height:1em;
+	box-sizing: border-box;
 }
 .event_container_row .event_prev,
 .event_container_row .event_next{
 	cursor:pointer;
 	width: 1.5em;
 	text-align:center;
+	position:absolute;
+	bottom:0px;
 }
-
+.event_container_row .event_container{
+	white-space: nowrap;
+	overflow: hidden;
+}
 .event_container_row .event_prev{
-	float:left;
+	left: 0px;
 }
 .event_container_row .event_next{
-	float:right;
+	right: 0px;
+}
+
+.event_container_row .event_container{
+	position:relative;
+	box-sizing: border-box;
+	padding: 0 1.5em;
 }
 
 .date_cell{
 	background-color: #fffffc;
+}
+
+.date_cell .entry.no_event{
+	color: #fffffc;
 }
 
 .event_prev,
@@ -43,6 +59,7 @@
 	-webkit-box-sizing: border-box;
 	-o-box-sizing: border-box;
 	-ms-box-sizing: border-box;
+	overflow: hidden;
 }
 
 .event_container_row,
@@ -59,6 +76,12 @@
 	height: 8em;
 }
 
+.event_container_row.double{
+	height:12em;
+}
+.event_container_row.double .event_container{
+	padding: 0;
+}
 .date_indicator,
 .event_cell_message{
 	text-align: center;
@@ -71,7 +94,7 @@
 
 .event_container_list .row.entry,
 .date_indicator{
-	border-bottom: solid 1px #888e7e;
+	border-bottom: solid 1px #56564b;
 }
 
 .event_container_list .row.entry:last-child{
@@ -94,16 +117,16 @@
 }
 
 .triangle_left{
-	border-right-color: #887f7a;
+	border-right-color: #56564b;
 }
 .triangle_right{
-	border-left-color: #887f7a;
+	border-left-color: #56564b;
 }
 .triangle_up{
-	border-bottom-color: #887f7a;
+	border-bottom-color: #56564b;
 }
 .triangle_down{
-	border-top-color: #887f7a;
+	border-top-color: #56564b;
 }
 
 
@@ -115,8 +138,7 @@
 }
 
 .date_cell{
-	border: solid 1px #888e7e;
-	overflow: hidden;
+	border: solid 1px #56564b;
 }
 
 .smt_grid .event_container_row{
@@ -128,7 +150,7 @@
 	vertical-align:top;
 	border-width: 1px 1px 1px 0;
 }
-.event_container_row .date_cell:first-child{
+.event_container_row .date_cell.first{
 	-moz-border-top-left-radius: .4em;
 	-moz-border-bottom-left-radius: .4em;
 	-webkit-border-top-left-radius: .4em;
@@ -137,7 +159,7 @@
 	border-bottom-left-radius: .4em;
 	border-width:1px;
 }
-.event_container_row .date_cell:last-child{
+.event_container_row .date_cell.last{
 	-moz-border-top-right-radius: .4em;
 	-moz-border-bottom-right-radius: .4em;
 	-webkit-border-top-right-radius: .4em;
@@ -148,6 +170,26 @@
 
 .event_container_list .date_cell{
 	border-width: 0 1px 1px;
+}
+
+.event_container_row.double .date_cell{
+	position:absolute;
+}
+
+.event_container_row.double .date_cell.row_2{
+	top: 6em;
+}
+
+.event_container_row.double .date_cell.row_2.first{
+	border-left-width: 1px;
+}
+
+.event_container_row.double .date_cell.row_2.last{
+	border-right-width: 1px;
+}
+
+.event_container_row.double .date_cell{
+	border-radius:0;
 }
 
 .event_container_list .date_cell:first-child{
@@ -167,6 +209,16 @@
 	-webkit-border-bottom-right-radius: .4em;
 	border-bottom-left-radius: .4em;
 	border-bottom-right-radius: .4em;
+}
+
+.event_container_row,
+.event_container_list{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .event_elem{
@@ -197,7 +249,7 @@
 	position:absolute;
 	height:100%;
 	width: 5em;
-	border-right: solid 1px #888e7e;
+	border-right: solid 1px #56564b;
 }
 
 .parts .event_container_list .row.entry{
@@ -252,4 +304,11 @@
 	-webkit-box-shadow: 0 10px 6px -6px #777;
 	   -moz-box-shadow: 0 10px 6px -6px #777;
 	        box-shadow: 0 10px 6px -6px #777;
+}
+
+.round_ui .btn{
+	border-radius: 1em;
+}
+.round_ui .file_btn_container{
+	border-radius: 1em;
 }

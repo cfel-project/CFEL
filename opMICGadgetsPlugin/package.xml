@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2011, 2014 IBM Corporation and others.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+
+ Contributors:
+     IBM Corporation - initial API and implementation
+-->
 <package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
@@ -29,87 +39,127 @@ Gadget plugins for MIC project
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-<file baseinstalldir="/" name="apps/api/modules/activityext/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/api/modules/dslevent/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/api/modules/dslevent/config/filters.yml" role="data" />
-<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/searchSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/templates/indexSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/config/routing.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/security.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/config/security.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/createSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/newSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtCreateSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtEditSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtEventFormSubmitFix.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtNewSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/actions/components.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddFilePickButton.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddPictureButton.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtFilePicker.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_takePicture.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/components.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/config/security.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/listCommunitySuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/listSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListCommunitySuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListSuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventFormFix.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_communityEventSummary.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventGrid.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventGrid_core.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList_core.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList_tmpl.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventSummary.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventSummary_core.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_myEventGrid.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_myEventList.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtComEventFormFix.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtCommunityEventSummary.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventGrid.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventList.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventSummary.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtMyEventGrid.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtMyEventList.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/__eventFormFix.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/actions/components.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_homeMenu.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_homeMenu_core.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_smtHomeMenu.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/actions/components.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/config/security.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideComments.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideInformationBox.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideComments.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideInformationBox.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideStyles.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtPageMoveIndicator.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/actions/actions.class.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/config/security.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/config/view.yml" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/listCommunitySuccess.php" role="data" />
-<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/smtListCommunitySuccess.php" role="data" />
-<file baseinstalldir="/" name="config/gadget.yml" role="data" />
-<file baseinstalldir="/" name="config/smartphone_community_gadget.yml" role="data" />
-<file baseinstalldir="/" name="config/smartphone_footer_gadget.yml" role="data" />
-<file baseinstalldir="/" name="config/smartphone_gadget.yml" role="data" />
-<file baseinstalldir="/" name="lib/form/opMICGadgetsPluginConfigurationForm.class.php" role="data" />
-<file baseinstalldir="/" name="lib/model/opMICGadgetsConfig.class.php" role="data" />
-<file baseinstalldir="/" name="web/css/comments_override.css" role="data" />
-<file baseinstalldir="/" name="web/css/community_topic_list_fix.css" role="data" />
-<file baseinstalldir="/" name="web/css/gadgets.css" role="data" />
-<file baseinstalldir="/" name="web/css/home_menu.css" role="data" />
-<file baseinstalldir="/" name="web/css/informationbox_override.css" role="data" />
-<file baseinstalldir="/" name="web/images/transparent.png" role="data" />
+	<file baseinstalldir="/" name="epl-v10.html" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/activityext/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/activityext/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/deleteSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/getEditLinkSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/reportEventSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/searchSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/templates/indexSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/config/routing.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/editSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/newSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtEditSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtEventFormSubmitFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/templates/smtNewSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/editSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/newSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtEditSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtNewSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtTopicFormFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddFilePickButton.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddPictureButton.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtFilePicker.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_takePicture.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/listCommunitySuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/listSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListCommunitySuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventFormFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventShowFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_communityEventSummary.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventGrid.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventGrid_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventList_tmpl.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventSummary.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_eventSummary_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_myEventGrid.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_myEventList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtComEventFormFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtCommunityEventSummary.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventGrid.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtEventSummary.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtMyEventGrid.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtMyEventList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_smtOverrideShowEvent.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/__eventFormFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/__eventShowFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmember/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmember/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmember/templates/_smtAddImageConfig.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmember/templates/_smtOverrideProfileForms.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_homeMenu.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_homeMenu_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmenu/templates/_smtHomeMenu.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmisc/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslmisc/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_hideConfigNavEntries.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideComments.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideInformationBox.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideTimeline.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideTimeline_common.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtEmbedYoutube.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideComments.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideInformationBox.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideStyles.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideTimeline.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtPageMoveIndicator.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/listCommunitySuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/smtListCommunitySuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/_overrideDeleteConfirm.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/_overrideEmbedYoutube.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/_overrideShowTopic.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dsltopic/templates/_smtOverrideShowTopic.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/member/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="config/gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_community_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_footer_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_profile_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="i18n/messages.ja.xml" role="data" />
+	<file baseinstalldir="/" name="lib/form/opMICGadgetsPluginConfigurationForm.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/opMICGadgetsConfig.class.php" role="data" />
+	<file baseinstalldir="/" name="web/css/comments_override.css" role="data" />
+	<file baseinstalldir="/" name="web/css/communitytopic_form_fix.css" role="data" />
+	<file baseinstalldir="/" name="web/css/community_topic_list_fix.css" role="data" />
+	<file baseinstalldir="/" name="web/css/gadgets.css" role="data" />
+	<file baseinstalldir="/" name="web/css/home_menu.css" role="data" />
+	<file baseinstalldir="/" name="web/css/informationbox_override.css" role="data" />
+	<file baseinstalldir="/" name="web/css/timeline_override.css" role="data" />
+	<file baseinstalldir="/" name="web/css/tosaka_override.css" role="data" />
+	<file baseinstalldir="/" name="web/images/transparent.png" role="data" />
+	<file baseinstalldir="/" name="web/js/communitytopic_form_fix.js" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.event_fix.js" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.ltx.youtube.js" role="data" />
   </dir>
  </contents>
  <dependencies>
