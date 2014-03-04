@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ja">  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<title>みんなのアルバム　みんなでアルバムを作ろう！</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.cycle.all.js"></script>
+<link rel="stylesheet" type="text/css" href="css/development-bundle/themes/base/jquery-ui.css" media="all"/>
+<script src="js/album-service.js"></script>
+<script type="text/javascript">  
+
+var pram=window.location.href;
+var api=pram.split("#");
+var key=api[1].split("=");
+var apiKey=key[1];
+//alert(apiKey);
+var url = "https://please_replace_with_target_URL/web/api.php/elmember/search?apiKey="+apiKey;
+//data=user_id,user_name
+var portal;
+$.ajax({
+  url: url,
+  type: 'GET',
+  dataType: 'json',
+  //data: '{"test": "テスト"}',
+  success : function(data) {
+	  portal=data;
+	},
+});
+
+  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+  
+  /*
+	 * 基本API
+	 */
+	function findPhoto(query, callback) {
+		cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : query
+		}, callback);
+	}
+  
+  function annotationSeason(photo, value, callback) {
+	  	cfelService.apiKey = apiKey;
+		var id = cfelService.getID(photo);
+		if (!id | !value) {
+			return;
+		}
+		cfelService.updatePhoto(id, {
+			"update" : {
+				"$push" : {
+          "annotation_season" : {
+            "portal_id" : portal.id,
+            "portal_name" : portal.name,
+        	"season" : value
+          }
+        }
+			},
+			"upsert" : true
+		}, callback);
+	}
+  
+  function annotationTitle(photo, value, callback) {
+	  	cfelService.apiKey = apiKey;
+		var id = cfelService.getID(photo);
+		if (!id | !value) {
+			return;
+		}
+		cfelService.updatePhoto(id, {
+			"update" : {
+				"$push" : {
+          "annotation_title" : {
+        	  "portal_id" : portal.id,
+              "portal_name" : portal.name,
+        	  "title" : value
+          }
+        }
+			},
+			"upsert" : true
+		}, callback);
+	}
+  
+  function annotationDate(photo, value, callback) {
+	  	cfelService.apiKey = apiKey;
+		var id = cfelService.getID(photo);
+		if (!id | !value) {
+			return;
+		}
+		cfelService.updatePhoto(id, {
+			"update" : {
+				"$push" : {
+          "annotation_date" : {
+        	  "portal_id" : portal.id,
+              "portal_name" : portal.name,
+        	  "date" : value
+          }
+        }
+			},
+			"upsert" : true
+		}, callback);
+	}
+  
+	/*
+	 * callback
+	 */
+	function showResult(result) {
+		if (result.status == "success") {
+			$("#result").text(JSON.stringify(result.data));
+		} else {
+			$("#result").text("status: " + result.status);
+		}
+	}
+  function getImageURLS(callback) {
+	  cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : null,
+			"keys" : {
+				"_id" : 1,
+        "portal_image_url" : 1,
+        "card_image_url" : 1,
+        "title" : 1,
+				"exif_date" : 1,
+        "annotation_season" : 1,
+        "annotation_title" :1,
+        "annotation_date" :1
+			}
+		}, callback);
+	}
+  
+  var season_card=[10];
+  var title_card=[10];
+  var date_card=[10];
+  
+  function setData(result) {
+		if (result.status == "success") {
+			var jsonText = result.data;
+      var count=0;
+      var num=0;
+      removeElement("jquery-cycle");
+      removeElement("jquery-cycle2");
+      removeElement("jquery-cycle3");
+      for(i=0;i<10;i++){
+        var random=~~(Math.random()*(jsonText.length-0)+0);
+        //alert(random);       
+        var oURL = jsonText[random].portal_image_url;
+        if(oURL.match(/photo/)){
+          var url = oURL.replace("\/photo","photo");
+          oURL = url;
+        }
+        var cURL = serviceRoot + jsonText[random].card_image_url;
+        //var oDate = jsonText[random].exif_date["$date"];
+        //if(!oTitle){
+        var elm_img = document.createElement("img"); // img要素を作成する
+        season_card[i]=jsonText[random];//._id["$oid"];
+        elm_img.src=cURL;
+        elm_img.style.align="center";
+        elm_img.style.width=400+"px";
+        elm_img.style.height=300+"px";
+        document.getElementById("jquery-cycle").appendChild(elm_img);
+        //}
+      }
+      var elm_img = document.createElement("img"); // img要素を作成する
+      elm_img.src="img/annotation_finish_renew.png";
+      elm_img.style.align="center";
+      elm_img.style.width=400+"px";
+      elm_img.style.height=300+"px";
+      document.getElementById("jquery-cycle").appendChild(elm_img);
+      
+      for(i=0;i<10;i++){
+        random=~~(Math.random()*(jsonText.length-0)+0);
+        //alert(random);       
+        var random=~~(Math.random()*(jsonText.length-0)+0);
+        //alert(random);       
+        var oURL = jsonText[random].portal_image_url;
+        if(oURL.match(/photo/)){
+          var url = oURL.replace("\/photo","photo");
+          oURL = url;
+        }
+        var cURL = serviceRoot + jsonText[random].card_image_url;
+        //var oDate = jsonText[random].exif_date["$date"];
+        //if(!oTitle){
+        var elm_img2 = document.createElement("img"); // img要素を作成する
+        title_card[i]=jsonText[random];//._id["$oid"];
+        elm_img2.src=cURL;
+        elm_img2.style.align="center";
+        elm_img2.style.width=400+"px";
+        elm_img2.style.height=300+"px";
+        document.getElementById("jquery-cycle2").appendChild(elm_img2);
+        //}
+        
+      }
+      var elm_img2 = document.createElement("img"); // img要素を作成する
+      elm_img2.src="img/annotation_finish_renew.png";
+      elm_img2.style.align="center";
+      elm_img2.style.width=400+"px";
+      elm_img2.style.height=300+"px";
+      document.getElementById("jquery-cycle2").appendChild(elm_img2);
+      
+      for(i=0;i<10;i++){
+        var random=~~(Math.random()*(jsonText.length-0)+0);
+        //alert(random);       
+        var oURL = jsonText[random].portal_image_url;
+        if(oURL.match(/photo/)){
+          var url = oURL.replace("\/photo","photo");
+          oURL = url;
+        }
+        var cURL = serviceRoot + jsonText[random].card_image_url;
+        //var oDate = jsonText[random].exif_date["$date"];
+        //if(!oTitle){
+        var elm_img3 = document.createElement("img"); // img要素を作成する
+        date_card[i]=jsonText[random];//._id["$oid"];
+        elm_img3.src=cURL;
+        elm_img3.style.align="center";
+        elm_img3.style.width=400+"px";
+        elm_img3.style.height=300+"px";
+        document.getElementById("jquery-cycle3").appendChild(elm_img3);
+        //}
+      }
+      var elm_img3 = document.createElement("img"); // img要素を作成する
+      elm_img3.src="img/annotation_finish_renew.png";
+      elm_img3.style.align="center";
+      elm_img3.style.width=400+"px";
+      elm_img3.style.height=300+"px";
+      document.getElementById("jquery-cycle3").appendChild(elm_img3);
+		} else {
+			 alert(result.status);
+		}
+    enhanceElements(1);
+	}
+  
+function enhanceElements(status){
+  if(status==1){
+  $('#loading').hide();
+  $("#jquery-ui-tabs").tabs();
+  $('#tab a').click(function(){
+    this.blur();
+  });
+    
+    $("#jquery-cycle").cycle( {
+        fx: 'uncover',
+        speed: 1000,
+        timeout: 0,
+        sync: 1,
+        next: '#quiz',
+        nowrap: true,
+    } );
+    $("#jquery-cycle2").cycle( {
+        fx: 'uncover',
+        speed: 1000,
+        timeout: 0,
+        sync: 1,
+        next: '#annotation',
+        nowrap: true,
+    } );
+    $("#jquery-cycle3").cycle( {
+        fx: 'uncover',
+        speed: 1000,
+        timeout: 0,
+        sync: 1,
+        next: '#date',
+        nowrap: true,
+    } );
+
+    jQuery( '#quiz1' ).click( function() {
+        //jQuery( '#quiz1' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#quiz1").css("background", "#34d93f");
+        if(document.getElementById('quiz1').value == '続ける'){
+          getImageURLS(setData);
+        }
+    } );
+    jQuery( '#quiz2' ).click( function() {
+        //jQuery( '#quiz2' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#quiz2").css("background", "#34d93f");
+        if(document.getElementById('quiz2').value == 'おわり'){
+          window.location.href = "scene_view.html#apiKey="+apiKey;
+        }
+    } );
+    jQuery( '#quiz3' ).click( function() {
+        //jQuery( '#quiz3' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#quiz3").css("background", "#34d93f");
+    } );
+    jQuery( '#quiz4' ).click( function() {
+        //jQuery( '#quiz4' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#quiz4").css("background", "#34d93f");
+    } );
+    jQuery( '#quiz5' ).click( function() {
+        //jQuery( '#quiz5' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#quiz5").css("background", "#000000");
+    } );
+    
+    jQuery( '#date1' ).click( function() {
+        //jQuery( '#date1' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#date1").css("background", "#34d93f");
+        if(document.getElementById('date1').value == '続ける'){
+          getImageURLS(setData);
+        }
+    } );
+    jQuery( '#date2' ).click( function() {
+        //jQuery( '#date2' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#date2").css("background", "#34d93f");
+        if(document.getElementById('date2').value == 'おわり'){
+          window.location.href = "scene_view.html#apiKey="+apiKey;
+        }
+    } );
+    jQuery( '#date3' ).click( function() {
+        //jQuery( '#date3' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#date3").css("background", "#34d93f");
+    } );
+    jQuery( '#date4' ).click( function() {
+        //jQuery( '#date4' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#date4").css("background", "#34d93f");
+    } );
+    jQuery( '#date5' ).click( function() {
+        //jQuery( '#date5' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#date5").css("background", "#000000");
+    } );
+    
+    jQuery( '#annotation_text' ).click( function() {
+        //jQuery( '#annotation_text' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#annotation_text").css("background", "#34d93f");
+        if(document.getElementById('annotation_text').value == '続ける'){
+          getImageURLS(setData);
+        }
+    } );
+    jQuery( '#skip' ).click( function() {
+        //jQuery( '#skip' ).effect( "shake", {"direction": "up"}, 1000 );
+        jQuery("#skip").css("background", "#000000");
+        if(document.getElementById('skip').value == 'おわり'){
+          window.location.href = "scene_view.html#apiKey="+apiKey;
+        }
+    } );
+    }
+}
+// -->
+
+function setCrowdcard(pattern){
+  setTimeout("crowdcard('"+pattern+"')",800);
+}
+
+function setAnnotation(){
+  setTimeout("annotation()",800);
+}
+
+function setDatecard(pattern){
+  setTimeout("datecard('"+pattern+"')",800);
+}
+
+function next(){
+//callback
+}
+
+var crowdcard_count=0;
+function crowdcard(pattern){
+  jQuery("#quiz1").css("background", "#3498db");
+  jQuery("#quiz2").css("background", "#3498db");
+  jQuery("#quiz3").css("background", "#3498db");
+  jQuery("#quiz4").css("background", "#3498db");
+  jQuery("#quiz5").css("background", "#808080");
+  if(document.getElementById('quiz1').value == '続ける'){
+    document.getElementById('quiz1').value = '春';
+    document.getElementById('quiz2').value = '夏';
+    jQuery("#quiz2").css("background", "#3498db");
+    jQuery("#quiz1").css("width", "120px");
+    jQuery("#quiz1").css("height", "80px");
+    jQuery("#quiz2").css("width", "120px");
+    $('#quiz3').show();
+    $('#quiz4').show();
+    $('#quiz5').show();
+    crowdcard_count=0;
+  }else{
+    var text = pattern // Serverに送るvalueの受け取り
+    //alert(pattern);
+    //var imgList = document.getElementById("jquery-cycle").getElementsByTagName("img");
+    //var test = imgList[crowdcard_count].id;
+    //alert(imgList[crowdcard_count].id);
+    var date = get_current_timestamp();
+    if(text!="?")annotationSeason(season_card[crowdcard_count],pattern,next);
+    if(crowdcard_count==9){
+    document.getElementById('quiz1').value = '続ける';
+    document.getElementById('quiz2').value = 'おわり';
+    jQuery("#quiz2").css("background", "#808080");
+    jQuery("#quiz1").css("width", "200px");
+    jQuery("#quiz1").css("height", "150px");
+    jQuery("#quiz2").css("width", "150px");
+    $('#quiz3').hide();
+    $('#quiz4').hide();
+    $('#quiz5').hide();
+    //document.getElementById('skip').onclick = getImageURLS(setData);
+    //annotation_count=0;
+    }
+    if(document.getElementById('quiz2').value != 'おわり')crowdcard_count++;
+  }
+}
+
+function removeElement(id) { 
+  var element = document.getElementById(id); 
+  //element.removeChild(element.childNodes.item(0)); 
+  for (var i =element.childNodes.length-1; i>=0; i--) {
+    element.removeChild(element.childNodes[i]);
+  }
+}
+
+var annotation_count=0;
+function annotation(){
+  jQuery("#annotation_text").css("background", "#3498db");
+  jQuery("#skip").css("background", "#808080");
+  if(document.getElementById('annotation_text').value == '続ける'){
+    document.getElementById('annotation_text').value = '決定';
+    document.getElementById('skip').value = '×';
+    jQuery("#skip").css("background", "#808080");
+    jQuery("#annotation_text").css("width", "120px");
+    jQuery("#annotation_text").css("height", "80px");
+    jQuery("#skip").css("width", "120px");
+    $('#tex').show();
+    annotation_count=0;
+  }else{
+  var text = document.getElementsByName('annotation')[0].value; // Serverに送るvalueの受け取り
+  //alert(text);
+  //document.getElementById('title2').innerHTML="ここはどこでしょう？";
+  document.getElementsByName('annotation')[0].value=null;
+  if(text){
+    var date = get_current_timestamp();
+    annotationTitle(title_card[annotation_count],text,next);
+  }
+  if(annotation_count==9){
+    document.getElementById('annotation_text').value = '続ける';
+    document.getElementById('skip').value = 'おわり';
+    jQuery("#skip").css("background", "#808080");
+    jQuery("#annotation_text").css("width", "200px");
+    jQuery("#annotation_text").css("height", "150px");
+    jQuery("#skip").css("width", "150px");
+    $('#tex').hide();
+    //document.getElementById('skip').onclick = getImageURLS(setData);
+    //annotation_count=0;
+  }
+  if(document.getElementById('skip').value != 'おわり')annotation_count++;
+  }
+}
+
+var datecard_count=0;
+function datecard(pattern){
+  jQuery("#date1").css("background", "#3498db");
+  jQuery("#date2").css("background", "#3498db");
+  jQuery("#date3").css("background", "#3498db");
+  jQuery("#date4").css("background", "#3498db");
+  jQuery("#date5").css("background", "#808080");
+  if(document.getElementById('date1').value == '続ける'){
+    document.getElementById('date1').value = 'もっと昔';
+    document.getElementById('date2').value = '1990年代';
+    jQuery("#date2").css("background", "#3498db");
+    jQuery("#date1").css("width", "120px");
+    jQuery("#date1").css("height", "80px");
+    jQuery("#date2").css("width", "120px");
+    $('#date3').show();
+    $('#date4').show();
+    $('#date5').show();
+    datecard_count=0;
+  }else{
+    var text = pattern // Serverに送るvalueの受け取り
+    //alert(pattern);
+    //var imgList = document.getElementById("jquery-cycle").getElementsByTagName("img");
+    //var test = imgList[crowdcard_count].id;
+    //alert(imgList[crowdcard_count].id);
+    var date = get_current_timestamp();
+    if(text!="?")annotationDate(date_card[datecard_count],pattern,next);
+    if(datecard_count==9){
+    document.getElementById('date1').value = '続ける';
+    document.getElementById('date2').value = 'おわり';
+    jQuery("#date2").css("background", "#808080");
+    jQuery("#date1").css("width", "200px");
+    jQuery("#date1").css("height", "150px");
+    jQuery("#date2").css("width", "150px");
+    $('#date3').hide();
+    $('#date4').hide();
+    $('#date5').hide();
+    //document.getElementById('skip').onclick = getImageURLS(setData);
+    //annotation_count=0;
+    }
+    if(document.getElementById('date2').value != 'おわり')datecard_count++;
+  }
+}
+
+var get_current_timestamp = function() {
+    var weeks = new Array('日', '月', '火', '水', '木', '金', '土');
+    var d = new Date();
+ 
+    // 年月日・曜日・時分秒の取得
+    var month  = d.getMonth() + 1;
+    var day    = d.getDate();
+    var week   = weeks[ d.getDay() ];
+    var hour   = d.getHours();
+    var minute = d.getMinutes();
+    var second = d.getSeconds();
+ 
+    // 1桁を2桁に変換する
+    if (month < 10) {month = "0" + month;}
+    if (day < 10) {day = "0" + day;}
+    if (hour < 10) {hour = "0" + hour;}
+    if (minute < 10) {minute = "0" + minute;}
+    if (second < 10) {second = "0" + second;}
+ 
+    // 整形して返却
+    return d.getFullYear()  + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".000Z";
+}
+ 
+// 現在の日付・時刻を表示する
+//document.write(get_current_timestamp());
+//alert(get_current_timestamp());
+
+
+function mapView(){
+  var ifm = document.getElementById("jquery-ui-tabs-4"); //要素を表示する場所（親要素）
+  for (var i =ifm.childNodes.length-1; i>=0; i--) {
+    ifm.removeChild(ifm.childNodes[i]);
+  }
+  var iframe = document.createElement("iframe"); //新規にiframe要素を生成
+  iframe.width="100%";
+  iframe.height="700px";
+  iframe.src="mapTask.html#apiKey="+apiKey;
+  ifm.appendChild(iframe); //子要素としてiframeを追加
+}
+/*
+function sortView(){
+  var ifm = document.getElementById("jquery-ui-tabs-4"); //要素を表示する場所（親要素）
+  for (var i =ifm.childNodes.length-1; i>=0; i--) {
+    ifm.removeChild(ifm.childNodes[i]);
+  }
+  var iframe = document.createElement("iframe"); //新規にiframe要素を生成
+  iframe.width="100%";
+  iframe.height="700px";
+  iframe.src="sortTask.html"; 
+  ifm.appendChild(iframe); //子要素としてiframeを追加
+}
+*/
+</script>
+
+</head>
+
+<body>
+<div id='result'>
+<div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
+<div id="jquery-ui-tabs">
+    <ul id="tab">
+        <li><a href="#jquery-ui-tabs-1"><font size="6"><b>どの季節？</b></font></a></li>
+        <li><a href="#jquery-ui-tabs-2"><font size="6"><b>これはなに？</b></font></a></li>
+        <li><a href="#jquery-ui-tabs-3"><font size="6"><b>いつの写真？</b></font></a></li>
+        <li><a href="#jquery-ui-tabs-4"><font size="6"><b>これはどこ？</b></font></a></li>
+    </ul>
+    <div id="jquery-ui-tabs-1">
+      <script type="text/javascript">
+          getImageURLS(setData);
+      </script>
+      <h1><div id="task" align="center">正解だと思う季節を押して下さい</div></h1>
+      <!--h1><div id="title">if checkPhoto[i][date]==false; これはいつ頃の写真でしょう？</div></h1-->
+      <!--h1><div id="title">if checkPhoto[i][location]==false; ここはどの辺りでしょう？</div></h1-->
+      <div id="jquery-cycle" style="margin: auto;max-width: 100%;max-height: 100%;">
+      </div>
+      <font size="7">
+      <table cellpadding="0" cellspacing="0" id="quiz" style="margin: auto;max-width: 100%;max-height: 100%;">
+        <tr>
+          <td><input type="button" value="春" class="btn" id="quiz1" onclick="setCrowdcard('春')"></td>
+          <td><input type="button" value="夏" class="btn" id="quiz2" onclick="setCrowdcard('夏')"></td>
+          <td><input type="button" value="秋" class="btn" id="quiz3" onclick="setCrowdcard('秋')"></td>
+          <td><input type="button" value="冬" class="btn" id="quiz4" onclick="setCrowdcard('冬')"></td>
+          <td><input type="button" value="?" class="btn2" id="quiz5" onclick="setCrowdcard('?')"></td>
+        </tr>
+      </table>
+      </font>
+    </div>
+    
+    
+    <div id="jquery-ui-tabs-2">
+    <!--script type="text/javascript">
+          getImageURLS(setData);
+    </script-->
+      <h1><div id="task2" align="center">写真に素敵なタイトルをつけてください</div></h1>
+      <div id="jquery-cycle2" style="margin: auto;max-width: 100%;max-height: 100%;">
+      </div>
+      <table style="margin: auto;max-width: 100%;max-height: 100%;">
+        <tr>
+        <td>
+        <table>
+          <tr>
+            <td><input type="text" id="tex" name="annotation" style="border-width:4px;border-color:#3366FF;height:50px" size="42" placeholder="タイトルを入力してください"></td>
+          </tr>
+        </table>
+        </td>
+        <td>
+        <font size="7">
+        <table id="annotation">
+          <tr>
+            <td><input type="button" value="決定" class="btn" id="annotation_text" onclick="setAnnotation()"></td>
+            <td><input type="button" value="×" class="btn2" id="skip" onclick="setAnnotation()"></td>
+          </tr>
+        </table>
+        </font>
+        </td>
+        </tr>
+      </table>
+    </div>
+    
+    <div id="jquery-ui-tabs-3">
+      <h1><div id="task3" align="center">正解だと思う年代を押して下さい</div></h1>
+      <div id="jquery-cycle3" style="margin: auto;max-width: 100%;max-height: 100%;">
+      </div>
+      <font size="5">
+      <table cellpadding="0" cellspacing="0" id="date" style="margin: auto;max-width: 100%;max-height: 100%;">
+        <tr>
+          <td><input type="button" value="もっと昔" class="btn" id="date1" onclick="setDatecard('1980s')"></td>
+          <td><input type="button" value="1990年代" class="btn" id="date2" onclick="setDatecard('1990s')"></td>
+          <td><input type="button" value="2000年代" class="btn" id="date3" onclick="setDatecard('2000s')"></td>
+          <td><input type="button" value="最近" class="btn" id="date4" onclick="setDatecard('2010s')"></td>
+          <td><input type="button" value="?" class="btn2" id="date5" onclick="setDatecard('?')"></td>
+        </tr>
+      </table>
+      </font>
+    </div>
+    
+    <div id="jquery-ui-tabs-4">
+      <script type="text/javascript">
+        mapView();
+      </script>
+    </div>
+    
+</div>
+
+</body>
+</html>

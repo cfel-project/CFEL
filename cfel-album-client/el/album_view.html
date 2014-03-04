@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<meta name="viewport" content="width=device-width">
+<title>みんなのアルバム　メインメニュー</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+
+<script type="text/javascript">  
+
+function view(type){
+    var pram=window.location.href;
+    var api=pram.split("#");
+    var key=api[1].split("=");
+    var apiKey=key[1];
+    //alert(apiKey);
+    var url = "https://please_replace_with_target_URL/web/api.php/elmember/search?apiKey="+apiKey;
+  var ifm = document.getElementById("viewport"); //要素を表示する場所（親要素）
+  for (var i =ifm.childNodes.length-1; i>=0; i--) {
+    ifm.removeChild(ifm.childNodes[i]);
+  }
+  var iframe = document.createElement("iframe"); //新規にiframe要素を生成
+  iframe.width="1200px";
+  iframe.height="1500px";
+  iframe.setAttribute('frameBorder', 0);
+  if(type==1){
+    var old2 = document.getElementById('tab2');
+    old2.style.color="#ffffff";
+    old2.style.backgroundColor = "midnightblue";
+    var old3 = document.getElementById('tab3');
+    old3.style.color="#ffffff";
+    old3.style.backgroundColor = "midnightblue";
+    var old4 = document.getElementById('tab4');
+    old4.style.color="#ffffff";
+    old4.style.backgroundColor = "midnightblue";
+    var old5 = document.getElementById('tab5');
+    old5.style.color="#ffffff";
+    old5.style.backgroundColor = "midnightblue";
+    var ele = document.getElementById('tab1');
+    ele.style.color="#000000";
+    ele.style.backgroundColor = "#00FFFF";
+    iframe.src="scene_view.html#apiKey="+apiKey;
+  }else if(type==2){
+    var old1 = document.getElementById('tab1');
+    old1.style.color="#ffffff";
+    old1.style.backgroundColor = "midnightblue";
+    var old3 = document.getElementById('tab3');
+    old3.style.color="#ffffff";
+    old3.style.backgroundColor = "midnightblue";
+    var old4 = document.getElementById('tab4');
+    old4.style.color="#ffffff";
+    old4.style.backgroundColor = "midnightblue";
+    var old5 = document.getElementById('tab5');
+    old5.style.color="#ffffff";
+    old5.style.backgroundColor = "midnightblue";
+    var ele = document.getElementById('tab2');
+    ele.style.color="#000000";
+    ele.style.backgroundColor = "#00FFFF";
+    iframe.src="event_view.html#apiKey="+apiKey;
+  }else if(type==3){
+    var old1 = document.getElementById('tab1');
+    old1.style.color="#ffffff";
+    old1.style.backgroundColor = "midnightblue";
+    var old2 = document.getElementById('tab2');
+    old2.style.color="#ffffff";
+    old2.style.backgroundColor = "midnightblue";
+    var old4 = document.getElementById('tab4');
+    old4.style.color="#ffffff";
+    old4.style.backgroundColor = "midnightblue";
+    var old5 = document.getElementById('tab5');
+    old5.style.color="#ffffff";
+    old5.style.backgroundColor = "midnightblue";
+    var ele = document.getElementById('tab3');
+    ele.style.color="#000000";
+    ele.style.backgroundColor = "#00FFFF";
+    iframe.src="annotation_map.html#apiKey="+apiKey;
+  }else if(type==4){
+    var old1 = document.getElementById('tab1');
+    old1.style.color="#ffffff";
+    old1.style.backgroundColor = "midnightblue";
+    var old2 = document.getElementById('tab2');
+    old2.style.color="#ffffff";
+    old2.style.backgroundColor = "midnightblue";
+    var old3 = document.getElementById('tab3');
+    old3.style.color="#ffffff";
+    old3.style.backgroundColor = "midnightblue";
+    var old5 = document.getElementById('tab5');
+    old5.style.color="#ffffff";
+    old5.style.backgroundColor = "midnightblue";
+    var ele = document.getElementById('tab4');
+    ele.style.color="#000000";
+    ele.style.backgroundColor = "#00FFFF";
+    iframe.height="800px";
+    iframe.src="annotation_movie.html#apiKey="+apiKey;
+  }else if(type==5){
+    var old1 = document.getElementById('tab1');
+    old1.style.color="#ffffff";
+    old1.style.backgroundColor = "midnightblue";
+    var old2 = document.getElementById('tab2');
+    old2.style.color="#ffffff";
+    old2.style.backgroundColor = "midnightblue";
+    var old3 = document.getElementById('tab3');
+    old3.style.color="#ffffff";
+    old3.style.backgroundColor = "midnightblue";
+    var old4 = document.getElementById('tab4');
+    old4.style.color="#ffffff";
+    old4.style.backgroundColor = "midnightblue";
+    var ele = document.getElementById('tab5');
+    ele.style.color="#000000";
+    ele.style.backgroundColor = "#00FFFF";
+    iframe.src="annotation_quiz_view.html#apiKey="+apiKey;
+  } 
+  ifm.appendChild(iframe); //子要素としてiframeを追加
+}
+</script>
+
+</head>
+
+<body onload="view(1)">
+
+<div class="menu" id="menubar">
+  <ul>
+    <li><a onclick="view(1)"><div id="tab1"><font size="6"><b>風景</b></font></div></a></li>
+    <li><a onclick="view(2)"><div id="tab2"><font size="6"><b>イベント</b></font></div></a></li>
+    <li><a onclick="view(3)"><div id="tab3"><font size="6"><b>地図</b></font></div></a></li>
+    <li><a onclick="view(4)"><div id="tab4"><font size="6"><b>スライド</font></div></a></li>
+    <li><a onclick="view(5)"><div id="tab5"><font size="6"><b>脳トレ</b></font></div></a></li>
+  </ul>
+</div>
+<br><br><br>
+<div id="viewport"></div>
+</body>
+</html>

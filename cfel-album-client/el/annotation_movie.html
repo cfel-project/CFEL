@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width">
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<title>みんなのアルバム　動画を見る</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="js/album-service.js"></script>
+<script type="text/javascript">  
+  
+var pram=window.location.href;
+var api=pram.split("#");
+var key=api[1].split("=");
+var apiKey=key[1];
+  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+
+  /*
+	 * 基本API
+	 */
+	function findPhoto(query, callback) {
+		cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : query
+		}, callback);
+	}
+  
+	/*
+	 * callback
+	 */
+	function showResult(result) {
+		if (result.status == "success") {
+			$("#result").text(JSON.stringify(result.data));
+		} else {
+			$("#result").text("status: " + result.status);
+		}
+	}
+  function getImageURLS(callback) {
+	  cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : null,
+			"keys" : {
+				"_id" : 0,
+        "portal_image_url" : 1,
+        "card_image_url" : 1
+			}
+		}, callback);
+	}
+
+  function showMovie(result) {
+		if (result.status == "success") {
+			var jsonText = result.data;
+      var count=0;
+      var num=0;
+      document.open();
+      document.writeln('<h1><div id=title>みんなで作ったアルバムをスライドショーで見てみましょう！</div></h1>');
+      document.writeln('<div id="cover">');
+      //document.writeln('<div id="oTitle"></div>');
+      for(var i=0; i<jsonText.length; i++){
+        var oTitle = jsonText[i].title;
+        if(!oTitle)oTitle="まだタイトルがついていません";
+        var oURL = jsonText[i].portal_image_url;
+        if(oURL.match(/photo/)){
+          var url = oURL.replace("\/photo","photo");
+          oURL = url;
+        }
+        //removeElement("oTitle");
+        //var title=document.createElement("div");
+        //title.innerHTML = oTitle;
+        //document.getElementById("oTitle").appendChild(title);
+        document.writeln('<img src="'+oURL+'" width="640px" height="480px">');
+        //document.writeln('<div style="size:32px; background-color:#000000; color:#ffffff; width:640px; height:80px;">'+oTitle+'</div>');
+      }
+      document.writeln('</div>');
+      document.close();
+      //alert(num);
+		} else {
+			 alert(result.status);
+		}
+    enhanceElements(1);
+	}
+
+function enhanceElements(status){
+  if(status==1){
+    $('#loading').hide();
+    $(function(){
+    var setImg = '#cover';
+    var fadeSpeed = 1500;
+    var switchDelay = 5000;
+ 
+    $(setImg).children('img').css({opacity:'0'});
+    $(setImg + ' img:first').stop().animate({opacity:'1',zIndex:'20'},fadeSpeed);
+ 
+    setInterval(function(){
+        $(setImg + ' :first-child').animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo(setImg);
+    },switchDelay);
+    });
+    var background = document.getElementById("cover");
+    background.style.width="640px";
+    background.style.height="480px";
+    background.style.overflow="hidden";
+  }
+}
+
+function removeElement(id) { 
+  var element = document.getElementById(id); 
+  //element.removeChild(element.childNodes.item(0)); 
+  for (var i =element.childNodes.length-1; i>=0; i--) {
+    element.removeChild(element.childNodes[i]);
+  }
+}
+
+</script>
+
+</head>
+
+<body>
+<div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
+<script type="text/javascript">
+getImageURLS(showMovie);
+</script>
+
+</body>
+</html>

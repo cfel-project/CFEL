@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<title>みんなのアルバム　Topページ</title>
+
+</head>
+
+<body>
+<table cellpadding="0" cellspacing="30" align="center" width="100%" height="100%"><tbody>
+<tr>
+<td align="center">
+<a href="album_view.html" id="album_view"><img src="img/album_renew.png" width="50%" height="50%"/></a>
+</td>
+<td align="center">
+<a href="task_view.html" id="task_view"><img src="img/cscw_renew.png" width="50%" height="50%"/></a>
+</td>
+</tr>
+</tbody></table>
+
+<script type="text/javascript">
+        var pram=window.location.href;
+        var api=pram.split("#");
+        var key=api[1].split("=");
+        var apiKey=key[1];
+        //alert(apiKey);
+        var url = "https://please_replace_with_target_URL/web/api.php/elmember/search?apiKey="+apiKey;
+        var linkTarget=document.getElementById('album_view');
+        linkTarget.href+="#apiKey="+apiKey;
+        var linkTarget2=document.getElementById('task_view');
+        linkTarget2.href+="#apiKey="+apiKey;
+        
+        //alert(url);
+        
+        //data=user_id,user_name
+        var portal;
+        $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'json',
+          //data: '{"test": "テスト"}',
+          success : function(data) {
+        	  portal=data;
+			},
+        });
+        
+        
+        /*//引数がない時は処理しない
+        if (pram){
+          var para=pram.split("=");
+          if(para[1].match(/event/))para[1]="/" + para[1];
+          if(para[0].match(/title/))getFirst({"portal_image_url" :para[1]}, firstData);
+        }else{
+          getImageURLS(setData);
+        */
+      </script>
+
+</body>
+</html>

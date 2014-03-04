@@ -1,0 +1,190 @@
+<html lang="ja">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<title>みんなのアルバム 地図</title>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="js/album-service.js"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&language=ja"></script>
+<script type="text/javascript">
+var pram=window.location.href;
+var api=pram.split("#");
+var key=api[1].split("=");
+var apiKey=key[1];
+
+  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+  
+  var map;
+  //var markers = [];
+  //var infowindow=[];
+
+   /*
+	 * 基本API
+	 */
+	function findPhoto(query, callback) {
+		cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : query
+		}, callback);
+	}
+  
+	/*
+	 * callback
+	 */
+	function showResult(result) {
+		if (result.status == "success") {
+			$("#result").text(JSON.stringify(result.data));
+		} else {
+			$("#result").text("status: " + result.status);
+		}
+	}
+  function getImageURLS(callback) {
+	  cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : null,
+			"keys" : {
+				"_id" : 0,
+        "portal_image_url" : 1,
+        "thumbnail_image_url" : 1,
+        "marker_image_url" : 1,
+        "title" : 1,
+				"exif_location" : 1,
+        "annotation_season" : 1,
+        "annotation_title" :1,
+        "annotation_location": 1
+			}
+		}, callback);
+	}
+  
+  function getLocation(result) {
+		if (result.status == "success") {
+    var myOptions = {
+      zoom: 18,
+      center: new google.maps.LatLng(34.826738, 135.319486), //34.826953,135.319488
+      //center: new google.maps.LatLng(latitude,longitude),
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  
+    var image=[];
+    var contentString=[];
+    
+    var iconSize = new google.maps.Size(130,100);
+    var iconOffset = new google.maps.Point(0,0);
+    var iconAnchor = new google.maps.Point(65,100);
+    var iconScaleSize = new google.maps.Size(130,100);
+    
+			var jsonText = result.data;
+      var count=0;
+      var num=0;
+      for(var i=0; i<jsonText.length; i++){
+        if(jsonText[i].annotation_location){
+          var lat = jsonText[i].annotation_location[jsonText[i].annotation_location.length-1].lat;
+          var lon = jsonText[i].annotation_location[jsonText[i].annotation_location.length-1].lon;
+          if(jsonText[i].annotation_title){
+            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
+          }else{
+            var oTitle = jsonText[i].title;
+          }
+          if(!oTitle)oTitle="このリンクをタッチすると大きな画像が見えます";
+          var oURL = jsonText[i].portal_image_url;
+          if(oURL.match(/photo/)){
+            var url = oURL.replace("\/photo","photo");
+            oURL = url;
+          }
+          var mURL = serviceRoot + jsonText[i].marker_image_url;
+          var image = new google.maps.MarkerImage(mURL,iconSize,iconOffset,iconAnchor,iconScaleSize);
+          var name='<a href="'+oURL + '" target="_blank"><h2>'+oTitle+'</h2></a>';
+          var latlng = new google.maps.LatLng(lat,lon);
+          createMarker(name,latlng,map,image);            
+        }else if(jsonText[i].exif_location){
+          var lat = jsonText[i].exif_location[1];
+          var lon = jsonText[i].exif_location[0];
+          if(jsonText[i].annotation_title){
+            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
+          }else{
+            var oTitle = jsonText[i].title;
+          }
+          if(!oTitle)oTitle="このリンクをタッチすると大きな画像が見えます";
+          var oURL = jsonText[i].portal_image_url;
+          if(oURL.match(/photo/)){
+            var url = oURL.replace("\/photo","photo");
+            oURL = url;
+          }
+          var mURL = serviceRoot + jsonText[i].marker_image_url;
+          var image = new google.maps.MarkerImage(mURL,iconSize,iconOffset,iconAnchor,iconScaleSize);
+          var name='<a href="'+oURL + '" target="_blank"><h2>'+oTitle+'</h2></a>';
+          var latlng = new google.maps.LatLng(lat,lon);
+          createMarker(name,latlng,map,image);            
+        }
+      }
+     
+     /* 地図上にカスタムコントロールを追加 */
+			var homeControlDiv = document.createElement('DIV');
+			var homeControl = new HomeControl(homeControlDiv, map);
+			homeControlDiv.index = 1;
+			/* カスタムコントロールを地図の右上に配置 */
+			map.controls[google.maps.ControlPosition.RIGHT_TOP].push(homeControlDiv);
+      //alert(num);
+		} else {
+			 alert(result.status);
+		}
+	}
+
+  function createMarker(name,latlng,map,image){
+    var infoWindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({position: latlng,map: map,icon: image});
+    google.maps.event.addListener(marker, 'click', function() {
+			infoWindow.setContent(name);
+			infoWindow.open(map,marker);   
+		});
+  } 
+  
+  /* 基本位置の緯度・経度 */
+	var pos = new google.maps.LatLng(35.681382, 139.766084); //please replace
+
+		function HomeControl(controlDiv, map) {
+			/* ボタン枠 */
+			controlDiv.style.padding = '5px';
+			controlDiv.style.backgroundColor = '#ffffcc';
+			controlDiv.style.border = '1px solid #000';
+			controlDiv.style.cursor = 'pointer';
+			controlDiv.style.textAlign = 'center';
+
+			/* ボタン */
+			var controlUI = document.createElement('DIV');
+			controlUI.style.backgroundColor = '#ffffff';
+			controlUI.style.border = '1px solid #000';
+			controlUI.style.float = 'left';
+			controlUI.style.cursor = 'pointer';
+			controlUI.style.textAlign = 'center';
+			controlUI.style.marginRight = '5px';
+			controlUI.title = 'ホームに戻る';
+			controlDiv.appendChild(controlUI);
+
+			var controlText = document.createElement('div');
+			controlText.style.fontFamily = 'Arial,sans-serif';
+			controlText.style.fontSize = '30px';
+			controlText.style.padding = '2px 5px';
+			controlText.innerHTML = '<b>ホームに戻る</b>';
+			controlUI.appendChild(controlText);
+			
+			google.maps.event.addDomListener(controlUI, 'click', function() {
+				map.panTo(pos);
+			});
+		}
+  
+</script>
+</head>
+<body>
+<div id='result' type="hidden"></div>
+<div id="map_canvas" style="float:left;width:100%;height:80%"></div>
+<!--div name="spot_list" style="float:right;width:30%;height:100%;"></div-->
+<script type="text/javascript">
+getImageURLS(getLocation);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<title>Test page</title>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/album-service.js"></script>
+<script>
+
+	function importImages(image_urls, callback) {
+		for ( var i = 0; i < image_urls.length; i++) {
+			var image_url = image_urls[i];
+			if (image_url) {
+				checkExif(encodeURI(image_url), callback);
+			}
+		}
+	}
+
+	function checkExif(image_url, callback) {
+		var options = {
+			type : "GET",
+			headers : {
+				"X-Eld-Land-APIKey" : aaa---aaa //please replace with actual key
+			},
+			url : "exif_service.php",
+			dataType : "json",
+			data : {
+				src : image_url
+			},
+			success : function(data) {
+				if (callback) {
+					callback(image_url, data);
+				}
+			},
+			error : function() {
+				if (callback) {
+					callback(image_url);
+				}
+			}
+		};
+		$.ajax(options);
+	}
+
+
+	function onExifData(image_url, exif) {
+//		console.log(JSON.stringify(exif));
+		var photo = {
+			"portal_image_url" : "/" + image_url
+		};
+		if (exif) {
+			if (exif.date) {
+				photo.exif_date = {
+					"$date" : new Date(exif.date).toISOString()
+				};
+			}
+			if (exif.location) {
+				photo.exif_location = exif.location;
+			}
+		}
+		cfelService.postPhoto(photo, onCreate);
+//		console.log(JSON.stringify(photo));
+	}
+	
+	function onCreate(data) {
+		console.log(JSON.stringify(data));
+	}
+</script>
+</head>
+<body>
+
+//please input external files
+<textarea id="files" cols="80" rows="50">
+</textarea>
+<br>
+<button onclick="importImages($('#files').val().split('\n'),onExifData)">Import</button>
+
+<div id="result">
+</div>
+
+</body>
+</html>
