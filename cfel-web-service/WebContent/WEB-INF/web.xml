@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 IBM Corporation and others.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+
+ Contributors:
+     IBM Corporation - initial API and implementation
+-->
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>cfel web service</display-name>
+	<context-param>
+		<description>Root URL of portal</description>
+		<param-name>portal_root</param-name>
+		<param-value>https://examples.com</param-value>
+	</context-param>
+	<context-param>
+		<description>URL of portal</description>
+		<param-name>portal_url</param-name>
+		<param-value>https://examples.com/p/web</param-value>
+	</context-param>
+	<context-param>
+		<description>Administration API key</description>
+		<param-name>api_key</param-name>
+		<param-value>abcdef123456789...987654321fedcba</param-value>
+	</context-param>
+	<context-param>
+		<description>Root URL of album</description>
+		<param-name>album_root</param-name>
+		<param-value>http://localhost/album</param-value>
+	</context-param>
+	<context-param>
+		<description>host:port of mongoDB</description>
+		<param-name>mongo_host</param-name>
+		<param-value>localhost:27017</param-value>
+	</context-param>
+	<context-param>
+		<description>Name of database</description>
+		<param-name>album_db</param-name>
+		<param-value>albumdb</param-value>
+	</context-param>
+</web-app>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2014 IBM Corporation and others.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+
+ Contributors:
+     IBM Corporation - initial API and implementation
+-->
+<urlrewrite>
+
+	<rule>
+		<from>^/(import_csv)/.*$</from>
+		<to>$0</to>
+	</rule>
+
+	<rule>
+		<note>
+			Example: /users
+        </note>
+		<from>^/([^/]+)/?$</from>
+		<to>/service?type=$1</to>
+	</rule>
+
+	<rule>
+		<note>
+			Example: /users/52eb3b23a2ecf5fa92bbde8b
+        </note>
+		<from>^/([^/]+)/([^/]+)/?$</from>
+		<to>/service?type=$1&amp;id=$2</to>
+	</rule>
+	
+	<rule>
+		<note>
+			Example: /file/images/2013/12/test.jpg
+        </note>
+		<from>^/([^/]+)/(.+)$</from>
+		<to>/service?type=$1&amp;id=$2</to>
+	</rule>
+	
+</urlrewrite>
+
