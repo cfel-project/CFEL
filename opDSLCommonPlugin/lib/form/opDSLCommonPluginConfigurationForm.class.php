@@ -1,5 +1,14 @@
 <?php
-
+/*******************************************************************************
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
 class opDSLCommonPluginConfigurationForm extends BaseForm{
 	public function configure(){
 		$this->setWidget('elem_logger_config', new sfWidgetFormInput());
@@ -10,13 +19,13 @@ class opDSLCommonPluginConfigurationForm extends BaseForm{
 		
 		$this->setWidget('list_sendtopic_comms', new sfWidgetFormInput());
 		$this->setDefault('list_sendtopic_comms', Doctrine::getTable('SnsConfig')->get('op_dslgadgets_plugin_list_sendtopic_comms', ''));
-		$this->setValidator('list_sendtopic_comms', new sfValidatorString(array('required' => true, 'trim' => true)));
+		$this->setValidator('list_sendtopic_comms', new sfValidatorString(array('required' => false, 'trim' => true)));
 		$this->widgetSchema->setLabel('list_sendtopic_comms', 'Send Topic community and message');
 		$this->widgetSchema->setHelp('list_sendtopic_comms', 'Please configure message/button/community in which user is allowed to send topic contents');
 
 		$this->setWidget('comm_topiclist_config', new sfWidgetFormInput());
 		$this->setDefault('comm_topiclist_config', Doctrine::getTable('SnsConfig')->get('op_dslgadgets_plugin_comm_topiclist_config', ''));
-		$this->setValidator('comm_topiclist_config', new sfValidatorString(array('required' => true, 'trim' => true)));
+		$this->setValidator('comm_topiclist_config', new sfValidatorString(array('required' => false, 'trim' => true)));
 		$this->widgetSchema->setLabel('comm_topiclist_config', 'Topic List Configuration');
 		$this->widgetSchema->setHelp('comm_topiclist_config', 'Specify Topic List conguration in JSON');
 

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 ?>
 <?php
  use_helper('Javascript', 'opUtil', 'opAsset');
+ op_smt_use_stylesheet('/opDSLCommonPlugin/css/dsl_common.css', 'last');
  op_smt_use_stylesheet('/opDSLCommonPlugin/css/dsl_topiclist.css', 'last');
  op_smt_use_javascript('/opCommunityTopicPlugin/js/moment.min.js', 'last');
  op_smt_use_javascript('/opCommunityTopicPlugin/js/lang/ja.js', 'last');

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -82,6 +82,10 @@ class dsl_commonComponents extends sfComponents
 		}
 	}
 	public function executePageLogger(sfWebRequest $request){
+		$this->elemLoggerConfig = opDSLCommonConfig::getElementLoggerConfig();
+	}
+	public function executeSmtPageLogger(sfWebRequest $request){
+		$this->ev_sfx = "_smt";
 		$this->elemLoggerConfig = opDSLCommonConfig::getElementLoggerConfig();
 	}
 	public function executeLatestTopicUpdates(sfWebRequest $request){
