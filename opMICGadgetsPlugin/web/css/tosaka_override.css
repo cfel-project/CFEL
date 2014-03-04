@@ -1,0 +1,82 @@
+@charset "UTF-8";
+/*******************************************************************************
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
+/*
+	styles to override smt tosaka form
+*/
+.dsl_post_error,
+.dsl_counter{
+	margin: .1em .2em;
+	padding: 0 .3em;
+}
+.dsl_post_error,
+.dsl_counter{
+	display: inline-block;
+	vertical-align: top;
+	border-radius: .3em;
+	background-color:#fffffc;
+	color: #2b2b2b;
+}
+
+.dsl_post_error,
+.dsl_counter.exceed{
+	color:#e2041b;
+}
+
+.dsl_tosaka_loading,
+.btn-primary.dsl_tosaka_loading,
+.btn-primary.dsl_tosaka_loading[disabled]{
+	background-image:url(../../images/ajax-loader.gif);
+	background-repeat:no-repeat;
+	background-position: center;
+/*	-moz-background-size: auto 100%;
+	background-size: auto 100%;*/
+}
+
+.file_btn_container{
+	display: inline-block;
+	padding: .3em .4em;
+	margin: 0 .2em;
+	overflow: hidden;
+	position: relative;
+}
+
+.file_btn_container input[type="file"]{
+	opacity: 0;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+.file_btn_container{
+	border:1px solid #595857;
+	border-radius: .4em;display:inline-block;
+	font-weight:bold; color: #281A14;
+	background-color: #E6EAE3; background-image: -webkit-gradient(linear, left top, left bottom, from(#E6EAE3), to(#B3ADA0));
+	background-image: -webkit-linear-gradient(top, #E6EAE3, #B3ADA0);
+	background-image: -moz-linear-gradient(top, #E6EAE3, #B3ADA0);
+	background-image: -ms-linear-gradient(top, #E6EAE3, #B3ADA0);
+	background-image: -o-linear-gradient(top, #E6EAE3, #B3ADA0);
+	background-image: linear-gradient(to bottom, #E6EAE3, #B3ADA0);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#E6EAE3, endColorstr=#B3ADA0);
+}
+
+.file_btn_container:hover{
+	border:1px solid #a3a3a2;
+	background-color: #B3ADA0; background-image: -webkit-gradient(linear, left top, left bottom, from(#B3ADA0), to(#E6EAE3));
+	background-image: -webkit-linear-gradient(top, #B3ADA0, #E6EAE3);
+	background-image: -moz-linear-gradient(top, #B3ADA0, #E6EAE3);
+	background-image: -ms-linear-gradient(top, #B3ADA0, #E6EAE3);
+	background-image: -o-linear-gradient(top, #B3ADA0, #E6EAE3);
+	background-image: linear-gradient(to bottom, #B3ADA0, #E6EAE3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#B3ADA0, endColorstr=#E6EAE3);
+}

@@ -33,7 +33,7 @@
   <release>beta</release>
   <api>beta</api>
  </stability>
- <license>IBM</license>
+ <license>Eclipse Public License v1.0</license>
  <notes>
 Common components for DSL projects
  </notes>
