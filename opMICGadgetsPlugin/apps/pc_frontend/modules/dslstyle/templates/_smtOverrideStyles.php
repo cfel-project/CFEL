@@ -212,58 +212,5 @@ $(document).ready(function(){
 
 //hide switch to pc mode 
 	$(".navbar .nav a#smt-switch").parent().hide();
-
-//override communityTopic creation page //we might better to make new page for show event and use this code there..(but may costs a lot)
-	(function(){
-		var isCommunityTopicNew = function(){
-			return ("" + window.location.href).match(/\/communityTopic\/new\//);
-		};
-		if(isCommunityTopicNew() && window["toggleSubmitState"] && !window["__toggleSubmitState_org"]){
-			window["__toggleSubmitState_org"] = toggleSubmitState;
-			toggleSubmitState = function(){
-				var showtopic = $("#successMessage>a");
-				if(0 <showtopic.length){
-					window.location.href = showtopic.attr("href");
-				}else{
-					__toggleSubmitState_org();
-				}
-			};
-		}
-	})();
-//override communityTopic page //we might better to make new page for show event and use this code there..(but may costs a lot)
-	(function(){
-		var isCommunityTopicPage = function (){
-			var paths = ("" + window.location.href).split("/");
-			return ("communityTopic" == paths[paths.length - 2]);
-		};
-		if(isCommunityTopicPage()){
-			$("body>ul.footer>li:nth-child(2)").hide();
-			var link_list = $("body>ul.footer>li:nth-child(1)>a");
-			if(0 < link_list.length){
-				link_list.attr("href", link_list.attr("href").replace(/\/communityTopic\//,"/d_topic/"));
-			}
-			//fix:the url after removal is not correct.
-			var evobj = $("#deleteEntryModal .modal-button#execute").data("events").click;
-			if(evobj.length > 0){
-				evobj[0].handler = function(e){
-					if("execute" == e.target.id){
-						$.post(openpne.apiBase + "topic/delete.json",
-						{apiKey: openpne.apiKey, id: topic_id},
-						"json")
-						 .success(function(res){
-							window.location = "<?php echo url_for("d_topic/listCommunity")?>/" + res.data.community_id;//change first path for main stream.
-						})
-						 .error(function(res){
-							if(window["console"]){
-								console.log(res);
-							}
-						});
-					}else{
-						$("#deleteEntryModal").modal("hide");
-					}
-				};
-			}
-		}
-	})();
 });
 </script>

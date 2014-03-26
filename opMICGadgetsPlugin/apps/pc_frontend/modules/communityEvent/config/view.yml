@@ -40,3 +40,11 @@ showSuccess:
       parts: [communityEvent]
       target: [after]
       is_component: true
+
+deleteConfirmSuccess:
+  customize:
+    deleteConfirmFix:
+      template: [dslevent, comEventDelCofirmFix]
+      parts: [deleteConfirmForm]
+      target: [after]
+      is_component: true

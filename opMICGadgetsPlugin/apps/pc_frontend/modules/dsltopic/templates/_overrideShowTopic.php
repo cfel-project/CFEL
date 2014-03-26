@@ -17,6 +17,13 @@ $(document).ready(function(){
 		$(this).attr("href", $(this).attr("href").replace(/\/community\//, "/d_topic/listCommunity/"));
 		$(this).html("トピック一覧");
 	});
+
+	$(".topicDetailBox .operation form[action*='/communityTopic/edit/']").each(function(){
+		$(this).attr("action", $(this).attr("action").replace(/\/communityTopic\/edit\//,"/d_topic/edit/"));
+	});
+<?php if(!empty($pdf_url) && !empty($pdf_name)){ ?>
+	$(".topicDetailBox .body p.text").before("<p class='pdf'><a target='_blank' href='<?php echo $pdf_url ?>'><?php echo $pdf_name?></a></p>");
+<?php } ?>
 });
 //]]>
 </script>

@@ -30,9 +30,6 @@ class dslstyleComponents extends sfComponents{
 	public function executeSmtOverrideStyles(sfWebRequest $request){
 		return sfView::SUCCESS;
 	}
-	public function executeSmtEmbedYoutube(sfWebRequest $request){
-		return sfView::SUCCESS;
-	}
 	public function executeOverrideTimeline(sfWebRequest $request){
 		return sfView::SUCCESS;
 	}

@@ -58,20 +58,6 @@ smtOverrideProfileForms:
     ja_JP: "スマホ用の既存プロフィールフォームを変更します。"
   component: [dslmember, smtOverrideProfileForms]
 
-smtdslEmbedYoutube:
-  caption:
-    ja_JP: "Youtube埋め込み+リンク"
-  description:
-    ja_JP: "Youtube埋め込みとurlをリンクに変えます。名前変えたほうがいいですね。"
-  component: [dslstyle, smtEmbedYoutube]
-
-smtdslOverrideShowTopic:
-  caption:
-    ja_JP: "トピックページ変更"
-  description:
-    ja_JP: "スマホ用のトピックページをoverrideします"
-  component: [dsltopic, smtOverrideShowTopic]
-
 smtdslOverrideShowEvent:
   caption:
     ja_JP: "イベントページ変更"

@@ -14,5 +14,6 @@
 <?php
 include_component("dsl_common", "smtCommunityTopicList", array(
 	"community"=> $community,
+	"path_open_entry" => "d_topic",
 ));
 ?>

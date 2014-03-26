@@ -21,5 +21,18 @@ $(document).ready(function(){
 		action_src:/\/communityEvent\//,
 		action_dst:"/d_event/"
 	});
+	var __fnode = $("form");
+	__fnode.find(".operation input[type=submit]").click(function(ev){
+		ev.preventDefault();
+		$(".error:has(ul.error_list)").remove();
+		var velems = __fnode.find("table tr:has(th>label>strong)").find("[name]:visible,#op_date_input").filter(function(){return !$(this).val();});
+		if(0 < velems.length){
+			velems.each(function(){
+				$(this).before('<div class="error"><ul class="error_list"><li>必須項目です。</li></ul></div>');
+			});
+		}else{
+			__fnode.submit();
+		}
+	});
 });
 </script>

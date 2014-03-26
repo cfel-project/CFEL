@@ -43,7 +43,7 @@ $sql = "select b.bin as bin from file as f left join file_bin as b on f.id = b.f
 				$result['date'] = $this->toISODate($exif['DateTime']);
 			}
 			if (isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])) {
-				$result['location'] = [$this->toDegree($exif["GPSLongitude"]), $this->toDegree($exif["GPSLatitude"])];
+				$result['location'] = array($this->toDegree($exif["GPSLongitude"]), $this->toDegree($exif["GPSLatitude"]));
 			}
 			unlink($filename);
 		}else{

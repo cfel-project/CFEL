@@ -12,3 +12,18 @@
 include("newSuccess.php");
 include("smtTopicFormFix.php");
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(window["toggleSubmitState"] && !window["__toggleSubmitState_org"]){
+		window["__toggleSubmitState_org"] = toggleSubmitState;
+		toggleSubmitState = function(){
+			var showtopic = $("#successMessage>a");
+			if(0 <showtopic.length){
+				window.location.href = showtopic.attr("href");
+			}else{
+				__toggleSubmitState_org();
+			}
+		};
+	}
+});
+</script>

@@ -11,7 +11,7 @@
  *******************************************************************************/
 class dslmiscActions extends sfActions{
 	public function executeForwardUri(sfWebRequest $request){
-		$uri = $request["uri"];
+		$uri = str_replace("@communityTopic_show", "@dsl_showtopic_override", $request["uri"]);
 		$this->forward404Unless(!empty($uri), "invalid param.");
 		$this->redirect($uri);
 	}

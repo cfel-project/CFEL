@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2011, 2014 IBM Corporation and others.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+
+ Contributors:
+     IBM Corporation - initial API and implementation
+-->
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>opMICExtPlugin</name>
+ <channel>plugins.openpne.jp</channel>
+ <summary>Ext plugins for MIC project</summary>
+ <description>Ext plugins for MIC project</description>
+ <lead>
+  <name>_ak</name>
+  <user>_ak</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <date>2013-04-16</date>
+ <time>08:02:38</time>
+ <version>
+  <release>0.9</release>
+  <api>0.9</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license>Eclipse Public License v1.0</license>
+ <notes>
+Extensional plugins for MIC project
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+	<file baseinstalldir="/" name="epl-v10.html" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dump/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dump/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/memberext/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/memberext/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/memberext/templates/searchSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/ping/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/ping/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/ping/templates/searchSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICExtPlugin/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICExtPlugin/templates/indexSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/config/routing.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/membersSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/smtMembersSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_pingMemberList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_pingUI.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_ping_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_profileLog.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_profileLog_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_smtPingMemberList.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_smtPingUI.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/_smtProfileLog.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/ping/templates/__ping_memberlist_core.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/pageActivitySuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/smtUserRelationsSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/userRelationsSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_barGraphByEvent.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_relationsByActivity.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_smtRelationsByActivity.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_streamGraphByUrl.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/__stream_by_url_core.php" role="data" />
+	<file baseinstalldir="/" name="config/gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/profile_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/smartphone_profile_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/doctrine/schema.yml" role="data" />
+	<file baseinstalldir="/" name="lib/filter/doctrine/PluginConfirmationLogFormFilter.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/form/opMICExtPluginConfigurationForm.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/form/doctrine/PluginConfirmationLogForm.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/helper/opConfirmationLogHelper.php" role="data" />
+	<file baseinstalldir="/" name="lib/helper/opMemberExtHelper.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/opMICConfirmationLog.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/opMICGadgetsConfig.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLog.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLogTable.class.php" role="data" />
+	<file baseinstalldir="/" name="web/css/member_list.css" role="data" />
+	<file baseinstalldir="/" name="web/css/stats.css" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.actrels.gr.js" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.stgrbar.gr.js" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>

@@ -16,3 +16,6 @@ smtCreateSuccess:
 
 smtEditSuccess:
   layout: smtLayoutGroup
+
+smtShowSuccess:
+  layout: smtLayoutGroup

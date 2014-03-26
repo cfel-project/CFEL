@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/*******************************************************************************
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM Corporation - initial API and implementation
+ *******************************************************************************/
+
+.member_entry_container{
+	padding:.5em;
+	border: solid .1em #b3ada0;
+	border-radius: .2em;
+	margin: .3em;
+}
+
+.sheet_float{
+	position:relative;
+}
+
+.sheet_float:before,
+.sheet_float:after{
+	-webkit-box-shadow: 0 .6em .4em rgba(0,0,0,.7);
+	-moz-box-shadow: 0 .6em .4em rgba(0,0,0,.7);
+	box-shadow: 0 .6em .4em rgba(0,0,0,.7);
+	position: absolute;
+	bottom: .6em;
+	z-index: -1;
+	width: 50%;
+	height: 20%;
+	content: "";
+	background: rgba(0,0,0,.7);
+}
+.sheet_float:after{
+	-webkit-transform: rotate(2deg);
+	-moz-transform: rotate(2deg);
+	-o-transform: rotate(2deg);
+	right: .4em;
+	left: auto;
+}
+
+.sheet_float:before{
+	-webkit-transform: rotate(-2deg);
+	-moz-transform: rotate(-2deg);
+	-o-transform: rotate(-2deg);
+	right:auto;
+	left: .4em;
+}
+
+.member_entry_header{
+	float:left;
+	width:7em;
+}
+.member_entry_header img.profile{
+	width:7em;
+	height:7em;
+	border-radius: .5em;
+}
+
+.member_entry_detail{
+	margin-left:7em;
+	padding: .5em;
+	position:relative;
+}
+
+.member_speechbubble{
+	width:auto;
+	position:relative;
+	padding:.3em;
+	margin:.2em .8em;
+	border:solid .1em #698aab;
+	-webkit-border-radius:.5em;
+	-moz-border-radius:.5em;
+	border-radius:.5em;
+
+	-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+
+	background:#fffffc;
+	color:#494a41;
+}
+.member_speechbubble:before{
+	content:"";
+	position:absolute;
+	top:13px;
+	border-width:0 .7em .7em 0;
+	border-style:solid;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+/*top:after*/
+	left:-.7em; /* value = - border-top-width - border-bottom-width */
+	bottom:auto;
+
+	border-color:transparent #698aab;	
+
+}
+.member_speechbubble:after{
+	content:"";
+	position:absolute;
+	top:14px;
+	border-width:0 .6em .6em 0;
+	border-style:solid;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+
+	left:-.5em; /* value = - border-top-width - border-bottom-width */
+	bottom:auto;
+
+	border-color:transparent #fffffc;	
+
+}
+.stats_container,
+.introduction{
+	padding: .2em .4em;
+}
+
+.introduction.nocontents{
+	color: #a3a3a2;
+
+}
+.confirmation_stats.nocontents{
+	color: #b7282e;
+}
+
+.stat_fine,
+.stat_bad{
+	padding:.1em .4em;
+	border-radius: .3em;
+	color:white;
+}
+.stat_fine{
+	background-color:#007bbb;
+}
+.stat_bad{
+	background-color:#b7282e;
+}

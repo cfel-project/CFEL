@@ -43,13 +43,19 @@ class opMICBridgePluginConfigurationForm extends BaseForm{
 		$this->setValidator('db_pass', new sfValidatorString(array('required' => false, 'trim' => true)));
 		$this->widgetSchema->setLabel('db_pass', 'Database Password');
 		$this->widgetSchema->setHelp('db_pass', 'set database password here');
+
+		$this->setWidget('el_base', new sfWidgetFormInput());
+		$this->setDefault('el_base', Doctrine::getTable('SnsConfig')->get('op_micbridge_plugin_el_base', '/el'));
+		$this->setValidator('el_base', new sfValidatorString(array('required' => false, 'trim' => true)));
+		$this->widgetSchema->setLabel('el_base', 'Eld-Land Application Base');
+		$this->widgetSchema->setHelp('el_base', 'set Eld-Land Application Base URL here.');
 		
 		$this->widgetSchema->setNameFormat('op_micbridge_plugin[%s]');
 	}
 	
 	public function save(){
 //		parent::save();
-		$names = array("db_host", "db_name", "db_user", "db_pass");
+		$names = array("db_host", "db_name", "db_user", "db_pass", "el_base");
 		foreach($names as $name){
 			if(!is_null($this->getValue($name))){
 				Doctrine::getTable("SnsConfig")->set("op_micbridge_plugin_".$name, $this->getValue($name));

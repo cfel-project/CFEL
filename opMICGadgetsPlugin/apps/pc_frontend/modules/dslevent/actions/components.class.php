@@ -175,4 +175,8 @@ class dsleventComponents extends sfComponents{
 		$this->setEventNotificationSendParam($request);
 		return sfView::SUCCESS;
 	}
+
+	public function executeComEventDelCofirmFix(sfWebRequest $request){
+		return sfView::SUCCESS;
+	}
 }

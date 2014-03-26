@@ -48,4 +48,17 @@ class communityEvent2Actions extends opCommunityTopicPluginEventActions{
 		$this->form = new CommunityEventForm($this->communityEvent);
 		return sfView::SUCCESS;
 	}
+	public function executeDelete(sfWebRequest $request){
+		$request->checkCSRFProtection();
+		$this->forward404Unless($this->communityEvent->isEditable($this->getUser()->getMemberId()));
+		$eventId = $this->communityEvent->getId();
+		$this->communityEvent->delete();
+		$activity = Doctrine::getTable('ActivityData')->findOneByUri("@communityEvent_show?id=".$eventId);
+		if($activity && $activity->getMemberId() === $this->getUser()->getMemberId()){
+			$activity->delete();
+		}
+
+		$this->getUser()->setFlash("notice", "The %community% event was deleted successfully.");
+		$this->redirect("@dslevent_list_community?id=".$this->community->getId());
+	}
 }

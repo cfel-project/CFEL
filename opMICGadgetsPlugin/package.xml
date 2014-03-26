@@ -40,6 +40,7 @@ Gadget plugins for MIC project
  <contents>
   <dir baseinstalldir="/" name="/">
 	<file baseinstalldir="/" name="epl-v10.html" role="data" />
+	<file baseinstalldir="/" name="apps/api/config/routing.yml" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/activityext/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/activityext/config/filters.yml" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dslevent/actions/actions.class.php" role="data" />
@@ -48,9 +49,13 @@ Gadget plugins for MIC project
 	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/getEditLinkSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/reportEventSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dslevent/templates/searchSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dsltopic/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dsltopic/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dsltopic/templates/deleteSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICGadgetsPlugin/templates/indexSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/config/routing.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/security.yml" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent/config/view.yml" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityEvent2/actions/actions.class.php" role="data" />
@@ -69,12 +74,17 @@ Gadget plugins for MIC project
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/newSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtEditSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtNewSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtShowSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/smtTopicFormFix.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/communityTopic2/templates/__addPDFAttachment.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/actions/components.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddFilePickButton.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtAddPictureButton.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_smtFilePicker.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcam/templates/_takePicture.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcommunity/actions/components.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcommunity/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslcommunity/templates/_overrideCommunityHome.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/actions/components.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/config/security.yml" role="data" />
@@ -83,6 +93,7 @@ Gadget plugins for MIC project
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/listSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListCommunitySuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/smtListSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventDelCofirmFix.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventFormFix.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_comEventShowFix.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslevent/templates/_communityEventSummary.php" role="data" />
@@ -123,7 +134,6 @@ Gadget plugins for MIC project
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideInformationBox.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideTimeline.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_overrideTimeline_common.php" role="data" />
-	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtEmbedYoutube.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideComments.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideInformationBox.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/dslstyle/templates/_smtOverrideStyles.php" role="data" />
@@ -145,9 +155,15 @@ Gadget plugins for MIC project
 	<file baseinstalldir="/" name="config/smartphone_footer_gadget.yml" role="data" />
 	<file baseinstalldir="/" name="config/smartphone_gadget.yml" role="data" />
 	<file baseinstalldir="/" name="config/smartphone_profile_gadget.yml" role="data" />
+	<file baseinstalldir="/" name="config/doctrine/schema.yml" role="data" />
 	<file baseinstalldir="/" name="i18n/messages.ja.xml" role="data" />
+	<file baseinstalldir="/" name="lib/filter/doctrine/PluginCommunityTopicPDFFormFilter.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/form/opMICGadgetsPluginConfigurationForm.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/form/doctrine/PluginCommunityTopicPdfForm.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/opMICGadgetsConfig.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/doctrine/PluginCommunityTopicPdf.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/model/doctrine/PluginCommunityTopicPdfTable.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/util/opMICGadgetsUtil.class.php" role="data" />
 	<file baseinstalldir="/" name="web/css/comments_override.css" role="data" />
 	<file baseinstalldir="/" name="web/css/communitytopic_form_fix.css" role="data" />
 	<file baseinstalldir="/" name="web/css/community_topic_list_fix.css" role="data" />

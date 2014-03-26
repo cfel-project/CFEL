@@ -40,10 +40,19 @@ Gadget plugins for MIC project
  <contents>
   <dir baseinstalldir="/" name="/">
 	<file baseinstalldir="/" name="epl-v10.html" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/elmember/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/elmember/config/filters.yml" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/imgexf/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/imgexf/config/filters.yml" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICBridgePlugin/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICBridgePlugin/templates/indexSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/config/security.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/config/view.yml" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/templates/elframeSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/templates/elframeSuccess_common.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/templates/ellinkSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/el/templates/smtElframeSuccess.php" role="data" />
 	<file baseinstalldir="/" name="lib/form/opMICBridgePluginConfigurationForm.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/opMICBridgeConfig.class.php" role="data" />
   </dir>

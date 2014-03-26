@@ -1,0 +1,4 @@
+topic_pdf:
+  url: /d_topic/dl.pdf
+  param: { module: dsltopic, action: pdf, sf_format: pdf }
+  requirements: { sf_method: [get] }

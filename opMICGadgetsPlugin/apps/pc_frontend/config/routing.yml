@@ -26,6 +26,15 @@ dsl_edittopic_override:
     sf_method: [get]
   options: { model: CommunityTopic, type: object}
 
+dsl_showtopic_override:
+  url: /d_topic/:id
+  class: sfDoctrineRoute
+  param: { module: communityTopic2, action: show}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: CommunityTopic, type: object, privilege: view}
+
 dsl_updatetopic_override:
   url: /d_topic/update/:id
   class: sfDoctrineRoute
@@ -61,6 +70,24 @@ dsl_createtopic_override:
     id: \d+
     sf_method: [post]
   options: { model: Community, type: object}
+
+dsl_downloadpdf:
+  url: /d_topic/pdf/:id
+  class: sfDoctrineRoute
+  param: {module: communityTopic2, action: pdfDownload}
+  requirements:
+    id: \d+
+    sf_metod: [get]
+  options: {model: CommunityTopic, type: object, privilege: view}
+
+dslevent_list_community:
+  url: /d_event/listCommunity/:id
+  class: sfDoctrineRoute
+  param: {module: dslevent, action: listCommunity}
+  requirements:
+    id: \d+
+    sf_method: [get]
+  options: { model: Community, type: object }
 
 dsl_editevent_override:
   url: /d_event/edit/:id
@@ -106,3 +133,12 @@ dsl_showevent_override:
     id: \d+
     sf_method: [get]
   options: { model: CommunityEvent, type: object}
+
+dsl_deleteevent_override:
+  url: /d_event/delete/:id
+  class: sfDoctrineRoute
+  param: {module: communityEvent2, action delete}
+  requirements:
+    id: \d+
+    sf_method: [post]
+  options: { model: CommunityEvent, type: object, privilege: edit}

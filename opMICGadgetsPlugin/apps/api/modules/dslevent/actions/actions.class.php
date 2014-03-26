@@ -157,6 +157,11 @@ class dsleventActions extends opJsonApiActions{
 		$this->forward404Unless($this->communityEvent->isEditable($this->member->getId()));
 		$this->communityEvent->delete();
 
+		$activity = Doctrine::getTable('ActivityData')->findOneByUri("@communityEvent_show?id=".$eventId);
+		if($activity && $activity->getMemberId() === $this->getUser()->getMemberId()){
+			$activity->delete();
+		}
+
 		$this->communityId = $this->communityEvent->getCommunity()->getId();
 	}
 }

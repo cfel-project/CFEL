@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,13 +20,23 @@ $(document).ready(function(){
 	var __support_date_input = ("date" == $("<input type='date'/>")[0].type);
 	var __support_time_input = ("time" == $("<input type='time'/>")[0].type);
 
+	var __today = moment(new Date()).startOf("day");
+
 	function overrideDateField(src, trg, olistener){
 		src.appendTo(trg.parent().wrapInner("<span style='display:none;'/>"))
 		.change(function(){
-			var dtelems = $(this).val().split("-");
-			olistener["year"].val(1 * dtelems[0]);
-			olistener["month"].val(1 * dtelems[1]);
-			olistener["day"].val(1 * dtelems[2]);
+			if(moment($(this).val(), "YYYY-MM-DD")){
+				var picker_id = "datepick_error" + olistener["day"].attr(name);
+				$("#" + picker_id).remove();
+				if(0 > moment($(this).val(), "YYYY-MM-DD").diff(__today)){
+					$(this).before('<div id="datepick_error' + olistener["day"].attr(name) + '" class="error"><ul class="error_list"><li>日付は本日以後にして下さい。</li></ul></div>');
+				}else{
+					var dtelems = $(this).val().split("-");
+					olistener["year"].val(1 * dtelems[0]);
+					olistener["month"].val(1 * dtelems[1]);
+					olistener["day"].val(1 * dtelems[2]);
+				}
+			}
 		});
 		var oy = olistener["year"].val();
 		var om = olistener["month"].val();

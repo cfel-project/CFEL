@@ -28,4 +28,7 @@ class opMICBridgeConfig{
 	public static function getDBPass(){
 		return Doctrine::getTable("SnsConfig")->get("op_micbridge_plugin_db_pass", "password");
 	}
+	public static function getEldLandBaseUrl(){
+		return Doctrine::getTable("SnsConfig")->get("op_micbridge_plugin_el_base", "/el");
+	}
 }
