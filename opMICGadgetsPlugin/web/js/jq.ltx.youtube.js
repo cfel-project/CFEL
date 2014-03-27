@@ -3,7 +3,7 @@ $.fn.dsl_src_protocol_fix = function(options){
 	return $(this).each(function(){
 		var rexp = /((?:http|https):\/\/[^\s^<]+)/g;
 		if (rexp.test($(this).attr("src"))) {
-			$(this).attr("src",$(this).attr("src").replace(/^(http|https):\/\//,"//"));
+			$(this).attr("src",$(this).attr("src").replace(/^(http|https):\/\//,"//").replace(/#t=/,"?start="));
 			$(this).replaceWith(this.outerHTML);
 		}
     });
@@ -24,7 +24,7 @@ $.fn.dsl_youtube_link_replace = function(options){
 			var width = options.width || $(this).innerWidth();
 			var height = options.height || Math.floor(width * 3 / 4);
 			
-			$(this).replaceWith("<iframe width=\"" + width + "\" height=\"" + height + "\" src=\"" + $(this).attr("href").replace(ryoutube, "//www.youtube.com/embed/$1") + "\" frameborder=\"0\" allowfullscreen></iframe>");
+			$(this).replaceWith("<iframe width=\"" + width + "\" height=\"" + height + "\" src=\"" + $(this).attr("href").replace(ryoutube, "//www.youtube.com/embed/$1").replace(/#t=/,"?start=") + "\" frameborder=\"0\" allowfullscreen></iframe>");
 		}
 	});
 };
