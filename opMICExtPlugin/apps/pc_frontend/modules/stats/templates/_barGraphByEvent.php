@@ -34,10 +34,6 @@ use_javascript('/opMICExtPlugin/js/jq.stgrbar.gr.js', 'last');
 		<label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
 		<label><input type="checkbox" name="loadonly"> Load Only</label>
 		<label><select class="cluster_option">
-			<option value="by_device" selected>デバイス</option>
-			<option value="by_member">メンバー</option>
-			<option value="by_lecture">講習会</option>
-			<option value="by_path">ページ</option>
 		</select></label>
 		<div class="logstat_container">
 			読み込み中...
@@ -66,35 +62,47 @@ $(document).ready(function(){
 	var __id = "bargraph_by_event_<?php echo $gadget->id ?>";
 	var __last_data = <?php echo json_encode($data)?>;
 
-	var __gr_we = [11,12,13,14,15,16,17,18,21,22,23,27,30,31];
-	var __gr_wd = [9,10,13,14,19,20,24,25,26,27,28,29];
+	var __gr_path_topic = ["d_topic", "communityTopic"];
+	var __gr_path_event = ["d_event", "dslevent", "communityEvent"];
 
-	var __cluster_map = {
-		"by_device" : function(d){
+	var __clusters = $.merge([{
+		"id": "by_device",
+		"name": "デバイス",
+		"map": function(d){
 			return d["event"].match(/_smt$/) ? "tablet" : "pc";
-		},
-		"by_member": function(d){
-			return d["member_id"];
-		},
-		"by_lecture": function(d){
-			var id = 1 * d["member_id"];
-
-			if(1 < id && 9 > id){
-				return "ict";
-			}else if(59 < id && 78 > id){
-				return "2nd";
-			}else if(-1 != $.inArray(id, __gr_we) || /*){
-				return "weekend";
-			}else if(*/ -1 != $.inArray(id, __gr_wd)){
-				return "1st";
-			}else{
-				return "other";
-			}
-		},
-		"by_path": function(d){
-			return d["path"].replace(/^\//,"").replace(/\/.*/,"");
 		}
-	};
+	},{
+		"id": "by_member",
+		"name": "メンバー",
+		"map": function(d){
+			return d["member_id"];
+		}
+	},{
+		"id": "by_path",
+		"name": "ページ",
+		"map": function(d){
+			var path = d["path"].replace(/^\//,"").replace(/\/.*/,"");
+			if(-1 != $.inArray(path, __gr_path_topic)){
+				return "topic";
+			}else if(-1 != $.inArray(path, __gr_path_event)){
+				return "event";
+			}else{
+				return path;
+			}
+		}
+	}], [<?php echo opMICExtConfig::getBargraphCluserExt() ?>]);
+
+	var __cluster_map = {};
+	$.each(__clusters, function(){
+		__cluster_map[this.id] = this.map;
+		$("#" + __id + " .cluster_option").append([
+			"<option value='",
+			this.id,
+			"'>",
+			this.name,
+			"</option>"
+		].join(""));
+	});
 
 	var container = $("#" + __id + " .logstat_container");
 	var e_load_only =  $("#" + __id + " input[name='loadonly']").on("change", function(){

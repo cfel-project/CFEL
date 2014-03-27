@@ -20,12 +20,18 @@ class opMICExtPluginConfigurationForm extends BaseForm{
 		$this->widgetSchema->setLabel('d3_url', 'Location of d3.js');
 		$this->widgetSchema->setHelp('d3_url', 'Please set URL of d3.js');
 
+		$this->setWidget('brgr_cls_ext', new sfWidgetFormInput());
+		$this->setDefault('brgr_cls_ext', Doctrine::getTable('SnsConfig')->get('op_micext_plugin_brgr_cls_ext', ''));
+		$this->setValidator('brgr_cls_ext', new sfValidatorString(array('required' => false, 'trim' => true)));
+		$this->widgetSchema->setLabel('brgr_cls_ext', 'Bar graph cluster func extension');
+		$this->widgetSchema->setHelp('brgr_cls_ext', 'Set bar graph cluster objects in JSON format (without outer [] clause');
+
 		$this->widgetSchema->setNameFormat('op_micext_plugin[%s]');
 	}
 	
 	public function save(){
 //		parent::save();
-		$names = array("d3_url");
+		$names = array("d3_url", "brgr_cls_ext");
 		foreach($names as $name){
 			if(!is_null($this->getValue($name))){
 				Doctrine::getTable("SnsConfig")->set("op_micext_plugin_".$name, $this->getValue($name));

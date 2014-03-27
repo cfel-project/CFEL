@@ -19,6 +19,7 @@
 
 .sheet_float{
 	position:relative;
+	background-color:white;
 }
 
 .sheet_float:before,
