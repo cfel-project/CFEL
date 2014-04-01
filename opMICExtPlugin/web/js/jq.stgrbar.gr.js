@@ -10,12 +10,11 @@ var __fn_ev_load_filter = function(d){
 $.fn.stgr_bar_graph = function(odata, options){
 	options = options || {};
 	var margin = options.margin || __margin,
-	container = $(this),
-	width = (options.width || container.width()) - margin.left -margin.right,
-	height = (options.height || container.height()) - margin.top - margin.bottom;
+	width = (options.width || this.width()) - margin.left -margin.right,
+	height = (options.height || this.height()) - margin.top - margin.bottom;
 
 	//update
-	container.empty();
+	this.empty();
 	if(odata.length){
 		var __time_min = odata[0]["time"];
 		var __time_max = odata[odata.length - 1]["time"];
@@ -68,7 +67,7 @@ $.fn.stgr_bar_graph = function(odata, options){
 			.orient("left")
 			.tickFormat(d3.format(".2s"));
 
-		var svg = d3.select(container[0]).append("svg")
+		var svg = d3.select(this[0]).append("svg")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
 			.append("g")
@@ -158,6 +157,6 @@ $.fn.stgr_bar_graph = function(odata, options){
 			.style("text-anchor", "end")
 			.text(function(d){return label_legend[d];});
 	}
-	return container;
+	return this;
 };
 })(jQuery);

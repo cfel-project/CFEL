@@ -11,7 +11,8 @@
  *******************************************************************************/
 use_stylesheet('/opMICExtPlugin/css/stats.css', 'last');
 include_component("stats", "barGraphByEvent");
-include_component("stats", "streamGraphByUrl");
+include_component("stats", "activitiesByDate");
+//include_component("stats", "streamGraphByUrl");
 ?>
 <script type="text/javascript">
 //<![CDATA[

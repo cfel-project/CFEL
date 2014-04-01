@@ -48,6 +48,10 @@ Extensional plugins for MIC project
 	<file baseinstalldir="/" name="apps/api/modules/ping/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/ping/config/filters.yml" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/ping/templates/searchSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/stats/actions/actions.class.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/stats/config/filters.yml" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/stats/templates/activitiesByDateSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/stats/templates/activityRelationsSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICExtPlugin/actions/actions.class.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opMICExtPlugin/templates/indexSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/config/routing.yml" role="data" />
@@ -73,6 +77,7 @@ Extensional plugins for MIC project
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/pageActivitySuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/smtUserRelationsSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/userRelationsSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_activitiesByDate.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_barGraphByEvent.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_relationsByActivity.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_smtRelationsByActivity.php" role="data" />
@@ -92,8 +97,10 @@ Extensional plugins for MIC project
 	<file baseinstalldir="/" name="lib/model/opMICGadgetsConfig.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLog.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLogTable.class.php" role="data" />
+	<file baseinstalldir="/" name="lib/util/opMICExtUtil.class.php" role="data" />
 	<file baseinstalldir="/" name="web/css/member_list.css" role="data" />
 	<file baseinstalldir="/" name="web/css/stats.css" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.actdts.gr.js" role="data" />
 	<file baseinstalldir="/" name="web/js/jq.actrels.gr.js" role="data" />
 	<file baseinstalldir="/" name="web/js/jq.stgrbar.gr.js" role="data" />
   </dir>

@@ -17,6 +17,7 @@ op_smt_use_javascript(opMICExtConfig::getD3URL(), 'last', array(
 	"raw_name" => true,
 ));
 op_smt_use_javascript('/opMICExtPlugin/js/jq.actrels.gr.js', 'last');
+op_smt_use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
 ?>
 <style type="text/css">
 .link {
@@ -35,6 +36,30 @@ op_smt_use_javascript('/opMICExtPlugin/js/jq.actrels.gr.js', 'last');
 }
 
 </style>
+<style type="text/css">
+.area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+
+.axis{
+	font-size:8px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+</style>
 
 <div class="dparts rel_by_activity" id="rel_by_activity_<?php echo $gadget->id ?>">
 	<div class="row">
@@ -45,46 +70,74 @@ op_smt_use_javascript('/opMICExtPlugin/js/jq.actrels.gr.js', 'last');
 	<div class="logstat_container">
 		読み込み中...
 	</div>
+	<div class="act_by_date_container">
+		読み込み中...
+	</div>
 </div>
-
-<?php 
-$nodes = array();
-if(count($members)){
-	foreach($members as $member){
-		$nodes[] = array(
-			"id" => $member["id"],
-			"count" => $member["count"],
-			"name" => $member["name"],
-			"image" => (empty($member["image"]) ? op_image_path("no_image.gif", true) : sf_image_path($member["image"], array("size" => "48x48"))),
-			"prof_url" => app_url_for('pc_frontend', array('sf_route' => 'obj_member_profile', 'id' => $member["id"]), true),
-		);
-	}
-}
-$links = array();
-if(count($relations)){
-	foreach($relations as $relation){
-		$links[] = array(
-			"src" => $relation["src"],
-			"trg" => $relation["trg"],
-			"count" => $relation["count"],
-		);
-	}
-}
-$data = array(
-	"nodes" => $nodes,
-	"links" => $links,
-);
-?>
-
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready(function(){
 	var __id = "rel_by_activity_<?php echo $gadget->id ?>";
-	var __data = <?php echo json_encode($data)?>;
+	var __params = $.extend({},{apiKey: openpne.apiKey},<?php echo htmlspecialchars_decode($prmsjson)?>);
 
-	$("#" + __id + " .logstat_container")
-	 .css("height", ($(window).height() - $("#" + __id + " .gadget_header").offset().top - $("#" + __id + " .gadget_header").height() ) + "px")
-	 .actrel_fr_graph(__data);
+	var _rel_graph = null;
+	var _in_flight = false;
+	function __update_rel_graph(prms){
+		_in_flight = true;
+		$.getJSON(openpne.apiBase + "stats/activityRelations",
+			$.extend({}, __params, prms))
+		 .success(function(json){
+			_in_flight = false;
+			if(!_rel_graph){
+				_rel_graph = $("#" + __id + " .logstat_container")
+				 .css("height", ($(window).height() - $("#" + __id + " .gadget_header").offset().top - $("#" + __id + " .gadget_header").height() -60) + "px")
+				 .actrel_fr_graph({data: json});
+			}else{
+				_rel_graph.actrel_fr_graph_update(json);
+			}
+		})
+		 .error(function(xhr, message, error){
+			_in_flight = false;
+			$("#" + __id + " .logstat_container").empty().html("エラー: "+message + " - " + error);
+		});
+	}
+	__update_rel_graph();
+
+	var _brush_timeout = null;
+	$.getJSON(openpne.apiBase + "stats/activitiesByDate",
+		__params)
+	 .success(function(json){
+		if(json.num && json.data){
+			$("#" + __id + " .act_by_date_container")
+			 .css("height", "60px")
+			 .actdts_ar_graph(json.data,{
+				margin: {left:5,right:5, bottom:18},
+				tickSize: 2,
+				no_yaxis: true,
+				dt_range:[new Date()],
+				on_brush: function(extent){
+					if(_rel_graph && !_in_flight){
+						if(_brush_timeout){
+							clearTimeout(_brush_timeout);
+							_brush_timeout = null;
+						}
+						_brush_timeout = setTimeout(function(){
+							_brush_timeout = null;
+							__update_rel_graph(extent[0].getTime() < extent[1].getTime() ? {
+								start: extent[0].getTime(),
+								end: extent[1].getTime()
+							} : undefined);
+						},400);
+					}
+				}
+			});
+		}else{
+			$("#" + __id + " .act_by_date_container").empty().html("データがありません");
+		}
+	})
+	 .error(function(xhr, message, error){
+		$("#" + __id + " .act_by_date_container").empty().html("エラー: "+message + " - " + error);
+	});
 
 });
 
