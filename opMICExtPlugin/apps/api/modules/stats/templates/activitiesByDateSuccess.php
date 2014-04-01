@@ -9,13 +9,18 @@
  * Contributors:
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
-use_stylesheet('/opMICExtPlugin/css/stats.css', 'last');
-include_component("stats", "barGraphByEvent");
-include_component("stats", "activitiesByDate");
-//include_component("stats", "streamGraphByUrl");
-?>
-<script type="text/javascript">
-//<![CDATA[
-window["__dsl_disable_page_logger"] = true;
-//]]>
-</script>
+use_helper("Javascript", "opUtil", "opAsset");
+$data = array();
+if(count($results)){
+	foreach($results as $result){
+		$data[] = array(
+			"time" => strtotime($result["date"]),
+			"count" => $result["count"],
+		);
+	}
+}
+return array(
+	"status" => "success",
+	"num" => count($results),
+	"data" => $data
+);

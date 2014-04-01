@@ -9,13 +9,18 @@
  * Contributors:
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
-use_stylesheet('/opMICExtPlugin/css/stats.css', 'last');
-include_component("stats", "barGraphByEvent");
-include_component("stats", "activitiesByDate");
-//include_component("stats", "streamGraphByUrl");
-?>
-<script type="text/javascript">
-//<![CDATA[
-window["__dsl_disable_page_logger"] = true;
-//]]>
-</script>
+
+class statsActions extends opJsonApiActions{
+	public function preExecute(){
+		parent::preExecute();
+		$this->member = $this->getUser()->getMember();
+	}
+
+	public function executeActivityRelations(sfWebRequest $request){
+		$this->result = opMICExtUtil::getActivityStatsAndRelations($request);
+	}
+
+	public function executeActivitiesByDate(sfWebRequest $request){
+		$this->results = opMICExtUtil::getActivitiesByDate($request);
+	}
+}
