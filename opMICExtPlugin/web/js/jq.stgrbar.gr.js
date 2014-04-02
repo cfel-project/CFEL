@@ -16,8 +16,8 @@ $.fn.stgr_bar_graph = function(odata, options){
 	//update
 	this.empty();
 	if(odata.length){
-		var __time_min = odata[0]["time"];
-		var __time_max = odata[odata.length - 1]["time"];
+		var __extent = d3.extent(odata.map(function(d){return d["time"];}));
+		var __time_min = __extent[0], __time_max = __extent[1];
 
 		var __map = {};
 		var n = 0;

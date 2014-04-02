@@ -16,6 +16,7 @@ use_javascript(opMICExtConfig::getD3URL(), 'last', array(
 	"raw_name" => true,
 ));
 use_javascript('/opMICExtPlugin/js/jq.stgrbar.gr.js', 'last');
+use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
 ?>
 <style type="text/css">
 .axis path, .axis line{
@@ -38,6 +39,8 @@ use_javascript('/opMICExtPlugin/js/jq.stgrbar.gr.js', 'last');
 		<div class="logstat_container">
 			読み込み中...
 		</div>
+		<div class="context_container">
+		</div>
 	</div>
 </div>
 <?php
@@ -51,7 +54,7 @@ if(count($results)){
 			"event" => $result["event"],
 			"path" => str_replace($root, "/", preg_replace($regexp, "", $result["url"])),
 			"time" => strtotime($result["date"]),
-			"count" => $result["count"],
+			"count" => 1 * $result["count"],
 		);
 	}
 }
@@ -60,7 +63,8 @@ if(count($results)){
 //<![CDATA[
 $(document).ready(function(){
 	var __id = "bargraph_by_event_<?php echo $gadget->id ?>";
-	var __last_data = <?php echo json_encode($data)?>;
+	var __org_data = <?php echo json_encode($data)?>;
+	var __last_data = __org_data.map(function(d){return d;});
 
 	var __gr_path_topic = ["d_topic", "communityTopic"];
 	var __gr_path_event = ["d_event", "dslevent", "communityEvent"];
@@ -113,19 +117,61 @@ $(document).ready(function(){
 		__update();
 	});
 
-	function __update(){
+	var __bar_focus = null;
+	function __update(data){
 		var __load_only = e_load_only.attr("checked");
-		container.stgr_bar_graph(__last_data, {
+		__bar_focus = container.stgr_bar_graph(__last_data = (data || __last_data), {
 			color_range:["#2a4073", "#f8b862"],
+			margin:{top:40, right:40, bottom:20, left:40},
 			height:400,
 			fn_filter: __load_only ? function(d){
 				return d["event"].match(/^load/);
 			} : undefined,
 			fn_cluster: __cluster_map[e_clustoer_sel.val()]
 		});
+		
 	}
 	__update();
 
+	function _convert_count_by_date(data){
+		var __dt_map = {};
+		data.forEach(function(d){
+			if(!__dt_map["" + d.time]){
+				__dt_map["" + d.time] = 0;
+			}
+			__dt_map["" + d.time] += d.count;
+		});
+		var ret = [];
+		for(var k in __dt_map){
+			ret.push({
+				time: 1 * k,
+				count: 1 * __dt_map[k]
+			});
+		}
+		return ret;
+	}
+	function _load_context(data){
+		$("#" + __id + " .context_container")
+			.actdts_ar_graph(_convert_count_by_date(data),{
+				dt_range:[moment().eod().toDate()],
+				no_yaxis: true,
+				margin:{top:10, right:40, bottom:20, left:65},
+				height: 80,
+				on_brush: function(extent){
+					if(extent && extent.length > 1){
+						var __tm_min = extent[0].getTime() / 1000, __tm_max = extent[1].getTime() / 1000;
+						if(__tm_min < __tm_max){
+							__update(__org_data.filter(function(d){
+								return d["time"] >= __tm_min && d["time"] <= __tm_max;
+							}));
+						}else{
+							__update(__org_data);
+						}
+					}
+				}
+			});
+	}
+	_load_context(__last_data);
 });
 
 //]]>
