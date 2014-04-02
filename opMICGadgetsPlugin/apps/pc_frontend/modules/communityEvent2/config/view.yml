@@ -16,3 +16,43 @@ smtCreateSuccess:
 
 smtEditSuccess:
   layout: smtLayoutGroup
+
+newSuccess:
+  customize:
+    eventFormFix:
+      template: [dslevent, comEventFormFix]
+      parts: [formCommunityEvent]
+      target: [after]
+      is_component: true
+
+createSuccess:
+  customize:
+    eventFormFix:
+      template: [dslevent, comEventFormFix]
+      parts: [formCommunityEvent]
+      target: [after]
+      is_component: true
+
+editSuccess:
+  customize:
+    eventFormFix:
+      template: [dslevent, comEventFormFix]
+      parts: [formCommunityEvent]
+      target: [after]
+      is_component: true
+
+showSuccess:
+  customize:
+    eventShowFix:
+      template: [dslevent, comEventShowFix]
+      parts: [communityEvent]
+      target: [after]
+      is_component: true
+
+deleteConfirmSuccess:
+  customize:
+    deleteConfirmFix:
+      template: [dslevent, comEventDelCofirmFix]
+      parts: [deleteConfirmForm]
+      target: [after]
+      is_component: true

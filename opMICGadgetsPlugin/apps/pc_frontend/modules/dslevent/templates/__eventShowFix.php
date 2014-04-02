@@ -14,7 +14,13 @@
 use_javascript("/opMICGadgetsPlugin/js/jq.event_fix.js", "last");
 ?>
 <script type="text/javascript">
+//<![CDATA[
 $(document).ready(function(){
+	$("#linkLine a").each(function(){
+		$(this).attr("href", $(this).attr("href").replace(/\/community\//, "/dslevent/listCommunity/")<?php echo (!empty($communityEvent) ? " + '#eventlist__strt=".strtotime($communityEvent[open_date])."000'" : "")?> );
+		$(this).html("イベント一覧");
+	});
+
 	var __fix_design = function(){
 		$("#communityEvent .parts table tbody tr:eq(3) th").text("予約区分");
 	};
@@ -82,5 +88,6 @@ $(document).ready(function(){
 	
 	__fix_design();
 });
+//]]>
 </script>
 <?php endif; ?>
