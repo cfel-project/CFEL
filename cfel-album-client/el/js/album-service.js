@@ -17,6 +17,11 @@ var cfelService = {
 	serviceRoot : "/el_api/cfel-web-service/",
 
 	getPhotoList : function(findOptions, callback) {
+		findOptions.query = findOptions.query || {
+			"removed" : {
+				"$ne" : true
+			}
+		};
 		var options = {
 			type : "GET",
 			headers : {

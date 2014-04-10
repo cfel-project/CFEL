@@ -12,12 +12,17 @@
 <script type="text/javascript">  
 
 function view(type){
-	var pram=window.location.href;
-    var api=pram.split("#");
-    var key=api[1].split("=");
-    var apiKey=key[1];
-    //alert(apiKey);
-    var url = "https://please_replace_with_target_URL/web/api.php/elmember/search?apiKey="+apiKey;
+	//root_url#tkn=apiKey&base=location_url
+  var pram=window.location.href;
+	var temp = pram.split("&");
+  var api=temp[0].split("#");
+  var key=api[1].split("=");
+  var apiKey=key[1];
+  //alert(apiKey);
+	var base_temp=temp[1].split("=");
+	var base=base_temp[1];
+	//alert(base);
+  var url = base+"/elmember/search?apiKey="+apiKey;
   var ifm = document.getElementById("viewport"); //要素を表示する場所（親要素）
   for (var i =ifm.childNodes.length-1; i>=0; i--) {
     ifm.removeChild(ifm.childNodes[i]);
@@ -42,7 +47,7 @@ function view(type){
     var ele = document.getElementById('tab1');
     ele.style.color="#000000";
     ele.style.backgroundColor = "#00FFFF";
-    iframe.src="scene_view.html#apiKey="+apiKey;
+    iframe.src="season_view.html#apiKey="+apiKey+"&base="+base;
   }else if(type==2){
     var old1 = document.getElementById('tab1');
     old1.style.color="#ffffff";
@@ -59,7 +64,7 @@ function view(type){
     var ele = document.getElementById('tab2');
     ele.style.color="#000000";
     ele.style.backgroundColor = "#00FFFF";
-    iframe.src="event_view.html#apiKey="+apiKey;
+    iframe.src="history_view.html#apiKey="+apiKey+"&base="+base;
   }else if(type==3){
     var old1 = document.getElementById('tab1');
     old1.style.color="#ffffff";
@@ -76,7 +81,7 @@ function view(type){
     var ele = document.getElementById('tab3');
     ele.style.color="#000000";
     ele.style.backgroundColor = "#00FFFF";
-    iframe.src="annotation_map.html#apiKey="+apiKey;
+    iframe.src="annotation_map.html#apiKey="+apiKey+"&base="+base;
   }else if(type==4){
     var old1 = document.getElementById('tab1');
     old1.style.color="#ffffff";
@@ -94,7 +99,7 @@ function view(type){
     ele.style.color="#000000";
     ele.style.backgroundColor = "#00FFFF";
     iframe.height="800px";
-    iframe.src="annotation_movie.html#apiKey="+apiKey;
+    iframe.src="annotation_movie.html#apiKey="+apiKey+"&base="+base;
   }else if(type==5){
     var old1 = document.getElementById('tab1');
     old1.style.color="#ffffff";
@@ -111,7 +116,7 @@ function view(type){
     var ele = document.getElementById('tab5');
     ele.style.color="#000000";
     ele.style.backgroundColor = "#00FFFF";
-    iframe.src="annotation_quiz_view.html#apiKey="+apiKey;
+    iframe.src="annotation_quiz_view.html#apiKey="+apiKey+"&base="+base;
   } 
   ifm.appendChild(iframe); //子要素としてiframeを追加
 }
@@ -124,14 +129,14 @@ function view(type){
 
 <div class="menu" id="menubar">
   <ul>
-    <li><a onclick="view(1)"><div id="tab1"><font size="6"><b>風景</b></font></div></a></li>
-    <li><a onclick="view(2)"><div id="tab2"><font size="6"><b>イベント</b></font></div></a></li>
+    <li><a onclick="view(1)"><div id="tab1"><font size="6"><b>季節</b></font></div></a></li>
+    <li><a onclick="view(2)"><div id="tab2"><font size="6"><b>歴史</b></font></div></a></li>
     <li><a onclick="view(3)"><div id="tab3"><font size="6"><b>地図</b></font></div></a></li>
     <li><a onclick="view(4)"><div id="tab4"><font size="6"><b>スライド</font></div></a></li>
-    <li><a onclick="view(5)"><div id="tab5"><font size="6"><b>脳トレ</b></font></div></a></li>
+    <li><a onclick="view(5)"><div id="tab5"><font size="6"><b>整理</b></font></div></a></li>
   </ul>
 </div>
-<br><br><br>
+<br>
 <div id="viewport"></div>
 </body>
 </html>

@@ -76,7 +76,7 @@ padding: 0;
 
 .menu {
 	font-size: 1.5em;
-	width : auto; 
+	width : auto; /* liquid design*/
 	height : 70px;
 	background-color : midnightblue;
 }
@@ -84,7 +84,7 @@ padding: 0;
 .menu ul {
 	margin: 0;
 	padding: 0;
-	/*width: 700px; */
+	/*width: 700px; /* min width */
 }
 
 .menu li {
@@ -157,10 +157,10 @@ html,body{
 #overLayer{
     display: none;
     position: absolute;
-    margin: -200px 0 0 -500px;  
-    position: absolute;  
-    top: 50%;  
-    left: 50%;  
+    margin: -200px 0 0 -500px;  /*negative margin (half size)*/
+    position: absolute;  /*absolute to body*/
+    top: 50%;  /*center*/
+    left: 50%;  /*center*/
     width: 600px;  
     height: 400px; 
     padding:10px;
