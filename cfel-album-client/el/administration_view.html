@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="copyright"
+	content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html">
+<meta name="viewport" content="width=device-width">
+<title>アルバムから写真を除外する</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
+<style type="text/css">
+.image td:active {
+	background-color: inherit;
+}
+input:checked + label {
+	text-decoration: line-through;
+}
+button {
+	padding: 0.1em 0.5em;
+}
+#pageIndex, button, .removeLabel {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+input[type=checkbox] {
+	width: 2em;
+	height: 1.5em;
+}
+</style>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="css/development-bundle/themes/base/jquery-ui.css" media="all" />
+<script src="js/album-service.js"></script>
+<script type="text/javascript">
+var photo_cols = 4;
+var photo_rows = 2;
+var pram = window.location.href;
+var temp = pram.split("&");
+var api = temp[0].split("#");
+var key = api[1].split("=");
+var apiKey = key[1];
+var base_temp = temp[1].split("=");
+var base = base_temp[1];
+var url = base + "/elmember/search?apiKey=" + apiKey;
+
+var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+
+cfelService.apiKey = apiKey;
+
+// HTMLエスケープ - jQueryを使うと一行で書ける
+function escapeHTML(html) {
+	return jQuery('<div>').text(html).html();
+}
+
+function onload() {
+	$.ajax({
+		url : url,
+		type : 'GET',
+		dataType : 'json',
+		success : function(member) {
+			if (member && member.id) {
+				$.ajax({
+					url : "/el_api/cfel-web-service/cfel_service/is_administrator",
+					type : 'GET',
+					success : function(data) {
+						findPhotoByQuery({});
+					},
+					error : function() {
+						findPhotoByQuery({
+							"uploader_user_id" : member.id
+						});
+					}
+				});
+			} else {
+				$('#loading').hide();
+				$("#pageIndex").text("メンバー情報を取得できません");
+			}
+		},
+		error : function() {
+			$('#loading').hide();
+			$("#pageIndex").text("メンバー情報を取得できません");
+		}
+	});
+}
+
+var photo_length = photo_cols * photo_rows;
+var photo_start = 0;
+var photoList = [];
+
+function findPhotoByQuery(query) {
+	query["temporary_removed"] = {
+		"$ne" : true
+	};
+	cfelService.getPhotoList({
+		"query" : query,
+		"sort" : {
+			"_id" : -1
+		}
+	}, onPhotoList);
+}
+
+function onPhotoList(result) {
+	if (result.status == "success") {
+		photoList = result.data;
+		showPhoto(photo_start);
+	} else {
+		alert(result.status);
+	}
+	$('#loading').hide();
+	$("#glayLayer").click(function() {
+		$(this).hide();
+		$("#overLayer").hide();
+	});
+
+	$("#overLayer").click(function() {
+		$(this).hide();
+		$("#glayLayer").hide();
+	});
+
+	$("#prev").click(function() {
+		showPhoto(photo_start - photo_length);
+	});
+	$("#next").click(function() {
+		showPhoto(photo_start + photo_length);
+	});
+	showButon();
+}
+
+function showPhoto(start) {
+	start = Math.max(0, start);
+	photo_start = start;
+	showButon();
+	var end = Math.min(start + photo_length, photoList.length);
+	$("#table1").html("");
+	var tr = null;
+	var count = 0;
+	for ( var i = start; i < end; i++) {
+		var photo = photoList[i];
+		var oURL = photo.portal_image_url;
+		if (oURL.match(/photo/)) {
+			var url = oURL.replace("\/photo", "photo");
+			oURL = url;
+		}
+		var tURL = serviceRoot + photo.thumbnail_image_url;
+		var oTitle;
+		if (photo.annotation_title) {
+			oTitle = photo.annotation_title[photo.annotation_title.length - 1].title;
+		} else {
+			oTitle = photo.title || "タイトルなし";
+		}
+		var id = "removed_" + i;
+		var color = "#000000";
+		var title = '<div id="title"><font color="' + color + '"><b>' + escapeHTML(oTitle)
+				+ '</b></font></div>';
+		var check = '<div><input id="' + id + '" photo_index="' + i + '" type="checkbox"'
+				+ (photo.permanently_removed ? ' checked="checked"' : '') + '/><label class="removeLabel" for="' + id
+				+ '">除外する</label></input><br /><br /></div>';
+		var elm_td = document.createElement("td"); // td要素を生成
+		elm_td.innerHTML = '<a href="' + oURL + '" class="modal"><img src="' + tURL
+				+ '" width="200" height="200"/></a>' + check + title;
+		if (tr == null) {
+			tr = document.createElement("tr");
+			document.getElementById("table1").appendChild(tr);
+		}
+		tr.appendChild(elm_td); // tr要素にtd要素を追加
+		count++;
+		if (count % photo_cols == 0) {
+			tr = null;
+		}
+	}
+	$("a.modal").click(function() {
+		$("#glayLayer").show();
+		$("#overLayer").show().html('<img src="' + $(this).attr("href") + '"/>');
+		return false;
+	});
+	$("input[type='checkbox']").change(function(e) {
+		var elm = $(this);
+		var remove = elm.is(":checked");
+		var photo = photoList[elm.attr("photo_index")];
+		photo.permanently_removed = photo.removed = remove;
+		cfelService.updatePhoto(cfelService.getID(photo), {
+			"update" : {
+				"$set" : {
+					"permanently_removed" : remove,
+					"removed" : remove
+				}
+			}
+		});
+	});
+}
+
+function showButon() {
+	var prevEnabled = photoList && photoList.length && photo_start > 0;
+	var nextEnabled = photoList && photoList.length
+			&& photo_start + photo_length < photoList.length;
+	$("#prev").attr("disabled", !prevEnabled);
+	$("#next").attr("disabled", !nextEnabled);
+	if (photoList && photoList && photoList.length) {
+		var total = Math.floor((photoList.length + photo_length - 1) / photo_length);
+		var current = Math.floor(photo_start / photo_length) + 1;
+		$("#pageIndex").text(current + " / " + total + " ページ");
+	} else {
+		$("#pageIndex").text("除外対象の写真はありません");
+	}
+}
+</script>
+</head>
+
+<body onload="onload()">
+	<div id="loading" align="center">
+		<font size="7">読み込んでいます<br>もうしばらくお待ちください
+		</font>
+	</div>
+	<div>
+		<div style='margin-left: 2em'>
+			<button id='prev' disabled="disabled">&lt; 前へ</button>
+			&nbsp;&nbsp;&nbsp;&nbsp; 
+			<span id="pageIndex"></span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button id='next' disabled="disabled">次へ &gt;</button>
+		</div>
+		<table id="table1" cellpadding="0" cellspacing="30" class="image"></table>
+	</div>
+	<div id='glayLayer'></div>
+	<div id='overLayer'></div>
+</body>
+</html>
