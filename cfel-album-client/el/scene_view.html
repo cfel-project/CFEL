@@ -11,13 +11,25 @@
 <link rel="stylesheet" type="text/css" href="css/development-bundle/themes/base/jquery-ui.css" media="all"/>
 <script src="js/album-service.js"></script>
 <script type="text/javascript">  
-  
-var pram=window.location.href;
-var api=pram.split("#");
-var key=api[1].split("=");
-var apiKey=key[1];
+//root_url#tkn=apiKey&base=location_url
+        var pram=window.location.href;
+	var temp = pram.split("&");
+        var api=temp[0].split("#");
+        var key=api[1].split("=");
+        var apiKey=key[1];
+        //alert(apiKey);
+	var base_temp=temp[1].split("=");
+	var base=base_temp[1];
+	//alert(base);
+        var url = base+"/elmember/search?apiKey="+apiKey;
+
   var serviceRoot = cfelService.serviceRoot.slice(0, -1);
   
+// HTMLエスケープ - jQueryを使うと一行で書ける
+function escapeHTML(html) {
+  return jQuery('<div>').text(html).html();
+}
+
   /*
 	 * 基本API
 	 */
@@ -70,16 +82,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -108,16 +120,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -164,16 +176,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -202,16 +214,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -258,16 +270,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -296,16 +308,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -352,16 +364,16 @@ var apiKey=key[1];
             if(jsonText[i].annotation_title){
               var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
               var color = "#000000";
-              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+              var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
             }else{
               var oTitle = jsonText[i].title;            
               if(!oTitle){
                 oTitle="この赤いリンクをタッチしてタイトルをつけてください";
                 var color = "#ff0000";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else if(oTitle.length>40 || oTitle.length<2){
                 var color = "#0000ff";
-                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+                var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
               }else{
                 var color = "#000000";
                 var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
@@ -390,16 +402,16 @@ var apiKey=key[1];
           if(jsonText[i].annotation_title){
             var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
             var color = "#000000";
-            var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+            var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
           }else{
             var oTitle = jsonText[i].title;            
             if(!oTitle){
               oTitle="この赤いリンクをタッチしてタイトルをつけてください";
               var color = "#ff0000";
-              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
             }else if(oTitle.length>40 || oTitle.length<2){
               var color = "#0000ff";
-              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
             }else{
               var color = "#000000";
               var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';

@@ -17,6 +17,11 @@
 	</rule>
 
 	<rule>
+		<from>^/(cfel_service)/.*$</from>
+		<to>$0</to>
+	</rule>
+
+	<rule>
 		<note>
 			Example: /users
         </note>

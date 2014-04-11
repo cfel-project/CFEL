@@ -9,17 +9,24 @@
 <script src="js/album-service.js"></script>
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&language=ja"></script>
 <script type="text/javascript">
-var pram=window.location.href;
-var api=pram.split("#");
-var key=api[1].split("=");
-var apiKey=key[1];
-
+    //root_url#tkn=apiKey&base=location_url
+    var pram=window.location.href;
+    var temp = pram.split("&");
+    var api=temp[0].split("#");
+    var key=api[1].split("=");
+    var apiKey=key[1];
+    
   var serviceRoot = cfelService.serviceRoot.slice(0, -1);
   
   var map;
   //var markers = [];
   //var infowindow=[];
 
+  // HTMLエスケープ - jQueryを使うと一行で書ける
+  function escapeHTML(html) {
+    return jQuery('<div>').text(html).html();
+  }
+  
    /*
 	 * 基本API
 	 */
@@ -60,6 +67,7 @@ var apiKey=key[1];
   
   function getLocation(result) {
 		if (result.status == "success") {
+    $('#loading').hide();
     var myOptions = {
       zoom: 18,
       center: new google.maps.LatLng(34.826738, 135.319486), //34.826953,135.319488
@@ -96,7 +104,7 @@ var apiKey=key[1];
           }
           var mURL = serviceRoot + jsonText[i].marker_image_url;
           var image = new google.maps.MarkerImage(mURL,iconSize,iconOffset,iconAnchor,iconScaleSize);
-          var name='<a href="'+oURL + '" target="_blank"><h2>'+oTitle+'</h2></a>';
+          var name='<a href="'+oURL + '" target="_blank"><h2>'+escapeHTML(oTitle)+'</h2></a>';
           var latlng = new google.maps.LatLng(lat,lon);
           createMarker(name,latlng,map,image);            
         }else if(jsonText[i].exif_location){
@@ -115,12 +123,21 @@ var apiKey=key[1];
           }
           var mURL = serviceRoot + jsonText[i].marker_image_url;
           var image = new google.maps.MarkerImage(mURL,iconSize,iconOffset,iconAnchor,iconScaleSize);
-          var name='<a href="'+oURL + '" target="_blank"><h2>'+oTitle+'</h2></a>';
+          var name='<a href="'+oURL + '" target="_blank"><h2>'+escapeHTML(oTitle)+'</h2></a>';
           var latlng = new google.maps.LatLng(lat,lon);
           createMarker(name,latlng,map,image);            
         }
       }
      
+     var other_url="img/other.png";
+     var other_image = new google.maps.MarkerImage(other_url);
+     var latlng = new google.maps.LatLng(34.826568,135.3172561);
+     createOther(latlng,map,other_image);
+     
+     var unknown_url="img/unknown.png";
+     var unknown_image = new google.maps.MarkerImage(unknown_url);
+     var latlng = new google.maps.LatLng(34.8272568,135.3172561);
+     createUnknown(latlng,map,unknown_image);
      /* 地図上にカスタムコントロールを追加 */
 			var homeControlDiv = document.createElement('DIV');
 			var homeControl = new HomeControl(homeControlDiv, map);
@@ -129,13 +146,20 @@ var apiKey=key[1];
 			map.controls[google.maps.ControlPosition.RIGHT_TOP].push(homeControlDiv);
       //alert(num);
 		} else {
-			 alert(result.status);
+			 //alert(result.status);
 		}
 	}
-
+  
+  function createOther(latlng,map,image){
+    var marker = new google.maps.Marker({position: latlng,map: map,icon: image,zIndex: 10000});  
+  }
+  function createUnknown(latlng,map,image){
+    var marker = new google.maps.Marker({position: latlng,map: map,icon: image,zIndex: 10000});  
+  }   
+  
   function createMarker(name,latlng,map,image){
     var infoWindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({position: latlng,map: map,icon: image});
+    var marker = new google.maps.Marker({position: latlng,map: map,icon: image,draggable: true});
     google.maps.event.addListener(marker, 'click', function() {
 			infoWindow.setContent(name);
 			infoWindow.open(map,marker);   
@@ -143,7 +167,7 @@ var apiKey=key[1];
   } 
   
   /* 基本位置の緯度・経度 */
-	var pos = new google.maps.LatLng(35.681382, 139.766084); //please replace
+  	var pos = new google.maps.LatLng(35.681382, 139.766084); //please replace
 
 		function HomeControl(controlDiv, map) {
 			/* ボタン枠 */
@@ -178,13 +202,10 @@ var apiKey=key[1];
   
 </script>
 </head>
-<body>
+<body onload="getImageURLS(getLocation)">
 <div id='result' type="hidden"></div>
+<div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
 <div id="map_canvas" style="float:left;width:100%;height:80%"></div>
-<!--div name="spot_list" style="float:right;width:30%;height:100%;"></div-->
-<script type="text/javascript">
-getImageURLS(getLocation);
-</script>
 
 </body>
 </html>
