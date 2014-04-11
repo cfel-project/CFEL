@@ -10,12 +10,14 @@
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script src="js/album-service.js"></script>
 <script type="text/javascript">  
-  
-var pram=window.location.href;
-var api=pram.split("#");
-var key=api[1].split("=");
-var apiKey=key[1];
-  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+    //root_url#tkn=apiKey&base=location_url
+    var pram=window.location.href;
+    var temp = pram.split("&");
+    var api=temp[0].split("#");
+    var key=api[1].split("=");
+    var apiKey=key[1];
+    
+    var serviceRoot = cfelService.serviceRoot.slice(0, -1);
 
   /*
 	 * 基本API
@@ -116,11 +118,8 @@ function removeElement(id) {
 
 </head>
 
-<body>
+<body onload="getImageURLS(showMovie)">
 <div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
-<script type="text/javascript">
-getImageURLS(showMovie);
-</script>
 
 </body>
 </html>

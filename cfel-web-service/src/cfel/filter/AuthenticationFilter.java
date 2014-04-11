@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.wink.json4j.JSONObject;
 
+import cfel.service.Config;
 import cfel.service.PortalImportTask;
 import cfel.util.WSClientUtil;
 
@@ -67,6 +68,11 @@ public class AuthenticationFilter implements Filter {
 	}
 
 	private boolean checkApiKey(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (false) { // Temp fix for cookie problem
+			if (request.getServletPath().startsWith("/file")) {
+				return true;
+			}
+		}
 		HttpSession session = request.getSession(true);
 		String apiKey = request.getHeader(HEADER_API_KEY);
 		Object sessionKey = session.getAttribute(SESSION_API_KEY);
@@ -91,5 +97,10 @@ public class AuthenticationFilter implements Filter {
 			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return false;
 		}
+	}
+
+	public static boolean isAdministrator(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		return session != null && Config.API_KEY.equals(session.getAttribute(SESSION_API_KEY));
 	}
 }

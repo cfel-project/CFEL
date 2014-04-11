@@ -33,12 +33,16 @@ public class PortalActivity {
 		}
 	}
 
+	public boolean hasNext() {
+		return mParam != null;
+	}
+
 	public JSONArray getNext() {
-		if (mParam == null) {
+		if (!hasNext()) {
 			return null;
 		}
 		JSONArray result = null;
-		boolean hasNext = false;
+		boolean noNext = true;
 		try {
 			JSONObject obj = (JSONObject) WSClientUtil.getJSON(PortalImportTask.ACTIVITY_SEARCH_URL + WSClientUtil.getFormParameter(mParam));
 			if (obj != null) {
@@ -51,18 +55,18 @@ public class PortalActivity {
 						int id = Integer.parseInt(strId);
 						if (!mParam.containsKey("max_id") || mParam.getInt("max_id") >= id) {
 							mParam.put("max_id", id - 1);
-							hasNext = true;
+							noNext = false;
 						}
 					}
 					if (result.length() < mParam.getInt("count")) {
-						hasNext = false;
+						noNext = true;
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (!hasNext) {
+		if (noNext) {
 			mParam = null;
 		}
 		return result;

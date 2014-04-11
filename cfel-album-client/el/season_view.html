@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
+<meta name="viewport" content="width=device-width">
+<title>みんなのアルバム　季節の思い出</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/development-bundle/themes/base/jquery-ui.css" media="all"/>
+<script src="js/album-service.js"></script>
+<script src="js/print-view.js"></script>
+<script type="text/javascript">  
+  //root_url#tkn=apiKey&base=location_url
+  var pram=window.location.href;
+	var temp = pram.split("&");
+  var api=temp[0].split("#");
+  var key=api[1].split("=");
+  var apiKey=key[1];
+  //alert(apiKey);
+	var base_temp=temp[1].split("=");
+	var base=base_temp[1];
+	//alert(base);
+  var url = base+"/elmember/search?apiKey="+apiKey;
+
+  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+  
+  // HTMLエスケープ - jQueryを使うと一行で書ける
+  function escapeHTML(html) {
+    return jQuery('<div>').text(html).html();
+  }
+
+  /*
+	 * 基本API
+	 */
+	function findPhoto(query, callback) {
+		cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : query
+		}, callback);
+	}
+  
+	/*
+	 * callback
+	 */
+	function showResult(result) {
+		if (result.status == "success") {
+			$("#result").text(JSON.stringify(result.data));
+		} else {
+			$("#result").text("status: " + result.status);
+		}
+	}
+  function getImageURLS(callback) {
+	  cfelService.apiKey = apiKey;
+		cfelService.getPhotoList({
+			"query" : null,
+			"keys" : {
+				"_id" : 0,
+        "portal_image_url" : 1,
+				"exif_date" : 1,
+        "annotation_season" : 1,
+        "annotation_title" :1
+			}
+		}, callback);
+	}
+  
+  function season(result) {
+		if (result.status == "success") {
+			var jsonText = result.data;
+      var count=0;
+      var spring_count=0;
+      var summer_count=0;
+      var autumn_count=0;
+      var winter_count=0;
+      var other_count=0;
+      var num=0;
+      for(var i=0; i<jsonText.length; i++){
+        if(spring_count==0)var spring_tr = document.createElement("tr"); // tr要素を作成する
+        if(summer_count==0)var summer_tr = document.createElement("tr");
+        if(autumn_count==0)var autumn_tr = document.createElement("tr");
+        if(winter_count==0)var winter_tr = document.createElement("tr");
+        if(other_count==0)var other_tr = document.createElement("tr");
+        if(jsonText[i].annotation_season){
+          var oURL = jsonText[i].portal_image_url;
+          if(oURL.match(/photo/)){
+            var url = oURL.replace("\/photo","photo");
+            oURL = url;
+          }
+          var tURL = serviceRoot + jsonText[i].thumbnail_image_url;
+          if(jsonText[i].annotation_title){
+            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
+            var color = "#000000";
+            var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
+          }else{
+            var oTitle = jsonText[i].title;            
+            if(!oTitle){
+              oTitle="この赤いリンクをタッチしてタイトルをつけてください";
+              var color = "#ff0000";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else if(oTitle.length>40 || oTitle.length<2){
+              var color = "#0000ff";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else{
+              var color = "#000000";
+              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+            }
+          }
+          if(jsonText[i].annotation_season[jsonText[i].annotation_season.length-1].season=="春"){
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            spring_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            spring_count++;
+            num++;
+            if(spring_count==4){
+              document.getElementById("table1").appendChild(spring_tr); // tr要素をtableに追加
+              spring_count=0;
+            }
+          }else if(jsonText[i].annotation_season[jsonText[i].annotation_season.length-1].season=="夏"){
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            summer_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            summer_count++;
+            num++;
+            if(summer_count==4){
+              document.getElementById("table2").appendChild(summer_tr); // tr要素をtableに追加
+              summer_count=0;
+            }
+          }else if(jsonText[i].annotation_season[jsonText[i].annotation_season.length-1].season=="秋"){
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            autumn_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            autumn_count++;
+            num++;
+            if(autumn_count==4){
+              document.getElementById("table3").appendChild(autumn_tr); // tr要素をtableに追加
+              autumn_count=0;
+            }
+          }else if(jsonText[i].annotation_season[jsonText[i].annotation_season.length-1].season=="冬"){
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            winter_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            winter_count++;
+            num++;
+            if(winter_count==4){
+              document.getElementById("table4").appendChild(winter_tr); // tr要素をtableに追加
+              winter_count=0;
+            }
+          }
+        }else if(jsonText[i].exif_date){
+          var oDate = jsonText[i].exif_date["$date"];
+          var oURL = jsonText[i].portal_image_url;
+          if(oURL.match(/photo/)){
+              var url = oURL.replace("\/photo","photo");
+              oURL = url;
+          }
+          var tURL = serviceRoot + jsonText[i].thumbnail_image_url;
+          if(jsonText[i].annotation_title){
+            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
+            var color = "#000000";
+            var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
+          }else{
+            var oTitle = jsonText[i].title;            
+            if(!oTitle){
+              oTitle="この赤いリンクをタッチしてタイトルをつけてください";
+              var color = "#ff0000";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else if(oTitle.length>40 || oTitle.length<2){
+              var color = "#0000ff";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else{
+              var color = "#000000";
+              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+            }
+          }
+          var temp = oDate.split('-');
+          if(temp[1].match(/03|04|05/)){
+            //alert("春");
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            spring_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            spring_count++;
+            num++;
+            if(spring_count==4){
+              document.getElementById("table1").appendChild(spring_tr); // tr要素をtableに追加
+              spring_count=0;
+            }
+          }else if(temp[1].match(/06|07|08/)){
+            //alert("夏");
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            summer_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            summer_count++;
+            num++;
+            if(summer_count==4){
+              document.getElementById("table2").appendChild(summer_tr); // tr要素をtableに追加
+              summer_count=0;
+            }
+          }else if(temp[1].match(/09|10|11/)){
+            //alert("秋");
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            autumn_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            autumn_count++;
+            num++;
+            if(autumn_count==4){
+              document.getElementById("table3").appendChild(autumn_tr); // tr要素をtableに追加
+              autumn_count=0;
+            }
+          }else if(temp[1].match(/12|01|02/)){
+            //alert("冬");
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            winter_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            winter_count++;
+            num++;
+            if(winter_count==4){
+              document.getElementById("table4").appendChild(winter_tr); // tr要素をtableに追加
+              winter_count=0;
+            }
+          }
+        }else if(jsonText[i].guess){
+          var oURL = jsonText[i].portal_image_url;
+          if(oURL.match(/photo/)){
+            var url = oURL.replace("\/photo","photo");
+            oURL = url;
+          }
+          var tURL = serviceRoot + jsonText[i].thumbnail_image_url;
+          if(jsonText[i].annotation_title){
+            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
+            var color = "#000000";
+            var title = '<div id="title"><font color="'+color+'"><b>'+escapeHTML(oTitle)+'</b></font></div>';
+          }else{
+            var oTitle = jsonText[i].title;            
+            if(!oTitle){
+              oTitle="この赤いリンクをタッチしてタイトルをつけてください";
+              var color = "#ff0000";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else if(oTitle.length>40 || oTitle.length<2){
+              var color = "#0000ff";
+              var title = '<div id="title"><a href="link_annotationTitle.html?title='+oURL+'#apiKey='+apiKey+'&base='+base+'"><font color="'+color+'">'+oTitle+'</font></a></div>';
+            }else{
+              var color = "#000000";
+              var title = '<div id="title"><font color="'+color+'"><b>'+oTitle+'</b></font></div>';
+            }
+          }
+          if(jsonText[i].guess[jsonText[i].guess.length-1].class_id=="spring"){    
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            spring_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            spring_count++;
+            num++;
+            if(spring_count==4){
+              document.getElementById("table1").appendChild(spring_tr); // tr要素をtableに追加
+              spring_count=0;
+            }
+          }else if(jsonText[i].guess[jsonText[i].guess.length-1].class_id=="summer"){    
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            summer_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            summer_count++;
+            num++;
+            if(summer_count==4){
+              document.getElementById("table2").appendChild(summer_tr); // tr要素をtableに追加
+              summer_count=0;
+            }
+          }else if(jsonText[i].guess[jsonText[i].guess.length-1].class_id=="autumn"){    
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            autumn_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            autumn_count++;
+            num++;
+            if(autumn_count==4){
+              document.getElementById("table3").appendChild(autumn_tr); // tr要素をtableに追加
+              autumn_count=0;
+            }
+          }else if(jsonText[i].guess[jsonText[i].guess.length-1].class_id=="winter"){    
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            winter_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            winter_count++;
+            num++;
+            if(winter_count==4){
+              document.getElementById("table4").appendChild(winter_tr); // tr要素をtableに追加
+              winter_count=0;
+            }
+          }else if(jsonText[i].guess[jsonText[i].guess.length-1].class_id=="unknown"){    
+            var elm_td = document.createElement("td"); // td要素を生成
+            elm_td.innerHTML='<li><a href="'+oURL+'" class="modal"><img src="'+tURL+'" width="200" height="200"/></a>'+title+'</li>';
+            other_tr.appendChild(elm_td); // tr要素にtd要素を追加
+            other_count++;
+            num++;
+            if(other_count==4){
+              document.getElementById("table5").appendChild(other_tr); // tr要素をtableに追加
+              other_count=0;
+            }
+          }
+        }
+      }
+      document.getElementById("table1").appendChild(spring_tr);
+      document.getElementById("table2").appendChild(summer_tr);
+      document.getElementById("table3").appendChild(autumn_tr);
+      document.getElementById("table4").appendChild(winter_tr);
+      document.getElementById("table5").appendChild(other_tr);
+      //alert(num);
+		} else {
+			 alert(result.status);
+		}
+    enhanceElements(1);
+	}
+  
+function enhanceElements(status){
+  //alert("element");
+  if(status==1){
+    $('#loading').hide();
+    $("body").append("<div id='glayLayer'></div><div id='overLayer'></div>")
+    
+    $("#jquery-ui-tabs").tabs({
+        active: 3,
+    });
+    
+    $("#glayLayer").click(function(){
+        $(this).hide()
+        $("#overLayer").hide()
+    })
+    
+    $("#overLayer").click(function(){
+        $(this).hide()
+        $("#glayLayer").hide()
+    })
+    
+    $("a.modal").click(function(){
+        $("#glayLayer").show()
+        $("#overLayer").show().html('<img src="'+$(this).attr("href")+'"/>')
+        return false;
+    })
+    
+    $('#tab a').click(function(){
+    this.blur();
+    });
+  }
+}
+  
+$(document).ready(
+		function() {
+			if (navigator.userAgent.indexOf('iPhone') > 0
+					|| navigator.userAgent.indexOf('iPad') > 0
+					|| navigator.userAgent.indexOf('iPod') > 0
+					|| navigator.userAgent.indexOf('Android') > 0) {
+				return;
+			}
+			$('#tab').append(
+					'<br />&nbsp;<a href="/el_api/cfel-web-service/cfel_service/album_download?type=season&apiKey='
+							+ apiKey + '">写真を一括ダウンロードする</a>');
+			for ( var i = 1; i <= 5; i++) {
+				$('#jquery-ui-tabs-' + i).prepend(
+						'<a class="printLink" href="javascript:void()">印刷用表示</a>');
+				var title = $("#tab > li:eq(" + (i-1) + ")").text();
+				$('#jquery-ui-tabs-' + i + ' > .printLink').click({title:title}, function(e) {
+					openPrintView(e.target.parentElement, "季節 : " + e.data.title);
+				});
+			}
+		});
+</script>
+
+</head>
+
+<body onload="findPhoto(null,season)">
+<div id='result' type="hidden"></div>
+<div id="jquery-ui-tabs">
+    <ul id="tab">
+        <li><a href="#jquery-ui-tabs-1"><font size="7"><b>春</font>の思い出</b></a></li>
+        <li><a href="#jquery-ui-tabs-2"><font size="7"><b>夏</font>の思い出</b></a></li>
+        <li><a href="#jquery-ui-tabs-3"><font size="7"><b>秋</font>の思い出</b></a></li>
+        <li><a href="#jquery-ui-tabs-4"><font size="7"><b>冬</font>の思い出</b></a></li>
+        <li><a href="#jquery-ui-tabs-5"><font size="7"><b>？</b></font></a></li>
+    </ul>
+  <div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
+  <div id="jquery-ui-tabs-1">
+    <ul style="list-style:none;">
+      <table id="table1" cellpadding="0" cellspacing="30" class="image"><tbody>
+      </tbody></table>
+    </ul>
+  </div>
+   
+  <div id="jquery-ui-tabs-2">
+    <ul style="list-style:none;">
+      <table id="table2" cellpadding="0" cellspacing="30" class="image"><tbody>
+      </tbody></table>
+    </ul>
+  </div>
+  
+  <div id="jquery-ui-tabs-3">
+    <ul style="list-style:none;">
+      <table id="table3" cellpadding="0" cellspacing="30" class="image"><tbody>
+      </tbody></table>
+    </ul>
+  </div>
+  
+  <div id="jquery-ui-tabs-4">
+    <ul style="list-style:none;">
+      <table id="table4" cellpadding="0" cellspacing="30" class="image"><tbody>
+      </tbody></table>
+    </ul>
+  </div>
+  
+  <div id="jquery-ui-tabs-5">
+    <ul style="list-style:none;">
+      <table id="table5" cellpadding="0" cellspacing="30" class="image"><tbody>
+      </tbody></table>
+    </ul>
+  </div>
+    
+</div>
+
+</body>
+</html>

@@ -147,7 +147,11 @@ public class ServiceServlet extends HttpServlet {
 			if (contentType != null) {
 				response.setContentType(contentType);
 			}
-			sendFile(id, response);
+			try {
+				sendFile(id, response);
+			} catch (Exception e) {
+				System.err.println("Send error: " + id);
+			}
 			return;
 		}
 
