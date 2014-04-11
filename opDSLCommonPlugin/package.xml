@@ -44,6 +44,7 @@ Common components for DSL projects
 	<file baseinstalldir="/" name="apps/api/modules/dsls/config/filters.yml" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dsls/templates/commentsSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dsls/templates/listPushEventsSuccess.php" role="data" />
+	<file baseinstalldir="/" name="apps/api/modules/dsls/templates/pageLogSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dsls/templates/reportTopicSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/api/modules/dsls/templates/topicsSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_backend/modules/opDSLCommonPlugin/actions/actions.class.php" role="data" />
@@ -89,6 +90,7 @@ Common components for DSL projects
 	<file baseinstalldir="/" name="lib/form/doctrine/PluginPageLogForm.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/helper/opCommunityTopicDslHelper.php" role="data" />
 	<file baseinstalldir="/" name="lib/helper/opMapHelper.php" role="data" />
+	<file baseinstalldir="/" name="lib/helper/opPageLogHelper.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/opDSLCommonConfig.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginElementLog.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginElementLogTable.class.php" role="data" />

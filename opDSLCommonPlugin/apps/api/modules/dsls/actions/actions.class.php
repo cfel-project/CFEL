@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,32 @@ class dslsActions extends opJsonApiActions{
 		if(!isset($this->member)){
 			$this->forward401('unauthorized API call.');
 		}
+	}
+
+	public function executePageLog(sfWebRequest $request){
+		$start = $request->getParameter("start");
+		$end = $request->getParameter("end");
+		$limit = $request->getParameter("limit");
+
+		$query = Doctrine::getTable("PageLog")->createQuery("l")
+			->orderBy("updated_at");
+
+		if(!empty($limit)){
+			if(0 < $limit){
+				$query->limit($limit);
+			}
+		}else{
+			$query->limit(20);
+		}
+
+		if(!empty($start)){
+			$query->andWhere('open_date>=?', date("Y-m-d H:i:s", $start/1000));
+		}
+		if(!empty($end)){
+			$query->andWhere('open_date<?', date("Y-m-d H:i:s", $end/1000));
+		}
+
+		$this->logs = $query->execute();
 	}
 
 	public function executeAddLog(sfWebRequest $request){

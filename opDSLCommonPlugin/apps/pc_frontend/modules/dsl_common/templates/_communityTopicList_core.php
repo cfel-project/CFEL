@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and Others
+ * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,11 +18,14 @@
 	if(!isset($partId)){
 		$partId = 'dsl_comtopic_list_'.$gadget->id;
 	}
+	if(empty($path_open_entry)){
+		$path_open_entry = "communityTopic";
+	}
 ?>
 <script id="topicEntry" type="text/x-jquery-tmpl">
 <div class="dsl_topic dsl_button" topic_id="${id}">
 	<div class="root">
-		<h4><a href="<?php echo public_path('communityTopic')?>/${id}"><span class="dsl_subject">${name}</span></a></h4>
+		<h4><a href="<?php echo public_path($path_open_entry)?>/${id}"><span class="dsl_subject">${name}</span></a></h4>
 		<div class="inline dsl_author_box">{{tmpl "#memberElement"}}<span class="dsl_author_suffix">さんのトピック</span></div>
 		<div class="inline container_body">
 			{{wrap(100) "#summarize"}}
@@ -40,7 +43,7 @@
 	</div>
 	<ul class="moreInfo">
 		<li class="dsl_screenreader_only" style="float:right;">
-			<a href="<?php echo public_path('communityTopic')?>/${id}">このトピックを全部見る・コメントする</a>
+			<a href="<?php echo public_path($path_open_entry)?>/${id}">このトピックを全部見る・コメントする</a>
 		</li>
 	</ul>
 </div>
@@ -103,9 +106,9 @@ $(function(){
 					 .appendTo($(".container_comments", elem))
 					 .append(entry)
 					 .find("div.dsl_comment:last")
-					 .prepend('<a href="<?php echo public_path('communityTopic')?>/' + topicId + '#comment=' + lastone.number + '">最新コメント</a>:')
+					 .prepend('<a href="<?php echo public_path($path_open_entry)?>/' + topicId + '#comment=' + lastone.number + '">最新コメント</a>:')
 					 .click(function(evt){
-						window.location.href = "<?php echo public_path('communityTopic')?>/" + topicId + "#comment=" + lastone.number;
+						window.location.href = "<?php echo public_path($path_open_entry)?>/" + topicId + "#comment=" + lastone.number;
 						evt.stopPropagation();
 					 });
 				}
@@ -123,7 +126,7 @@ $(function(){
 			});
 			listelem.append(entry);
 			entry.click(function(){
-				window.location.href = "<?php echo public_path('communityTopic')?>/" + $(this).attr("topic_id");
+				window.location.href = "<?php echo public_path($path_open_entry)?>/" + $(this).attr("topic_id");
 			});
 			entry.each(function(){
 				__updateComments($(this), $(this).attr("topic_id"));

@@ -12,6 +12,7 @@
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
+	if(window["__dsl_disable_page_logger"]) return;
 	var __elemLoggerConfig = [<?php echo html_entity_decode($elemLoggerConfig) ?>];
 
 
