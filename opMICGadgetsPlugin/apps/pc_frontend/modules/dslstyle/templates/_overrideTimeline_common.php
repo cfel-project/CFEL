@@ -18,6 +18,7 @@ $(document).ready(function(){
 		 .replace(/ \| /g, "<span> | </span>")
 		 .replace(/{{html body_html}}/g, "{{if uri != null}}<a href='<?php echo url_for('dslmisc/forwardUri')?>?uri=${uri}'>{{html body_html}}</a>{{else}}{{html body_html}}{{/if}}")
 		 .replace(/<div class="timeline-post">/g, "<div class=\"timeline-post{{if uri !=null}} timeline-with-uri{{/if}}\">")
+//		 .replace(/<input class="timeline-post-comment-form-input"/g, "<textarea class=\"timeline-post-comment-form-input\"")
 		 .replace(/<div class="timeline-post-control">/g, "<div style=\"clear:both;\"></div><div class=\"timeline-post-control\"{{if uri != null}} style=\"display:none;\"{{/if}}>")
 	);
 });

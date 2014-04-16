@@ -44,7 +44,13 @@ $(document).ready(function(){
 					params,
 					'json')
 					.success(function(res){
-						$("#timeline-post-" + tid).remove();
+						var src = $("a[tl_activity_id=" + tid +"]");
+						if(src.closest(".timeline-post-comment").length){
+							src.closest(".timeline-post-comment").remove();
+						}else{
+							src.closest(".timeline-post").remove();
+						}
+						//$("#timeline-post-" + tid).remove();
 					})
 					.error(function(res){
 						console.log(res);
@@ -56,7 +62,17 @@ $(document).ready(function(){
 			$('#deleteContentModal').attr('data-timeline-id', '').modal('hide');
 		}
 	});
-	
+
+	//modify timeline templates to add links for removal here
+	$("#timelineTemplate").each(function(){
+		$(this).html($(this).html()
+			.replace(/class="timeline-comment-link">コメントする<\/a>/,"class=\"timeline-comment-link\">コメントする</a>{{if member.id == '<?php echo $u_id ?>'}}<span> | </span><a tl_activity_id=\"${id}\" href=\"#timeline-post-delete-confirm-${id}\" class=\"timeline-post-delete-confirm-link\">削除する</a>{{/if}}"));
+	});
+	$("#timelineCommentTemplate").each(function(){
+		$(this).html($(this).html()
+			.replace(/<\/div>\s$/g, "{{if member.id == '<?php echo $u_id ?>'}}<div class=\"timeline-post-control\"><a tl_activity_id=\"${id}\" href=\"#timeline-post-comment-delete-confirm-${id}\" class=\"timeline-post-comment-delete-confirm-link\">削除する</a></div>{{/if}}</div>"));
+	});
+
 	// fix youtube link, add link to delete timeline post
 	var domNodeInsertedHandler = function() {
 		$(this).unbind("DOMNodeInserted");
@@ -68,104 +84,22 @@ $(document).ready(function(){
 			$(this).attr("_youtube_fix", "true");
 			$(this).dsl_youtube_link_replace();
 		});
-		
-		// add link to delete timeline post, and timeline comment
-		$("div.timeline-post", $(this)).filter(function(){
-			return "true" != $(this).attr("_delete_fix");
+		//add onclick handler for the deletion links here.
+		$("a.timeline-post-delete-confirm-link, a.timeline-post-comment-delete-confirm-link", $(this)).filter(function(){
+			return "true" != $(this).attr("_timeline_del_confirm_fix");
 		}).each(function(){
-			$(this).attr("_delete_fix", "true");
-			
-			var addComment = $(this).find("div.timeline-post-control a.timeline-comment-link");
-			if (addComment.attr("href")) {
-				var tid = addComment.attr("href").substring(10); // href is "#timeline-{tid}"
+			$(this).attr("_timeline_del_confirm_fix", "true")
+			.click(function(e){
+				$('#deleteContentModal').attr('data-timeline-id', $(this).attr("tl_activity_id")).on('shown', function(e){
+					showModal($(this));
+					return this;
+				}).modal('show');
 				
-				// add link to delete timeline post
-				var member = $(this).find("div.timeline-post-member-image a");
-				if (member.attr("href")) {
-					var mpaths = member.attr("href").split("/");
-					var mid = mpaths[mpaths.length-1];
-					if (mid=="<?php echo $u_id ?>") {
-						$(this).attr("id", "timeline-post-" + tid);
-						
-						addComment.after("<span> | </span><a href=\"#timeline-post-delete-confirm-"+ tid + "\" class=\"timeline-post-delete-confirm-link\">削除する</a>");
-						$("a.timeline-post-delete-confirm-link", $(this)).click(function(e){
-							$('#deleteContentModal').attr('data-timeline-id', tid).on('shown', function(e){
-								showModal($(this));
-								return this;
-							}).modal('show');
-							
-							e.preventDefault();
-							return false;
-						});
-					}
-				}
-				
-				// add link to delete timeline comment
-				if (<?php echo $comment_delete_cfg?>) {
-					$("div.timeline-post-comments", $(this)).filter(function(){
-						return "true" != $(this).attr("_delete_fix");
-					}).each(function(){
-						$(this).attr("_delete_fix", "true");
-						
-						var comments = new Array();
-						var updateComment = function(commentNode, comment) {
-							if (comment.member.id=="<?php echo $u_id ?>") {
-								commentNode.attr("id", "timeline-post-" + comment.id);
-								
-								var commentBody = commentNode.find("div.timeline-post-comment-body");
-								commentBody.after("<div class=\"timeline-post-control\"><a href=\"#timeline-post-comment-delete-confirm-"+ comment.id + "\" class=\"timeline-post-comment-delete-confirm-link\">削除する</a></div>");
-								$("a.timeline-post-comment-delete-confirm-link", commentNode).click(function(e){
-									$('#deleteContentModal').attr('data-timeline-id', comment.id).on('shown', function(e){
-										showModal($(this));
-										return this;
-									}).modal('show');
-									
-									e.preventDefault();
-									return false;
-								});
-							}
-						}
-						var commentNodeInsertedHandler = function() {
-							var _this = $(this);
-							setTimeout(function(){
-								_this.unbind("DOMNodeInserted");
-								
-								$("div.timeline-post-comment", _this).each(function(index){
-									var commentNode = $(this);
-									if ("true" != commentNode.attr("_delete_fix")) {
-										commentNode.attr("_delete_fix", "true");
-										
-										if (index > comments.length-1) {
-											$.ajax({
-												async: false,
-												type: 'GET',
-												url: openpne.apiBase + 'activity/commentSearch.json?apiKey=' + openpne.apiKey,
-												data: {
-													'timeline_id': tid,
-													'count': comments.length + 20
-												},
-												success: function(json){
-													comments = json.data;
-													updateComment(commentNode, comments[index]);
-												},
-												error: function(XMLHttpRequest, textStatus, errorThrown){
-												}
-											});
-										} else {
-											updateComment(commentNode, comments[index]);
-										}
-									}
-								});
-								
-								_this.bind("DOMNodeInserted", commentNodeInsertedHandler);
-							}, 1000);
-						}
-						$(this).bind("DOMNodeInserted", commentNodeInsertedHandler);
-					});
-				}
-			}
+				e.preventDefault();
+				return false;
+			});
 		});
-		
+
 		$(this).bind("DOMNodeInserted", domNodeInsertedHandler);
 	}
 	$('#timeline-list').bind("DOMNodeInserted", domNodeInsertedHandler);
