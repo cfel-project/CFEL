@@ -10,6 +10,7 @@
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
 use_helper('Javascript', 'opUtil', 'opAsset');
+op_smt_use_stylesheet('/opMICGadgetsPlugin/css/timeline_override.css', 'last');
 op_smt_use_javascript('/opCommunityTopicPlugin/js/bootstrap-modal.js', 'last');
 op_smt_use_javascript('/opMICGadgetsPlugin/js/jq.ltx.youtube.js', 'last');
 include("_overrideTimeline_common.php");

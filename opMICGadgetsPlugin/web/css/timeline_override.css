@@ -20,3 +20,11 @@
 	left:auto;
 	right:auto;
 }
+
+.timeline-post-comments .timeline-post-comment-form{
+	display:block;
+}
+
+.timeline-with-uri .timeline-post-comments .timeline-post-comment-form{
+	display:none;
+}
