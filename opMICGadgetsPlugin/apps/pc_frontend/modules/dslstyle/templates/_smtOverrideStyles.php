@@ -19,7 +19,7 @@
 	font-weight:bold;
 	width:auto;
 	border-left: double #eb6238 .5em;
-	margin-left:.1em;
+	margin:.2em .1em 0;
 	padding-left: .2em;
 }
 

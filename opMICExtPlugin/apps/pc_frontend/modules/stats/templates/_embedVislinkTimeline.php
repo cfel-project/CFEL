@@ -1,4 +1,4 @@
-@charset "UTF-8";
+<?php
 /*******************************************************************************
  * Copyright (c) 2011, 2014 IBM Corporation and Others
  * All rights reserved. This program and the accompanying materials
@@ -9,31 +9,6 @@
  * Contributors:
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
-.timeline-postform #timeline-submit-area{
-	width: auto;
-}
-
-#timeline-submit-area #timeline-upload-photo-button,
-#timeline-submit-area #photo-remove,
-#timeline-submit-area #photo-file-name{
-	position:relative;
-	left:auto;
-	right:auto;
-}
-
-.timeline-post-comments .timeline-post-comment-form{
-	display:block;
-}
-
-.timeline-with-uri .timeline-post-comments .timeline-post-comment-form{
-	display:none;
-}
-
-.me_timeline_vis_link{
-	width:3em;
-	height:1.5em;
-	margin: 0 .5em;
-	display: inline-block;
-	vertical-align: middle;
-}
-
+use_stylesheet('/opMICExtPlugin/css/embedvis.css', 'last');
+include("_embedVislinkTimeline_core.php");
+?>

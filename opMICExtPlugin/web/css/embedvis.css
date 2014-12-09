@@ -9,31 +9,15 @@
  * Contributors:
  *   IBM Corporation - initial API and implementation
  *******************************************************************************/
-.timeline-postform #timeline-submit-area{
-	width: auto;
+.me_btn{
+	position: relative;
+	border: solid .1em #698aab;
+	-webkit-border-radius: .7em;
+	-moz-border-radius: .7em;
+	border-radius: .7em;
+	color: #494a41;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.6, #fffffc), color-stop(1, #d4dcda));
+	background:-moz-linear-gradient( center top, #fffffc 60%, #d4dcda 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffffc', endColorstr='#d4dcda', endColorstr=#fffffc');
+	background-color:#fffffc;
 }
-
-#timeline-submit-area #timeline-upload-photo-button,
-#timeline-submit-area #photo-remove,
-#timeline-submit-area #photo-file-name{
-	position:relative;
-	left:auto;
-	right:auto;
-}
-
-.timeline-post-comments .timeline-post-comment-form{
-	display:block;
-}
-
-.timeline-with-uri .timeline-post-comments .timeline-post-comment-form{
-	display:none;
-}
-
-.me_timeline_vis_link{
-	width:3em;
-	height:1.5em;
-	margin: 0 .5em;
-	display: inline-block;
-	vertical-align: middle;
-}
-

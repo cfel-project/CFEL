@@ -14,13 +14,17 @@ op_smt_use_stylesheet('/opMICGadgetsPlugin/css/timeline_override.css', 'last');
 op_smt_use_javascript('/opCommunityTopicPlugin/js/bootstrap-modal.js', 'last');
 op_smt_use_javascript('/opMICGadgetsPlugin/js/jq.ltx.youtube.js', 'last');
 include("_overrideTimeline_common.php");
+include_component("stats", "smtEmbedVislinkTimeline");
 ?>
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready(function(){
 	// fix design
 	var tl_header = $("div.timeline").prev("div.row:has(.gadget_header)").find(".gadget_header");
-	tl_header.html(tl_header.html().replace(/SNS全体/g, "みんな"));
+	tl_header.html(tl_header.html().replace(/SNS全体/g, "みんな"))
+	 .append($("<span/>",{
+		"class": "me_timeline_vis_link"
+	}));
 	
 	// prepare modal window for deleting timeline
 	var showModal = function(modal){

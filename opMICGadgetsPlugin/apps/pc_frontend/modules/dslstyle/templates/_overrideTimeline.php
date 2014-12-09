@@ -13,6 +13,7 @@ use_helper('Javascript', 'opUtil', 'opAsset');
 use_stylesheet('/opMICGadgetsPlugin/css/timeline_override.css', 'last');
 use_javascript('/opMICGadgetsPlugin/js/jq.ltx.youtube.js', 'last');
 include("_overrideTimeline_common.php");
+include_component("stats", "embedVislinkTimeline");
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -21,7 +22,10 @@ $(document).ready(function(){
 	$("#timeline-upload-photo-button").attr("title", "このボタンをクリックし、写真として添付するファイルを選びます").append("<span class='timeline_caption_upload_photo'>写真を添付（" + fileMaxSizeInfo.format + "まで）</span>");
 	// fix design
 	var tl_header = $(".dparts.homeAllTimeline .partsHeading h3");
-	tl_header.html(tl_header.html().replace(/SNSメンバー全員/g, "みんな"));
+	tl_header.html(tl_header.html().replace(/SNSメンバー全員/g, "みんな"))
+	 .append($("<span/>",{
+		"class": "me_timeline_vis_link"
+	}));
 	
 	// fix youtube embed and link
 	var domNodeInsertedHandler = function() {

@@ -50,4 +50,26 @@ class statsComponents extends sfComponents{
 	public function execudeSmtActivitiesByDate(sfWebRequest $request){
 		$this->prmsjson = json_encode(opMICExtUtil::requestToConditionParam($request), JSON_UNESCAPED_UNICODE);
 	}
+
+	private function setEmbedVislinkOptions(sfWebRequest $request){
+		$this->timeline_vis_href = public_path("stats/userRelations", true);
+		$query_options = array();
+		$qt = opMICExtConfig::getRelVisQueryTarget();
+		if(strcmp($qt, "all") !== 0){
+			$query_options["target"] = $qt;
+			$query_options["tid"] = opMICExtConfig::getRelVisQueryTargetId();
+		}
+		$qeid = opMICExtConfig::getRelVisQueryExcludeId();
+		if(!empty($qeid)){
+			$query_options["exclude"] = $qeid;
+		}
+		$this->q_opt_json = json_encode($query_options,JSON_UNESCAPED_UNICODE);
+	}
+
+	public function executeEmbedVislinkTimeline(sfWebRequest $request){
+		$this->setEmbedVislinkOptions($request);
+	}
+	public function executeSmtEmbedVislinkTimeline(sfWebRequest $request){
+		$this->setEmbedVislinkOptions($request);
+	}
 }

@@ -18,6 +18,7 @@ op_smt_use_javascript(opMICExtConfig::getD3URL(), 'last', array(
 ));
 op_smt_use_javascript('/opMICExtPlugin/js/jq.actrels.gr.js', 'last');
 op_smt_use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
+op_smt_use_javascript('/opMICExtPlugin/js/jq.loading.scr.js', 'last');
 ?>
 <style type="text/css">
 .link {
@@ -64,7 +65,13 @@ op_smt_use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
 <div class="dparts rel_by_activity" id="rel_by_activity_<?php echo $gadget->id ?>">
 	<div class="row">
 		<div class="gadget_header span12">
-			つぶやきでのつながり
+			<span>つぶやきでのつながり</span>
+			<select style="margin:0;padding:0;width:6.5em;" class="duration">
+				<option selected="true" value="90d">90日分</option>
+				<option value="183d">半年分</option>
+				<option value="1y">一年分</option>
+				<option value="all">全て</option>
+			</select>
 		</div>
 	</div>
 	<div class="logstat_container">
@@ -84,10 +91,12 @@ $(document).ready(function(){
 	var _in_flight = false;
 	function __update_rel_graph(prms){
 		_in_flight = true;
+		$("body").show_loading_screen();
 		$.getJSON(openpne.apiBase + "stats/activityRelations",
 			$.extend({}, __params, prms))
 		 .success(function(json){
 			_in_flight = false;
+			$("body").hide_loading_screen();
 			if(!_rel_graph){
 				_rel_graph = $("#" + __id + " .logstat_container")
 				 .css("height", ($(window).height() - $("#" + __id + " .gadget_header").offset().top - $("#" + __id + " .gadget_header").height() -60) + "px")
@@ -98,9 +107,30 @@ $(document).ready(function(){
 		})
 		 .error(function(xhr, message, error){
 			_in_flight = false;
+			$("body").hide_loading_screen();
 			$("#" + __id + " .logstat_container").empty().html("エラー: "+message + " - " + error);
 		});
 	}
+	var __map_start = {
+		"90d": (new Date((new Date()).getTime() - 86400000 * 90)).getTime(),
+		"183d": (new Date((new Date()).getTime() - 86400000 * 183)).getTime(),
+		"1y": (new Date((new Date()).getTime() - 86400000 * 365)).getTime(),
+		"all": undefined
+	};
+	$("#" + __id + " select.duration").change(function(){
+//hack android chrome does not refresh the visible value on select element.
+		var self = $(this);
+		var val = self.val();
+		self.find("option[value='" + val + "']").prop("selected", true);
+		self.find("option[value!='" + val + "']").prop("selected", false);
+		setTimeout(function(){
+			self.offset({top:self.offset().top});
+		},100);
+//hack
+		__start();
+	});
+function __start(){
+	__params.start =  __map_start[$("#" + __id + " select.duration").val()];
 	__update_rel_graph();
 
 	var _brush_timeout = null;
@@ -138,7 +168,8 @@ $(document).ready(function(){
 	 .error(function(xhr, message, error){
 		$("#" + __id + " .act_by_date_container").empty().html("エラー: "+message + " - " + error);
 	});
-
+}
+	__start();
 });
 
 

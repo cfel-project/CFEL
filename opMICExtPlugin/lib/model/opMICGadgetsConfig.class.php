@@ -17,4 +17,14 @@ class opMICExtConfig{
 	public static function getBargraphCluserExt(){
 		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_brgr_cls_ext", "");
 	}
+
+	public static function getRelVisQueryTarget(){
+		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_rel_query_target", "all");
+	}
+	public static function getRelVisQueryTargetId(){
+		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_rel_query_target_id", "");
+	}
+	public static function getRelVisQueryExcludeId(){
+		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_rel_query_exclude_id", "");
+	}
 }

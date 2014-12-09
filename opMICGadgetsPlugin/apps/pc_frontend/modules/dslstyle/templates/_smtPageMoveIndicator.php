@@ -12,6 +12,6 @@
 ?>
 <script type="text/javascript">
 $(window).bind("beforeunload", function(e){
-	$("<div style='position:fixed;top:0;left:0;width:100%;height:100%; background:rgba(255,255,255,.8'><h1 class='loader' style='text-align:center;margin-top:40%;'>読み込み中...</h1></div>").appendTo($("body"));
+	$("<div style='position:fixed;top:0;left:0;width:100%;height:100%; background:rgba(255,255,255,.8)'><h1 class='loader' style='text-align:center;margin-top:40%;'>読み込み中...</h1></div>").appendTo($("body"));
 });
 </script>

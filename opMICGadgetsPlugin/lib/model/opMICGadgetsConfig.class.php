@@ -14,6 +14,12 @@ class opMICGadgetsConfig{
 	public static function getHomeMenuConfig(){
 		return Doctrine::getTable('SnsConfig')->get('op_micgadgets_plugin_dsl_menu', '');
 	}
+	public static function getHomeMenuType(){
+		return Doctrine::getTable('SnsConfig')->get('op_micgadgets_plugin_dsl_menu_type', 'default');
+	}
+	public static function getHomeMenuColumns(){
+		return Doctrine::getTable('SnsConfig')->get('op_micgadgets_plugin_dsl_menu_cols', 4);
+	}
 	public static function getEventCategoryConfig(){
 		return Doctrine::getTable('SnsConfig')->get('op_micgadgets_plugin_ov_event_category', '');
 	}

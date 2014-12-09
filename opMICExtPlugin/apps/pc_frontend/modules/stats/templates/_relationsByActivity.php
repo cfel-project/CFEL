@@ -18,6 +18,7 @@ use_javascript(opMICExtConfig::getD3URL(), 'last', array(
 ));
 use_javascript('/opMICExtPlugin/js/jq.actrels.gr.js', 'last');
 use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
+use_javascript('/opMICExtPlugin/js/jq.loading.scr.js', 'last');
 ?>
 <style type="text/css">
 .link {
@@ -61,6 +62,12 @@ use_javascript('/opMICExtPlugin/js/jq.actdts.gr.js', 'last');
 	<div class="parts">
 		<div class="partsHeading">
 			<h3>つぶやきでのつながり</h3>
+			<select class="duration">
+				<option selected=true value="90d">90日分</option>
+				<option value="183d">半年分</option>
+				<option value="1y">一年分</option>
+				<option value="all">全て</option>
+			</select>
 		</div>
 		<div class="logstat_container">
 			読み込み中...
@@ -83,10 +90,12 @@ $(document).ready(function(){
 	var _in_flight = false;
 	function __update_rel_graph(prms){
 		_in_flight = true;
+		$("body").show_loading_screen();
 		$.getJSON(openpne.apiBase + "stats/activityRelations",
 			$.extend({}, __params, prms))
 		 .success(function(json){
 			_in_flight = false;
+			$("body").hide_loading_screen();
 			if(!_rel_graph){
 				_rel_graph = $("#" + __id + " .logstat_container")
 				 .css("height", "600px")
@@ -97,9 +106,21 @@ $(document).ready(function(){
 		})
 		 .error(function(xhr, message, error){
 			_in_flight = false;
+			$("body").hide_loading_screen();
 			$("#" + __id + " .logstat_container").empty().html("エラー: "+message + " - " + error);
 		});
 	}
+	var __map_start = {
+		"90d": (new Date((new Date()).getTime() - 86400000 * 90)).getTime(),
+		"183d": (new Date((new Date()).getTime() - 86400000 * 183)).getTime(),
+		"1y": (new Date((new Date()).getTime() - 86400000 * 365)).getTime(),
+		"all": undefined
+	};
+	$("#" + __id + " select.duration").change(function(){
+		__start();
+	});
+function __start(){
+	__params.start =  __map_start[$("#" + __id + " select.duration").val()];
 	__update_rel_graph();
 
 	var _brush_timeout = null;
@@ -134,7 +155,8 @@ $(document).ready(function(){
 	 .error(function(xhr, message, error){
 		$("#" + __id + " .act_by_date_container").empty().html("エラー: "+message + " - " + error);
 	});
-
+}
+	__start();
 });
 
 

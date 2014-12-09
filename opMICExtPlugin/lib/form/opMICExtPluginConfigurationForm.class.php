@@ -26,12 +26,31 @@ class opMICExtPluginConfigurationForm extends BaseForm{
 		$this->widgetSchema->setLabel('brgr_cls_ext', 'Bar graph cluster func extension');
 		$this->widgetSchema->setHelp('brgr_cls_ext', 'Set bar graph cluster objects in JSON format (without outer [] clause');
 
+		$target_types = array('all' => 'All', 'community' => 'Community', 'member' => 'Member');
+		$this->setWidget('rel_query_target', new sfWidgetFormSelectRadio(array('choices' => $target_types)));
+		$this->setDefault('rel_query_target', Doctrine::getTable('SnsConfig')->get('op_micext_plugin_rel_query_target', 'all'));
+		$this->setValidator('rel_query_target', new sfValidatorChoice(array('choices' => array_keys($target_types))));
+		$this->widgetSchema->setLabel('rel_query_target', 'Visualization Query Target Type');
+		$this->widgetSchema->setHelp('rel_query_target', 'Please choose query target');
+
+		$this->setWidget('rel_query_target_id', new sfWidgetFormInput());
+		$this->setDefault('rel_query_target_id', Doctrine::getTable('SnsConfig')->get('op_micext_plugin_rel_query_target_id', ''));
+		$this->setValidator('rel_query_target_id', new sfValidatorString(array('required' => false, 'trim' => true)));
+		$this->widgetSchema->setLabel('rel_query_target_id', 'Visualization Query Target ID');
+		$this->widgetSchema->setHelp('rel_query_target_id', 'Set id for the target type above.');
+
+		$this->setWidget('rel_query_exclude_id', new sfWidgetFormInput());
+		$this->setDefault('rel_query_exclude_id', Doctrine::getTable('SnsConfig')->get('op_micext_plugin_rel_query_exclude_id', ''));
+		$this->setValidator('rel_query_exclude_id', new sfValidatorString(array('required' => false, 'trim' => true)));
+		$this->widgetSchema->setLabel('rel_query_exclude_id', 'Visualization Query exclude ID');
+		$this->widgetSchema->setHelp('rel_query_exclude_id', 'Set id for the exclude member.');
+
 		$this->widgetSchema->setNameFormat('op_micext_plugin[%s]');
 	}
 	
 	public function save(){
 //		parent::save();
-		$names = array("d3_url", "brgr_cls_ext");
+		$names = array("d3_url", "brgr_cls_ext", "rel_query_target", "rel_query_target_id", "rel_query_exclude_id");
 		foreach($names as $name){
 			if(!is_null($this->getValue($name))){
 				Doctrine::getTable("SnsConfig")->set("op_micext_plugin_".$name, $this->getValue($name));

@@ -12,6 +12,8 @@
 class dslmenuComponents extends sfComponents{
 	protected function setHomeMenuData(sfWebRequest $request){
 		$strcfg = trim(opMICGadgetsConfig::getHomeMenuConfig());
+		$this->menutype = trim(opMICGadgetsConfig::getHomeMenuType());
+		$this->menucols = opMICGadgetsConfig::getHomeMenuColumns();
 		$cfg = json_decode($strcfg, true);
 		$this->menuItems = array(
 			"items" =>  array_map(function($itm){

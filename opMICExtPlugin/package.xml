@@ -79,7 +79,10 @@ Extensional plugins for MIC project
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/userRelationsSuccess.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_activitiesByDate.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_barGraphByEvent.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_embedVislinkTimeline.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_embedVislinkTimeline_core.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_relationsByActivity.php" role="data" />
+	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_smtEmbedVislinkTimeline.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_smtRelationsByActivity.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/_streamGraphByUrl.php" role="data" />
 	<file baseinstalldir="/" name="apps/pc_frontend/modules/stats/templates/__stream_by_url_core.php" role="data" />
@@ -98,10 +101,14 @@ Extensional plugins for MIC project
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLog.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/model/doctrine/PluginConfirmationLogTable.class.php" role="data" />
 	<file baseinstalldir="/" name="lib/util/opMICExtUtil.class.php" role="data" />
+	<file baseinstalldir="/" name="web/css/embedvis.css" role="data" />
 	<file baseinstalldir="/" name="web/css/member_list.css" role="data" />
 	<file baseinstalldir="/" name="web/css/stats.css" role="data" />
+	<file baseinstalldir="/" name="web/images/tlrel_vis.png" role="data" />
+	<file baseinstalldir="/" name="web/images/tlrel_vis_sm.png" role="data" />
 	<file baseinstalldir="/" name="web/js/jq.actdts.gr.js" role="data" />
 	<file baseinstalldir="/" name="web/js/jq.actrels.gr.js" role="data" />
+	<file baseinstalldir="/" name="web/js/jq.loading.scr.js" role="data" />
 	<file baseinstalldir="/" name="web/js/jq.stgrbar.gr.js" role="data" />
   </dir>
  </contents>

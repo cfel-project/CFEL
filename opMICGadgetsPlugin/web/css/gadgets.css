@@ -87,6 +87,10 @@
 	text-align: center;
 	background-color: #fbfaf5;
 }
+.date_indicator{
+	vertical-align: middle;
+}
+
 .Layout .date_indicator,
 .Layout .event_cell_message{
 	padding: .2em;
