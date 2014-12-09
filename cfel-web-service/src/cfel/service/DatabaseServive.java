@@ -31,7 +31,7 @@ public class DatabaseServive {
 	private DB mDB = null;
 	private GridFS mFS = null;
 
-	public static DatabaseServive getInstance() {
+	public static synchronized DatabaseServive getInstance() {
 		if (sDS == null) {
 			sDS = new DatabaseServive(Config.MONGO_HOST, Config.ALBUM_DB);
 		}

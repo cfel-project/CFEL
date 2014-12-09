@@ -14,6 +14,7 @@ package cfel.servlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.bson.types.ObjectId;
 
 import cfel.service.DatabaseServive;
+import cfel.util.DBCollectionUtil;
+import cfel.util.DBCollectionUtilException;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -119,6 +122,7 @@ public class ServiceServlet extends HttpServlet {
 		super.service(request, response);
 	}
 
+	private static final String q_keys[] = {"id", "keys", "query", "sort", "skip", "limit", "count"};
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -154,7 +158,18 @@ public class ServiceServlet extends HttpServlet {
 			}
 			return;
 		}
-
+		HashMap<String, String> options = new HashMap<String,String>();
+		for(String qk: q_keys){
+			options.put(qk, request.getParameter(qk));
+		}
+		
+		try {
+			Object result = DBCollectionUtil.query(type, options);
+			sendJSON(result, response);
+		} catch (DBCollectionUtilException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+		}
+/*
 		DBCollection collection = mDS.getCollection(type);
 		if (collection == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.format("Unknown collection %s", type));
@@ -191,6 +206,7 @@ public class ServiceServlet extends HttpServlet {
 			return;
 		}
 		sendJSON(result, response);
+		*/
 	}
 
 	/**

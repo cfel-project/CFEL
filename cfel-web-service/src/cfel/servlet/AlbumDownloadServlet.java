@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -30,7 +31,12 @@ import org.apache.wink.json4j.JSONArray;
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import cfel.service.Config;
+import cfel.util.DBCollectionUtil;
+import cfel.util.DBCollectionUtilException;
 
 /**
  * Servlet implementation class AlbumDownloadServlet
@@ -49,22 +55,41 @@ public class AlbumDownloadServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (download(request, response)) {
-			response.setStatus(HttpServletResponse.SC_OK);
-		} else {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		try {
+			if (download(request, response)) {
+				response.setStatus(HttpServletResponse.SC_OK);
+			} else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			}
+		} catch (NullPointerException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+		} catch (DBCollectionUtilException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+		} catch (JSONException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
 		}
 	}
+	private static final HashMap<String, String> _options = new HashMap<String, String>(){
+		private static final long serialVersionUID = -8075950473127776224L;
 
-	private static boolean download(HttpServletRequest request, HttpServletResponse response) {
+		{
+			put("query", "{removed:{$ne:true}}");
+			put("keys", "{portal_image_url:1,title:1,annotation_title:1,annotation_season:1,annotation_location:1,annotation_date:1}");
+		}
+	
+	};
+
+	private static boolean download(HttpServletRequest request, HttpServletResponse response) throws DBCollectionUtilException, NullPointerException, JSONException {
 		String groupBy = request.getParameter("type");
 		String apiKey = request.getParameter("apiKey");
 		if (apiKey == null || !groupBy.matches("(season|date|location)")) {
 			return false;
 		}
-		String apiRoot = request.getRequestURL().toString().replace(request.getServletPath(), "");
-		Object obj = getJSON(apiRoot + "/photo" + "?query={removed:{$ne:true}}"
-				+ "&keys={portal_image_url:1,title:1,annotation_title:1,annotation_season:1,annotation_location:1,annotation_date:1}", apiKey);
+		String json = DBCollectionUtil.query_serialized("photo", _options);//TODO possibly be converted in direct.
+		Object obj = JSON.parse(json);
+//		String apiRoot = request.getRequestURL().toString().replace(request.getServletPath(), "");
+//		Object obj = getJSON(apiRoot + "/photo" + "?query={removed:{$ne:true}}"
+//				+ "&keys={portal_image_url:1,title:1,annotation_title:1,annotation_season:1,annotation_location:1,annotation_date:1}", apiKey);
 		if (obj instanceof JSONArray) {
 			JSONArray array = (JSONArray) obj;
 			int countPhoto = array.length();

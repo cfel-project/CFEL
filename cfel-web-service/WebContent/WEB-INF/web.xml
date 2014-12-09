@@ -16,22 +16,22 @@
 	<context-param>
 		<description>Root URL of portal</description>
 		<param-name>portal_root</param-name>
-		<param-value>https://examples.com</param-value>
+		<param-value>http://kosugi.trl.ibm.com</param-value>
 	</context-param>
 	<context-param>
 		<description>URL of portal</description>
 		<param-name>portal_url</param-name>
-		<param-value>https://examples.com/p/web</param-value>
+		<param-value>http://kosugi.trl.ibm.com/OpenPNE38_4/web</param-value>
 	</context-param>
 	<context-param>
 		<description>Administration API key</description>
 		<param-name>api_key</param-name>
-		<param-value>abcdef123456789...987654321fedcba</param-value>
+		<param-value>452e426a828a9539429f6142d778f6c7d1cc6075f4a15e5b7c8315d4a9baf196</param-value>
 	</context-param>
 	<context-param>
 		<description>Root URL of album</description>
 		<param-name>album_root</param-name>
-		<param-value>http://localhost/album</param-value>
+		<param-value>http://localhost/el</param-value>
 	</context-param>
 	<context-param>
 		<description>host:port of mongoDB</description>
