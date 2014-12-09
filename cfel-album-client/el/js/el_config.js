@@ -11,8 +11,8 @@
 (function(){
 	if(!window["el_config"]){
 		window["el_config"] = {
-			"home_lat": 34.826724,//35.681382
-			"home_lng": 135.3193 //139.766084
+			"home_lat": 35.681382,
+			"home_lng": 139.766084
 		};
 	}
 })();
