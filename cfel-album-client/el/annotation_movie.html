@@ -6,120 +6,134 @@
 <meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
 <title>みんなのアルバム　動画を見る</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<style type="text/css">
+#cover img{
+	position:absolute;
+	background:#fff;
+	width:auto;
+	height:auto;
+	margin:0 auto;
+}
+
+#cover img:before{
+	position:absolute;
+	z-index:-1;
+	content:"";
+	bottom:10px;
+	left:10px;
+	width:50%;
+	top:80%;
+	background:#8d8c8c;
+	box-shadow:0 15px 10px #8d8c8c;
+	transform:rotate(-5deg);
+}
+#cover img:after{
+	z-index:-1;
+	position:absolute;
+	content:"";
+	bottom:10px;
+	right:10px;
+	width:50%;
+	top:80%;  
+	background:#8d8c8c;   
+	box-shadow:0 15px 10px #8d8c8c;
+	transform:rotate(5deg);
+}
+html, body, #cover{
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+}
+
+</style>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script src="js/album-service.js"></script>
 <script type="text/javascript">  
-    //root_url#tkn=apiKey&base=location_url
-    var pram=window.location.href;
-    var temp = pram.split("&");
-    var api=temp[0].split("#");
-    var key=api[1].split("=");
-    var apiKey=key[1];
-    
-    var serviceRoot = cfelService.serviceRoot.slice(0, -1);
+$(document).ready(function(){
+	cfelService.apiKey = cfelService.getRequestFragment("apiKey");
 
-  /*
-	 * 基本API
-	 */
-	function findPhoto(query, callback) {
-		cfelService.apiKey = apiKey;
-		cfelService.getPhotoList({
-			"query" : query
-		}, callback);
-	}
-  
-	/*
-	 * callback
-	 */
-	function showResult(result) {
-		if (result.status == "success") {
-			$("#result").text(JSON.stringify(result.data));
-		} else {
-			$("#result").text("status: " + result.status);
-		}
-	}
-  function getImageURLS(callback) {
-	  cfelService.apiKey = apiKey;
+	function getImageURLS(callback) {
 		cfelService.getPhotoList({
 			"query" : null,
 			"keys" : {
 				"_id" : 0,
-        "portal_image_url" : 1,
-        "card_image_url" : 1
+				"portal_image_url" : 1,
+				"card_image_url" : 1
 			}
 		}, callback);
 	}
-
-  function showMovie(result) {
+	getImageURLS(function(result){
+		$("#loading").hide();
 		if (result.status == "success") {
-			var jsonText = result.data;
-      var count=0;
-      var num=0;
-      document.open();
-      document.writeln('<h1><div id=title>みんなで作ったアルバムをスライドショーで見てみましょう！</div></h1>');
-      document.writeln('<div id="cover">');
-      //document.writeln('<div id="oTitle"></div>');
-      for(var i=0; i<jsonText.length; i++){
-        var oTitle = jsonText[i].title;
-        if(!oTitle)oTitle="まだタイトルがついていません";
-        var oURL = jsonText[i].portal_image_url;
-        if(oURL.match(/photo/)){
-          var url = oURL.replace("\/photo","photo");
-          oURL = url;
-        }
-        //removeElement("oTitle");
-        //var title=document.createElement("div");
-        //title.innerHTML = oTitle;
-        //document.getElementById("oTitle").appendChild(title);
-        document.writeln('<img src="'+oURL+'" width="640px" height="480px">');
-        //document.writeln('<div style="size:32px; background-color:#000000; color:#ffffff; width:640px; height:80px;">'+oTitle+'</div>');
-      }
-      document.writeln('</div>');
-      document.close();
-      //alert(num);
-		} else {
-			 alert(result.status);
+			var cover = $("#cover").empty();
+			var c_h = cover.innerHeight() * .9;
+			var c_w = cover.innerWidth() * .9;
+			result.data.forEach(function(item){
+				$("<img/>",{
+					src: (item.portal_image_url || "").replace(/^\/photo/, "photo"),
+					style:"opacity:0;"
+				}).appendTo(cover)
+				.load(function(){
+					__adjust($(this));
+					$(this).hide();
+				});
+			});
+			transition();
+		}else{
+			alert(result.status);
 		}
-    enhanceElements(1);
+	});
+	var cover = $("#cover");
+	var c_h = cover.height() * .95;
+	var c_w = cover.width() * .95;
+	$(window).resize(function(){
+		c_h = cover.height() * .95;
+		c_w = cover.width() * .95;
+		cover.find("img").each(function(){
+			__adjust($(this));
+		});
+	});
+
+	function __adjust(elem){
+		elem.show();
+		var h = elem.height();
+		var w = elem.width();
+		var ratio = Math.max(h / c_h, w / c_w);
+		elem.height(Math.round(ratio > 1 ? h / ratio : h * ratio));
+		elem.width(Math.round(ratio > 1 ? w / ratio : w * ratio));
+		elem.css({
+			"left": Math.floor((cover.innerWidth() - elem.width()) / 2) + "px",
+			"top": Math.floor((cover.innerHeight() - elem.height()) / 2) + "px"
+		});
+	}
+	function transition(){
+		var fadeSpeed = 1500;
+		var switchDelay = 5000;
+		var felem = cover.find("img:first");
+		felem.load(function(){
+//			__adjust(felem);
+			felem.show();
+			felem.stop().animate({opacity:'1',zIndex:'20'},fadeSpeed);
+
+			setInterval(function(){
+				var elem = cover.find("img:first");
+//				__adjust(elem.next("img"));
+				elem.next("img").show();
+				elem.animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo(cover);
+			},switchDelay);
+		});
 	}
 
-function enhanceElements(status){
-  if(status==1){
-    $('#loading').hide();
-    $(function(){
-    var setImg = '#cover';
-    var fadeSpeed = 1500;
-    var switchDelay = 5000;
- 
-    $(setImg).children('img').css({opacity:'0'});
-    $(setImg + ' img:first').stop().animate({opacity:'1',zIndex:'20'},fadeSpeed);
- 
-    setInterval(function(){
-        $(setImg + ' :first-child').animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo(setImg);
-    },switchDelay);
-    });
-    var background = document.getElementById("cover");
-    background.style.width="640px";
-    background.style.height="480px";
-    background.style.overflow="hidden";
-  }
-}
-
-function removeElement(id) { 
-  var element = document.getElementById(id); 
-  //element.removeChild(element.childNodes.item(0)); 
-  for (var i =element.childNodes.length-1; i>=0; i--) {
-    element.removeChild(element.childNodes[i]);
-  }
-}
+});
 
 </script>
 
 </head>
 
-<body onload="getImageURLS(showMovie)">
-<div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
-
+<body>
+<div id="loading" align="center"><h1>みんなで作ったアルバムをスライドショーで見てみましょう！</h1><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
+<div id="cover"></div>
 </body>
 </html>

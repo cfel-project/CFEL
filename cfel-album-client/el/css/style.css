@@ -75,9 +75,7 @@ padding: 0;
 .fadein img { position:absolute; left:0; top:0; }
 
 .menu {
-	font-size: 1.5em;
 	width : auto; /* liquid design*/
-	height : 70px;
 	background-color : midnightblue;
 }
 
@@ -94,13 +92,14 @@ padding: 0;
 
 .menu li a {
 	display: block;
-	width: 150px;
-	line-height: 70px;
 	border-right: solid 1px #ffffff;
 	color: #ffffff;
 	text-align: center;
 	text-decoration: none;
 	background-color: midnightblue;
+	min-width: 5em;
+	padding: .8em 1em;
+	border-radius: .5em .5em 0 0;
 }
 .menu li a:hover {
 	background-color: seagreen;
@@ -126,17 +125,6 @@ padding: 0;
     /*width: 100px;
     height: 70px;*/
     text-align: center;
-}
-
-#cover {
-    position: relative;
-    overflow: hidden;
-}
-
-#cover img {
-    position: absolute;
-    top: 0;
-    opacity: 0;
 }
 
 html,body{
@@ -177,4 +165,9 @@ html,body{
 width:200px;
 height:100px;
 overflow:hidden;
+}
+
+.ui_tabs_head li a{
+	font-size:large;
+	font-weight: bold;
 }

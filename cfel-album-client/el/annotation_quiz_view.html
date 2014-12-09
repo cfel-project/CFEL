@@ -10,6 +10,29 @@
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.cycle.all.js"></script>
 <link rel="stylesheet" type="text/css" href="css/development-bundle/themes/base/jquery-ui.css" media="all"/>
+<style type="text/css">
+html, body{
+	width: 100%;
+	height: 100%;
+	padding:0;
+	margin:0;
+}
+
+#result, #jquery-ui-tabs, .ui-tabs .ui-tabs-panel.no_padding{
+	position:relative;
+}
+
+.ui-tabs .ui-tabs-panel.no_padding{
+	padding: 0;
+	margin: 0;
+}
+
+.ui_tabs_head li a{
+	font-size:large;
+	font-weight: bold;
+}
+
+</style>
 <script src="js/album-service.js"></script>
 <script type="text/javascript">  
 
@@ -32,13 +55,11 @@
     url: url,
     type: 'GET',
     dataType: 'json',
-    //data: '{"test": "テスト"}',
     success : function(data) {
       portal=data;
     },
   });
   
-  // HTMLエスケープ - jQueryを使うと一行で書ける
   function escapeHTML(html) {
     return jQuery('<div>').text(html).html();
   }
@@ -140,6 +161,40 @@
 			$("#result").text("status: " + result.status);
 		}
 	}
+$(document).ready(function(){
+	var mfrm = null;
+	var afrm = null;
+	var __resize_frame = function(){
+		if(!mfrm){
+			mfrm = $("<iframe/>",{
+				width: "100%",
+				src: "mapTask.html#apiKey="+apiKey+"&base="+base,
+				frameBorder: 0
+			}).appendTo($("#jquery-ui-tabs-4").empty());
+		}
+		mfrm.height($("body").height() - mfrm.offset().top - 8);
+		if(!afrm){
+			afrm = $("<iframe/>", {
+				width: "100%",
+				src: "administration_view.html#apiKey="+apiKey+"&base="+base,
+				frameBorder: 0
+			}).appendTo($("#jquery-ui-tabs-5").empty());
+		}
+		afrm.height($("body").height() - afrm.offset().top - 8);
+	};
+	$(window).resize(function(){
+		__resize_frame();
+	});
+
+	$("#jquery-ui-tabs").tabs({
+		activate: function(){
+			__resize_frame();
+		}
+	});
+
+
+
+});
   function getImageURLS(callback) {
 	  cfelService.apiKey = apiKey;
 		cfelService.getPhotoList({
@@ -319,7 +374,7 @@
 function enhanceElements(status){
   if(status==1){
   $('#loading').hide();
-  $("#jquery-ui-tabs").tabs();
+
   $('#tab a').click(function(){
     start_time = new Date();
     this.blur();
@@ -564,17 +619,6 @@ var get_current_timestamp = function() {
 //alert(get_current_timestamp());
 
 
-function mapView(){
-  var ifm = document.getElementById("jquery-ui-tabs-4"); //要素を表示する場所（親要素）
-  for (var i =ifm.childNodes.length-1; i>=0; i--) {
-    ifm.removeChild(ifm.childNodes[i]);
-  }
-  var iframe = document.createElement("iframe"); //新規にiframe要素を生成
-  iframe.width="100%";
-  iframe.height="700px";
-  iframe.src="mapTask.html#apiKey="+apiKey+"&base="+base;
-  ifm.appendChild(iframe); //子要素としてiframeを追加
-}
 
 function jump(){
 	location.href='season_view.html#apiKey='+apiKey+'&base='+base;
@@ -588,11 +632,12 @@ function jump(){
 <div id='result'>
 <div id="loading" align="center"><font size="7">読み込んでいます<br>もうしばらくお待ちください</font></div>
 <div id="jquery-ui-tabs">
-    <ul id="tab">
-        <li><a href="#jquery-ui-tabs-1"><font size="5"><b>どの季節？</b></font></a></li>
-        <li><a href="#jquery-ui-tabs-2"><font size="5"><b>いつの写真？</b></font></a></li>
-        <li><a href="#jquery-ui-tabs-3"><font size="5"><b>タイトルをつける</b></font></a></li>
-        <li><a href="#jquery-ui-tabs-4"><font size="5"><b>どこの写真？</b></font></a></li>
+    <ul id="tab" class="ui_tabs_head">
+        <li><a href="#jquery-ui-tabs-1">どの季節？</a></li>
+        <li><a href="#jquery-ui-tabs-2">いつの写真？</a></li>
+        <li><a href="#jquery-ui-tabs-3">何の写真？</a></li>
+        <li><a href="#jquery-ui-tabs-4">どこの写真？</a></li>
+		<li><a href="#jquery-ui-tabs-5">写真除外</a></li>
     </ul>
     <div id="jquery-ui-tabs-1">
       <h1><div id="task" align="center">正解だと思う季節を押して下さい</div></h1>
@@ -664,11 +709,10 @@ function jump(){
       </table>
     </div>
     
-    <div id="jquery-ui-tabs-4">
-      <script type="text/javascript">
-        mapView();
-      </script>
+    <div class="no_padding" id="jquery-ui-tabs-4">
     </div>
+	<div class="no_padding" id="jquery-ui-tabs-5">
+	</div>
     
 </div>
 

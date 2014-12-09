@@ -699,34 +699,6 @@ function removeElement(id) {
   }
 }
 
-var get_current_timestamp = function() {
-    var weeks = new Array('日', '月', '火', '水', '木', '金', '土');
-    var d = new Date();
- 
-    // 年月日・曜日・時分秒の取得
-    var month  = d.getMonth() + 1;
-    var day    = d.getDate();
-    var week   = weeks[ d.getDay() ];
-    var hour   = d.getHours();
-    var minute = d.getMinutes();
-    var second = d.getSeconds();
- 
-    // 1桁を2桁に変換する
-    if (month < 10) {month = "0" + month;}
-    if (day < 10) {day = "0" + day;}
-    if (hour < 10) {hour = "0" + hour;}
-    if (minute < 10) {minute = "0" + minute;}
-    if (second < 10) {second = "0" + second;}
- 
-    // 整形して返却
-    return d.getFullYear()  + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".000Z";
-}
- 
-// 現在の日付・時刻を表示する
-//document.write(get_current_timestamp());
-//alert(get_current_timestamp());
-
-
 function mapView(){
   var ifm = document.getElementById("jquery-ui-tabs-4"); //要素を表示する場所（親要素）
   for (var i =ifm.childNodes.length-1; i>=0; i--) {

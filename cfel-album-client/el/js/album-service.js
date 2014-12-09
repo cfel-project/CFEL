@@ -12,9 +12,24 @@
 /*
  * Service API
  */
+(function(){
+var __req_frg = null;
+function __get_req_frg(key){
+	if(!__req_frg){
+		__req_frg = {};
+		((document.location.hash || "").replace(/^#/,"") || "").split("&").forEach(function(elem){
+			var vals = elem.split("=");
+			__req_frg[vals[0]] = vals[1] || null;
+			
+		});
+	}
+	return __req_frg[key];
+}
 
-var cfelService = {
+window["cfelService"] = {
 	serviceRoot : "/el_api/cfel-web-service/",
+
+	getRequestFragment: __get_req_frg,
 
 	getPhotoList : function(findOptions, callback) {
 		findOptions.query = findOptions.query || {
@@ -127,3 +142,26 @@ var cfelService = {
 		}
 	}
 };
+
+window["get_current_timestamp"] = function() {
+    var weeks = new Array('日', '月', '火', '水', '木', '金', '土');
+    var d = new Date();
+ 
+    var month  = d.getMonth() + 1;
+    var day    = d.getDate();
+    var week   = weeks[ d.getDay() ];
+    var hour   = d.getHours();
+    var minute = d.getMinutes();
+    var second = d.getSeconds();
+ 
+    if (month < 10) {month = "0" + month;}
+    if (day < 10) {day = "0" + day;}
+    if (hour < 10) {hour = "0" + hour;}
+    if (minute < 10) {minute = "0" + minute;}
+    if (second < 10) {second = "0" + second;}
+ 
+    return d.getFullYear()  + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".000Z";
+};
+
+})();
+

@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="js/album-service.js"></script>
 <style type="text/css">
 html, body{
 	overflow: hidden;
@@ -16,172 +17,77 @@ html, body{
 #viewport {
 	overflow: hidden;
 	width: 100%;
-	height: 90%;
-	position: absolute;
+	height: 100%;
+/*	position: absolute;
 	left: 0px;
-	top: 100px;
+	top: 100px;*/
 }
-</style>
-<script type="text/javascript">  
 
-function view(type){
-  //root_url#tkn=apiKey&base=location_url
-  var pram=window.location.href;
-	var temp = pram.split("&");
-  var api=temp[0].split("#");
-  var key=api[1].split("=");
-  var apiKey=key[1];
-  //alert(apiKey);
-	var base_temp=temp[1].split("=");
-	var base=base_temp[1];
-	//alert(base);
-  var url = base+"/elmember/search?apiKey="+apiKey;
-  var ifm = document.getElementById("viewport"); //要素を表示する場所（親要素）
-  for (var i =ifm.childNodes.length-1; i>=0; i--) {
-    ifm.removeChild(ifm.childNodes[i]);
-  }
-  var iframe = document.createElement("iframe"); //新規にiframe要素を生成
-  iframe.width="100%";
-  iframe.height="100%";
-  iframe.setAttribute('frameBorder', 0);
-  if(type==1){
-    var old2 = document.getElementById('tab2');
-    old2.style.color="#ffffff";
-    old2.style.backgroundColor = "midnightblue";
-    var old3 = document.getElementById('tab3');
-    old3.style.color="#ffffff";
-    old3.style.backgroundColor = "midnightblue";
-    var old4 = document.getElementById('tab4');
-    old4.style.color="#ffffff";
-    old4.style.backgroundColor = "midnightblue";
-    var old5 = document.getElementById('tab5');
-    old5.style.color="#ffffff";
-    old5.style.backgroundColor = "midnightblue";
-    var old6 = document.getElementById('tab6');
-    old6.style.color="#ffffff";
-    old6.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab1');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.src="season_view.html#apiKey="+apiKey+"&base="+base;
-  }else if(type==2){
-    var old1 = document.getElementById('tab1');
-    old1.style.color="#ffffff";
-    old1.style.backgroundColor = "midnightblue";
-    var old3 = document.getElementById('tab3');
-    old3.style.color="#ffffff";
-    old3.style.backgroundColor = "midnightblue";
-    var old4 = document.getElementById('tab4');
-    old4.style.color="#ffffff";
-    old4.style.backgroundColor = "midnightblue";
-    var old5 = document.getElementById('tab5');
-    old5.style.color="#ffffff";
-    old5.style.backgroundColor = "midnightblue";
-    var old6 = document.getElementById('tab6');
-    old6.style.color="#ffffff";
-    old6.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab2');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.src="history_view.html#apiKey="+apiKey+"&base="+base;
-  }else if(type==3){
-    var old1 = document.getElementById('tab1');
-    old1.style.color="#ffffff";
-    old1.style.backgroundColor = "midnightblue";
-    var old2 = document.getElementById('tab2');
-    old2.style.color="#ffffff";
-    old2.style.backgroundColor = "midnightblue";
-    var old4 = document.getElementById('tab4');
-    old4.style.color="#ffffff";
-    old4.style.backgroundColor = "midnightblue";
-    var old5 = document.getElementById('tab5');
-    old5.style.color="#ffffff";
-    old5.style.backgroundColor = "midnightblue";
-    var old6 = document.getElementById('tab6');
-    old6.style.color="#ffffff";
-    old6.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab3');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.src="annotation_map.html#apiKey="+apiKey+"&base="+base;
-  }else if(type==4){
-    var old1 = document.getElementById('tab1');
-    old1.style.color="#ffffff";
-    old1.style.backgroundColor = "midnightblue";
-    var old2 = document.getElementById('tab2');
-    old2.style.color="#ffffff";
-    old2.style.backgroundColor = "midnightblue";
-    var old3 = document.getElementById('tab3');
-    old3.style.color="#ffffff";
-    old3.style.backgroundColor = "midnightblue";
-    var old5 = document.getElementById('tab5');
-    old5.style.color="#ffffff";
-    old5.style.backgroundColor = "midnightblue";
-    var old6 = document.getElementById('tab6');
-    old6.style.color="#ffffff";
-    old6.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab4');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.height="800px";
-    iframe.src="annotation_movie.html#apiKey="+apiKey+"&base="+base;
-  }else if(type==5){
-    var old1 = document.getElementById('tab1');
-    old1.style.color="#ffffff";
-    old1.style.backgroundColor = "midnightblue";
-    var old2 = document.getElementById('tab2');
-    old2.style.color="#ffffff";
-    old2.style.backgroundColor = "midnightblue";
-    var old3 = document.getElementById('tab3');
-    old3.style.color="#ffffff";
-    old3.style.backgroundColor = "midnightblue";
-    var old4 = document.getElementById('tab4');
-    old4.style.color="#ffffff";
-    old4.style.backgroundColor = "midnightblue";
-    var old6 = document.getElementById('tab6');
-    old6.style.color="#ffffff";
-    old6.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab5');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.src="annotation_quiz_view.html#apiKey="+apiKey+"&base="+base;
-  }else if(type==6){
-    var old1 = document.getElementById('tab1');
-    old1.style.color="#ffffff";
-    old1.style.backgroundColor = "midnightblue";
-    var old2 = document.getElementById('tab2');
-    old2.style.color="#ffffff";
-    old2.style.backgroundColor = "midnightblue";
-    var old3 = document.getElementById('tab3');
-    old3.style.color="#ffffff";
-    old3.style.backgroundColor = "midnightblue";
-    var old4 = document.getElementById('tab4');
-    old4.style.color="#ffffff";
-    old4.style.backgroundColor = "midnightblue";
-    var old5 = document.getElementById('tab5');
-    old5.style.color="#ffffff";
-    old5.style.backgroundColor = "midnightblue";
-    var ele = document.getElementById('tab6');
-    ele.style.color="#000000";
-    ele.style.backgroundColor = "#00FFFF";
-    iframe.src="administration_view.html#apiKey="+apiKey+"&base="+base;
-  } 
-  ifm.appendChild(iframe); //子要素としてiframeを追加
+.menu .tab{
+	background-color: "midnightblue";
+	color: #ffffff;
 }
+
+.menu .tab.focused{
+	background-color: #00FFFF;
+	color: #000000;
+}
+
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	var apiKey=cfelService.getRequestFragment("apiKey");
+	var base=cfelService.getRequestFragment("base")
+
+	var __resize_frame = function(){
+		$("#viewport>iframe").each(function(){
+			$(this).height($("body").innerHeight() - $(this).offset().top);
+		});
+	}
+
+	$(window).resize(function(){
+		__resize_frame();
+	});
+
+function __switch_view(tab){
+	var trg = tab.attr("trg");
+	$(".menu .tab").each(function(){
+		if(trg != $(this).attr("trg")){
+			$(this).removeClass("focused");
+		}else{
+			$(this).addClass("focused");
+		}
+	});
+	$("#viewport").empty().append($("<iframe/>",{
+		width: "100%",
+		frameBorder: 0,
+		src: trg + ".html#apiKey="+apiKey+"&base="+base
+	}));
+	__resize_frame();
+}
+
+	$(".menu .tab").click(function(){
+		__switch_view($(this));
+	});
+
+	__switch_view($(".menu .tab[trg='" + (cfelService.getRequestFragment("trg") || "season_view") + "']"));
+});
 </script>
 
 </head>
 
-<body onload="view(1)">
+<body>
 
-<div class="menu" id="menubar">
+<div class="menu ui_tabs_head" id="menubar">
   <ul>
-    <li><a onclick="view(1)"><div id="tab1"><font size="6"><b>季節</b></font></div></a></li>
-    <li><a onclick="view(2)"><div id="tab2"><font size="6"><b>歴史</b></font></div></a></li>
-    <li><a onclick="view(3)"><div id="tab3"><font size="6"><b>地図</b></font></div></a></li>
-    <li><a onclick="view(4)"><div id="tab4"><font size="6"><b>スライド</b></font></div></a></li>
-    <li><a onclick="view(5)"><div id="tab5"><font size="6"><b>整理</b></font></div></a></li>
-    <li><a onclick="view(6)"><div id="tab6"><font size="6"><b>写真除外</b></font></div></a></li>
+    <li><a class="tab" trg="season_view" id="tab1">季節</a></li>
+    <li><a class="tab" trg="history_view" id="tab2">歴史</a></li>
+    <li><a class="tab" trg="annotation_map" id="tab3">地図</a></li>
+    <li><a class="tab" trg="annotation_movie" id="tab4">スライド</a></li>
+<!--
+    <li><a><div class="tab" trg="annotation_quiz_view" id="tab5"><font size="6"><b>整理</b></font></div></a></li>
+    <li><a><div class="tab" trg="administration_view" id="tab6"><font size="6"><b>写真除外</b></font></div></a></li>
+-->
   </ul>
 </div>
 <div id="viewport"></div>

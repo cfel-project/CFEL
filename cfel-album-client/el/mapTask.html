@@ -5,44 +5,109 @@
 <meta name="copyright" content="Copyright (c) 2014 IBM Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at  http://www.eclipse.org/legal/epl-v10.html" >
 <title>みんなのアルバム 地図</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+<script type="text/javascript" src="js/el_config.js"></script>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script src="js/album-service.js"></script>
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&language=ja"></script>
-<script type="text/javascript">
-  //root_url#tkn=apiKey&base=location_url
-  var pram=window.location.href;
-	var temp = pram.split("&");
-  var api=temp[0].split("#");
-  var key=api[1].split("=");
-  var apiKey=key[1];
-  //alert(apiKey);
-	var base_temp=temp[1].split("=");
-	var base=base_temp[1];
-	//alert(base);
-  var url = base+"/elmember/search?apiKey="+apiKey;
-  
-  //data=user_id,user_name
-  var portal;
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    //data: '{"test": "テスト"}',
-    success : function(data) {
-      portal=data;
-    },
-  });
-  
-  var serviceRoot = cfelService.serviceRoot.slice(0, -1);
-  
-  var geocoder = new google.maps.Geocoder();
-  var start_time;
-  var end_time;
+<script src="js/jq.el.mapview.js"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&language=ja&libraries=geometry"></script>
+<style type="text/css">
+html, body{
+	width: 100%;
+	height: 100%;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
 
-   /*
-	 * 基本API
-	 */
+.map_container{
+	position:relative;
+}
+
+.landscape .map_container{
+	height:100%;
+	width:70%;
+}
+
+.portlait .map_container{
+	height: 70%;
+	width:100%;
+}
+
+.menu_container{
+	box-sizing: border-box;
+	position:absolute;
+}
+
+.landscape .menu_container{
+	position:absolute;
+	top: 0;
+	right: 0;
+	width: 30%;
+	height: 100%;
+}
+.portlait .menu_container{
+	bottom: 0;
+	left:0;
+	width: 100%;
+	height: 30%;
+}
+
+.subject,
+.content,
+.message{
+	padding: .3em;
+	border-radius: .5em;
+}
+
+
+.menu_container .operation{
+	position:absolute;
+	padding:.2em;
+	right: 0;
+	bottom: 0;
+}
+
+.menu_container .operation button{
+	font-size:150%;
+	padding: .2em;
+}
+
+.landscape .menu_container .content_image{
+	display:block;
+}
+
+.landscape .menu_container .image_thumbnail{
+	max-width: 100%;
+	max-height: 20%;
+}
+
+.portlait .menu_container .image_thumbnail{
+	max-width: 20%;
+	max-height: 100%;
+}
+
+
+.el_map_button{
+	padding:.3em;
+	margin-left: 15px;
+}
+
+</style>
+<script type="text/javascript">
+	var apiKey=cfelService.getRequestFragment("apiKey");
+	var base=cfelService.getRequestFragment("base")
+
+	var portal;
+	$.ajax({
+		url: base+"/elmember/search?apiKey="+apiKey,
+		type: 'GET',
+		dataType: 'json',
+		success : function(data) {
+		portal=data;
+		}
+	});
+
 	function findPhoto(query, callback) {
 		cfelService.apiKey = apiKey;
 		cfelService.getPhotoList({
@@ -53,294 +118,255 @@
 	/*
 	 * callback
 	 */
-	function showResult(result) {
-		if (result.status == "success") {
-			$("#result").text(JSON.stringify(result.data));
-		} else {
-			$("#result").text("status: " + result.status);
-		}
-	}
   function getImageURLS(callback) {
 	  cfelService.apiKey = apiKey;
 		cfelService.getPhotoList({
 			"query" : null,
 			"keys" : {
 				"_id" : 1,
-        "portal_image_url" : 1,
-        "marker_image_url" : 1,
-        "title" : 1,
+				"portal_image_url" : 1,
+				"marker_image_url" : 1,
+				"title" : 1,
 				"exif_location" : 1,
-        "annotation_season" : 1,
-        "annotation_title" :1,
-        "annotation_location": 1
+				"annotation_season" : 1,
+				"annotation_title" :1,
+				"annotation_location": 1
 			}
 		}, callback);
 	}
-  
-  function annotationLocation(photo, lon, lat, address, callback) {
-	  	cfelService.apiKey = apiKey;
-      var date = get_current_timestamp();
-      end_time = new Date();
-      var task_time = end_time - start_time + "msec";
-		var id = cfelService.getID(photo);
-		if (!id | !lon) {
-			return;
-		}
-		cfelService.updatePhoto(id, {
-			"update" : {
-				"$push" : {
-          "annotation_location" : {
-            "date_time" : date,
-        	  "portal_id" : portal.id,
-            "portal_name" : portal.name,
-        	  "lon" : lon,
-              "lat" : lat,
-              "address" : address,
-              "task_time" : task_time
-          }
-        }
-			},
-			"upsert" : true
-		}, callback);
-	}
-  
-  function next(){
-  //callback
-  }
-  
-  var annotateLocation=[5];
-  
-  function getLocation(result) {
-		if (result.status == "success") {
-    var myOptions = {
-      zoom: 18,
-      center: new google.maps.LatLng(34.826724,135.3193), //34.826953,135.319488
-      //center: new google.maps.LatLng(latitude,longitude),
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    }
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    map.panTo(pos);
-    var image=[];
-    var contentString=[];
-    var iconSize = new google.maps.Size(130,100);
-    var iconOffset = new google.maps.Point(0,0);
-    var iconAnchor = new google.maps.Point(65,100);
-    var iconScaleSize = new google.maps.Size(130,100);
 
-	//
-	//TBD replace
-	//    
-    var sampleLocation=[
-		["35.6801981995125", "139.7655957440540"],
-		["35.6818399285847", "139.7661610859830"],
-		["35.6813156320672", "139.7673943154830"],
-		["35.6812715608065", "139.7648895495980"],
-		["35.680783", "139.766553"] 
-    ];
-    
-			var jsonText = result.data;
-      var count=0;
-      var num=0;
-      var random=~~(Math.random()*(jsonText.length-0)+0);
-      for(var j=random; j<random+4; j++){
-	var i=j%jsonText.length;
-        //if(!jsonText[i].exif_location && !jsonText[i].annotation_location){
-          var lat = sampleLocation[count][0];
-          var lon = sampleLocation[count][1];
-          if(jsonText[i].annotation_title){
-            var oTitle = jsonText[i].annotation_title[jsonText[i].annotation_title.length-1].title;
-          }else{
-            var oTitle = jsonText[i].title;
-          }
-          if(!oTitle)oTitle="このリンクをタッチすると大きな画像が見えます";
-          var oURL = jsonText[i].portal_image_url;
-          if(oURL.match(/photo/)){
-            var url = oURL.replace("\/photo","photo");
-            oURL = url;
-          }
-          var mURL = serviceRoot + jsonText[i].marker_image_url;
-          //alert(mURL);
-          annotateLocation[count]=jsonText[i];
-          var image = new google.maps.MarkerImage(mURL,iconSize,iconOffset,iconAnchor,iconScaleSize);
-          var name='<a href="'+oURL + '" target="_blank"><h2>'+oTitle+'</h2></a>';
-          var latlng = new google.maps.LatLng(lat,lon);
-          createMarker(name,latlng,map,image,count);
-          count++;
-          if(count==4)break;
-     }
-     
-     var other_url="img/other.png";
-     var other_image = new google.maps.MarkerImage(other_url);
-     var latlng = new google.maps.LatLng(35.681212,139.763854);
-     createFolder(latlng,map,other_image);
-     
-     var unknown_url="img/unknown.png";
-     var unknown_image = new google.maps.MarkerImage(unknown_url);
-     var latlng = new google.maps.LatLng(35.681901,139.763854);
-     createFolder(latlng,map,unknown_image);
-     
-     /* 地図上にカスタムコントロールを追加 */
-			var homeControlDiv = document.createElement('DIV');
-			var homeControl = new HomeControl(homeControlDiv, map);
-			homeControlDiv.index = 1;
-			/* カスタムコントロールを地図の右上に配置 */
-			map.controls[google.maps.ControlPosition.RIGHT_TOP].push(homeControlDiv);
-      //alert(num);
-		} else {
-			 alert(result.status);
+	function __get_relative_latlng(map, pos){
+		var bounds = map.getBounds();
+		if(bounds){
+			var sw = bounds.getSouthWest();
+			var ne = bounds.getNorthEast();
+
+			return new google.maps.LatLng(pos.top * ne.lat() + (1 - pos.top) * sw.lat(), pos.left * ne.lng() + (1 - pos.left) * sw.lng());
+		}else{
+			return null;
 		}
 	}
-
-  function createMarker(name,latlng,map,image,count){
-    var infoWindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({position: latlng,map: map,icon: image,draggable: true});
-    //infoWindow.setContent(name);
-    //infoWindow.open(map,marker); 
-    google.maps.event.addListener(marker, "dragstart", function(ev) {
-        start_time = new Date();
-        document.getElementById("result").value += String(count)+"MoveStart:"+ev.latLng.lat()+","+ev.latLng.lng()+"<br>";
-      });
-      
-      google.maps.event.addListener(marker, "drag", function(ev) {
-        document.getElementById("result").value += "Move:"+ev.latLng.lat()+","+ev.latLng.lng()+"<br>";
-      });
-
-      // マーカーのドロップ（ドラッグ終了）時のイベント
-      google.maps.event.addListener( marker, 'dragend', function(ev){
-      //alert(count);
-        document.getElementById('latitude'+String(count)).value = ev.latLng.lat();
-        document.getElementById('longitude'+String(count)).value = ev.latLng.lng();
-        geocodePosition(ev.latLng,count);
-        document.getElementById("result").value += "MoveEnd:"+ev.latLng.lat()+","+ev.latLng.lng()+"<br>";
-        //alert(ev.title);
-        // function updatePhoto(photo[i][location]); // update
-      });
-      
-      google.maps.event.addListener(map, "zoom_changed", function() {
-        var z = map.getZoom();
-        document.getElementById("result").value += "Zoom_changed："+z+"<br>";
-      });
-      
-      google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(name);
-        infoWindow.open(map,marker);   
-      });
-      
-  } 
-  
+	function __update_folder(map, image, pos, marker){
+		var mp = map;
+		var img = image;
+		var ps = pos;
+		var mrkr = marker;
+		var ltlng = __get_relative_latlng(mp,ps);
+		if(!mrkr){
+			mrkr = new google.maps.Marker({position: ltlng || new google.maps.LatLng(0,0),map: mp,icon: image});
+			google.maps.event.addListener(mp, "bounds_changed", function(){
+				__update_folder(mp, img, ps, mrkr);
+			});
+		}else{
+			mrkr.setPosition(ltlng);
+		}
+		return mrkr;
+	}
   function createFolder(latlng,map,image){
     var marker = new google.maps.Marker({position: latlng,map: map,icon: image});  
   } 
-  
-  function geocodePosition(pos,count) {
-    geocoder.geocode({
-      latLng: pos
-    }, function(responses) {
-      if (responses && responses.length > 0) {
-        updateMarkerAddress(responses[0].formatted_address,count);
-      } else {
-        updateMarkerAddress('Cannot determine address at this location.');
-      }
-    });
-  }
-  function updateMarkerAddress(str,count) {
-    document.getElementById('address'+String(count)).value = str;
-    annotationLocation(annotateLocation[count],document.getElementById('longitude'+String(count)).value,document.getElementById('latitude'+String(count)).value,str,next);
-  }
-  
-  /* 基本位置の緯度・経度 */
-	var pos = new google.maps.LatLng(35.681382, 139.766084);　//please replace
-
-		function HomeControl(controlDiv, map) {
-			/* ボタン枠 */
-			controlDiv.style.padding = '5px';
-			controlDiv.style.backgroundColor = '#ffffcc';
-			controlDiv.style.border = '1px solid #000';
-			controlDiv.style.cursor = 'pointer';
-			controlDiv.style.textAlign = 'center';
-
-			/* ボタン */
-			var controlUI = document.createElement('DIV');
-			controlUI.style.backgroundColor = '#ffffff';
-			controlUI.style.border = '1px solid #000';
-			controlUI.style.float = 'left';
-			controlUI.style.cursor = 'pointer';
-			controlUI.style.textAlign = 'center';
-			controlUI.style.marginRight = '5px';
-			controlUI.title = 'ホームに戻る';
-			controlDiv.appendChild(controlUI);
-
-			var controlText = document.createElement('div');
-			controlText.style.fontFamily = 'Arial,sans-serif';
-			controlText.style.fontSize = '30px';
-			controlText.style.padding = '2px 5px';
-			controlText.innerHTML = '<b>ホームに戻る</b>';
-			controlUI.appendChild(controlText);
-			
-			google.maps.event.addDomListener(controlUI, 'click', function() {
-				map.panTo(pos);
-			});
-		}
-  
-var get_current_timestamp = function() {
-    var weeks = new Array('日', '月', '火', '水', '木', '金', '土');
-    var d = new Date();
- 
-    // 年月日・曜日・時分秒の取得
-    var month  = d.getMonth() + 1;
-    var day    = d.getDate();
-    var week   = weeks[ d.getDay() ];
-    var hour   = d.getHours();
-    var minute = d.getMinutes();
-    var second = d.getSeconds();
- 
-    // 1桁を2桁に変換する
-    if (month < 10) {month = "0" + month;}
-    if (day < 10) {day = "0" + day;}
-    if (hour < 10) {hour = "0" + hour;}
-    if (minute < 10) {minute = "0" + minute;}
-    if (second < 10) {second = "0" + second;}
- 
-    // 整形して返却
-    return d.getFullYear()  + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".000Z";
-}
- 
-// 現在の日付・時刻を表示する
-//document.write(get_current_timestamp());
-//alert(get_current_timestamp());
 
 function jump(){
-	parent.location.href='annotation_map.html#apiKey='+apiKey+'&base='+base;
+	jQuery("#finish").css("background", "#000000");
+	parent.location.href="album_view.html#apiKey="+apiKey+"&base="+base+"&trg=annotation_map";
 }
 function restart(){
-	location.href='mapTask.html#apiKey='+apiKey+'&base='+base;
+        jQuery("#next").css("background", "#34d93f");
+	getImageURLS(getLocation);
+	//location.href='mapTask.html#apiKey='+apiKey+'&base='+base;
 }
+$(document).ready(function(){
+	cfelService.apiKey = cfelService.getRequestFragment("apiKey");
+
+function __adjust_map_container(){
+	if($(window).innerHeight() > $(window).innerWidth()){
+		$("body").removeClass("landscape").addClass("portlait");
+	}else{
+		$("body").removeClass("portlait").addClass("landscape");
+	}
+}
+
+	$(window).resize(function(){
+		__adjust_map_container();
+	});
+	__adjust_map_container();
+
+	var ll_home = new google.maps.LatLng(el_config.home_lat, el_config.home_lng);
+	var _map = $("#map_canvas").el_map_view({
+		home: ll_home
+	})
+	.on("marker_moved", function(self, marker, item, fromto, duration){
+		item.fromto = fromto;
+		item.duration = duration;
+	});
+	_map.el_add_control(google.maps.ControlPosition.LEFT_TOP, $("<button/>", {
+		"class": "gm-style-mtc el_map_button"
+	}).append("<div>元の位置へ</div><div style='font-weight:bold;font-size:large;'>戻る</div>")
+	.click(function(){
+		_map.el_map_home();
+	}));
+
+var gcd = new google.maps.Geocoder();
+
+function __update_location(item,callback) {
+	var id = cfelService.getID(item);
+	if (!id | !item.fromto) {
+		return;
+	}
+
+	var pos = item.fromto.to;
+	var addr = null;
+	gcd.geocode({
+		latLng: pos
+	}, function(res, st) {
+		if(google.maps.GeocoderStatus.OK && res && res.length > 0){
+			addr = res[0].formatted_address;
+		}else{
+			addr = 'Cannot determine address at this location.';
+		}
+		cfelService.apiKey = apiKey;
+		var date = get_current_timestamp();
+	// original implementation.. i can't understand why this is happening..i suppose we'd better to save the value in numeric..
+	//      end_time = new Date();
+	//      var task_time = end_time - start_time + "msec";
+
+		var task_time = (item.duration.end || new Date()).getTime() - item.duration.start.getTime() + "msec";
+		cfelService.updatePhoto(id, {
+			"update" : {
+				"$push" : {
+					"annotation_location" : {
+						"date_time" : date,
+						"portal_id" : portal.id,
+						"portal_name" : portal.name,
+						"lon" : item.fromto.to.lng(),
+						"lat" : item.fromto.to.lat(),
+						"address" : addr,
+						"task_time" : task_time
+					}
+				}
+			},
+			"upsert" : true
+		}, callback);
+	});
+}
+
+	var _data = [];
+	var _cur = 0;
+	var _color_map = {
+		"no_location": "#fdeff2",
+		"no_annotation": "#e0ebaf",
+		"default": "#eaf4fc"
+	};
+function __show_entry(dt){
+	if(!dt) return;
+	var ll = _map.el_get_item_ll(dt);
+	var dtstart = new Date();
+	var disp_type = "default";
+	if(ll){
+		$(".menu_container .subject").html("場所は正しいですか？");
+		$(".menu_container .content").html(dt.annotation_location ? (dt.annotation_location[dt.annotation_location.length-1].portal_name || "?") + "さんがこの写真をここにおきました" : "写真に入っている位置情報はここを示しています");
+		$(".menu_container .message").html("正しくなければ移動してください");
+		_map.el_marker_append(dt);
+		if(!dt.annotation_location){
+			disp_type="no_annotation";
+		}
+	}else{
+		disp_type="no_location";
+		$(".menu_container .subject").html("写真の場所を決めてください");
+		$(".menu_container .content").html("この写真は位置がまだ指定されていません")
+		 .append($("<a/>",{
+			"class": "content_image",
+			"href": (dt.portal_image_url || "").replace(/\/photo/, "photo"),
+			"target":"_blank"
+		}).append($("<img/>",{
+			src:  cfelService.serviceRoot.slice(0, -1) + dt.marker_image_url,
+			"class": "image_thumbnail"
+		})).append($("<span/>").html(dt.annotation_title ? dt.annotation_title[dt.annotation_title.length-1].title : dt.title)));
+		$(".menu_container .message").html("ご存知ならば正しい場所を指定してください");
+		
+		(function(){
+			var mobj = _map.el_map_obj;
+			var handler = google.maps.event.addListener(mobj, "click", function(ev){
+				google.maps.event.clearListeners(mobj, "click");
+				mobj.panTo(ev.latLng);
+				dt.fromto = {to: ev.latLng};
+				dt.duration = {start: dtstart, end: new Date()}
+				_map.el_marker_append(dt);
+			});
+		})();
+	}
+	$(".menu_container .question .subject").animate({
+		"backgroundColor":_color_map[disp_type]
+	}, 500);
+}
+
+function __show_next(){
+	_cur++;
+	if(_data.length > _cur){
+		_map.el_marker_clear();
+		google.maps.event.clearListeners(_map.el_map_obj, "click");
+		__show_entry(_data[_cur]);
+		$(".menu_container button").removeAttr("disabled");
+	}else{
+		alert("すべて終了しました。ありがとうございました");
+		jump();
+	}
+}
+
+	$(".menu_container button").attr("disabled", true);
+
+	getImageURLS(function(res){
+		if (res.status == "success") {
+			$(".menu_container button").removeAttr("disabled");
+			_data = res.data.sort(function(a, b){
+				var ll_a = _map.el_get_item_ll(a);
+				var ll_b = _map.el_get_item_ll(b);
+				if(!ll_a && !ll_b) return 0;
+				if(!ll_a) return -1;
+				if(!ll_b) return 1;
+				return google.maps.geometry.spherical.computeDistanceBetween(ll_home, ll_a) - google.maps.geometry.spherical.computeDistanceBetween(ll_home, ll_b);
+			});
+			_cur = -1;
+			$(".menu_container #menu_ok").click(function(){
+				var item = _data[_cur];
+				if(item.fromto){
+					$(".menu_container button").attr("disabled", true);
+					__update_location(item, function(){
+						__show_next();
+					});
+				}else{
+					__show_next();
+				}
+			});
+			$(".menu_container #menu_cancel").click(function(){
+				__show_next();
+			});
+			__show_next();
+		}
+	});
+});
+
 </script>
 </head>
-<body onload="getImageURLS(getLocation)">
-<table><tbody><tr>
-<td><h1>写真を正しい場所に移動させてください</h1></td>
-<td><input type="button" value="完了" class="btn" style="height:60px;" onClick="jump()"></td>
-<td><input type="button" value="やり直す" class="btn2" style="width:140px;height:60px;" onClick="restart()"></td></tr></tbody></table>
-<div id="map_canvas" style="float:left;width:100%;height:80%"></div>
+<body>
+<div class="content_wrapper">
+	<div class="map_container">
+		<div id="map_canvas" style="height:100%;width:100%;"></div>
+	</div>
+	<div class="menu_container">
+		<div class="question">
+			<h1 class="subject"></h1>
+			<div class="content"></div>
+			<div class="message"></div>
+		</div>
+		<div class="operation">
+			<button id="menu_ok" class="ok">これでOK!</button>
+			<button id="menu_cancel" class="cancel">わからない</button>
+		</div>
+	</div>
+</div>
 <!--div name="spot_list" style="float:right;width:30%;height:100%;"></div-->
 <div id="update">
-<form>
-	<input type="hidden" id="latitude0" size="20" />
-	<input type="hidden" id="longitude0" size="20" />
-	<input type="hidden" id="address0" size="36" />
-	<input type="hidden" id="latitude1" size="20" />
-	<input type="hidden" id="longitude1" size="20" />
-	<input type="hidden" id="address1" size="36" />
-	<input type="hidden" id="latitude2" size="20" />
-	<input type="hidden" id="longitude2" size="20" />
-	<input type="hidden" id="address2" size="36" />
-	<input type="hidden" id="latitude3" size="20" />
-	<input type="hidden" id="longitude3" size="20" />
-	<input type="hidden" id="address3" size="36" />
-  
-  <input type="hidden" id="result"></div>
-</form>
 
 </body>
 </html>
