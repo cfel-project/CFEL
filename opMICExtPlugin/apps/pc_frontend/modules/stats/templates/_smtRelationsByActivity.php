@@ -87,6 +87,10 @@ $(document).ready(function(){
 	var __id = "rel_by_activity_<?php echo $gadget->id ?>";
 	var __params = $.extend({},{apiKey: openpne.apiKey},<?php echo htmlspecialchars_decode($prmsjson)?>);
 
+	var def_duration = "<?php echo $def_duration ?>";
+	if(def_duration){
+		$("#" + __id + " select.duration").val(def_duration);
+	}
 	var _rel_graph = null;
 	var _in_flight = false;
 	function __update_rel_graph(prms){

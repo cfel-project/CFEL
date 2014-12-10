@@ -36,10 +36,16 @@ class statsComponents extends sfComponents{
 		$this->setPageLogElemByDate($request);
 	}
 
+	private function setRelationByActivityProps(sfWebRequest $request){
+		$this->def_duration = opMICExtConfig::getRelVisQueryDuration();
+	}
+
 	public function executeRelationsByActivity(sfWebRequest $request){
+		$this->setRelationByActivityProps($request);
 		$this->prmsjson = json_encode(opMICExtUtil::requestToConditionParam($request), JSON_UNESCAPED_UNICODE);
 	}
 	public function executeSmtRelationsByActivity(sfWebRequest $request){
+		$this->setRelationByActivityProps($request);
 		$this->prmsjson = json_encode(opMICExtUtil::requestToConditionParam($request), JSON_UNESCAPED_UNICODE);
 	}
 

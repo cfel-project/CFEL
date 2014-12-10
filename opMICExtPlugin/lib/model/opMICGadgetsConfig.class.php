@@ -27,4 +27,7 @@ class opMICExtConfig{
 	public static function getRelVisQueryExcludeId(){
 		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_rel_query_exclude_id", "");
 	}
+	public static function getRelVisQueryDuration(){
+		return Doctrine::getTable("SnsConfig")->get("op_micext_plugin_rel_query_duration", "90d");
+	}
 }

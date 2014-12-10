@@ -45,12 +45,19 @@ class opMICExtPluginConfigurationForm extends BaseForm{
 		$this->widgetSchema->setLabel('rel_query_exclude_id', 'Visualization Query exclude ID');
 		$this->widgetSchema->setHelp('rel_query_exclude_id', 'Set id for the exclude member.');
 
+		$query_durations = array('90d' => '90日分', '183d' => '半年分', '1y' => '一年分', 'all' => '全て');
+		$this->setWidget('rel_query_duration', new sfWidgetFormSelectRadio(array('choices' => $query_durations)));
+		$this->setDefault('rel_query_duration', Doctrine::getTable('SnsConfig')->get('op_micext_plugin_rel_query_duration', '90d'));
+		$this->setValidator('rel_query_duration', new sfValidatorChoice(array('choices' => array_keys($query_durations))));
+		$this->widgetSchema->setLabel('rel_query_duration', 'Visualization Query Duration(Default)');
+		$this->widgetSchema->setHelp('rel_query_duration', 'Please choose default query duration for visualization');
+
 		$this->widgetSchema->setNameFormat('op_micext_plugin[%s]');
 	}
 	
 	public function save(){
 //		parent::save();
-		$names = array("d3_url", "brgr_cls_ext", "rel_query_target", "rel_query_target_id", "rel_query_exclude_id");
+		$names = array("d3_url", "brgr_cls_ext", "rel_query_target", "rel_query_target_id", "rel_query_exclude_id", "rel_query_duration");
 		foreach($names as $name){
 			if(!is_null($this->getValue($name))){
 				Doctrine::getTable("SnsConfig")->set("op_micext_plugin_".$name, $this->getValue($name));
