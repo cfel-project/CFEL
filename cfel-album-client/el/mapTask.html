@@ -263,6 +263,7 @@ function __show_entry(dt){
 	var dtstart = new Date();
 	var disp_type = "default";
 	if(ll){
+		$(".menu_container #menu_ok").removeAttr("disabled");
 		$(".menu_container .subject").html("場所は正しいですか？");
 		$(".menu_container .content").html(dt.annotation_location ? (dt.annotation_location[dt.annotation_location.length-1].portal_name || "?") + "さんがこの写真をここにおきました" : "写真に入っている位置情報はここを示しています");
 		$(".menu_container .message").html("正しくなければ移動してください");
@@ -282,12 +283,14 @@ function __show_entry(dt){
 			src:  cfelService.serviceRoot.slice(0, -1) + dt.marker_image_url,
 			"class": "image_thumbnail"
 		})).append($("<span/>").html(dt.annotation_title ? dt.annotation_title[dt.annotation_title.length-1].title : dt.title)));
-		$(".menu_container .message").html("ご存知ならば正しい場所を指定してください");
+		$(".menu_container .message").html("ご存知ならば、<b>地図をタップ</b>して、正しい場所を指定してください");
 		
 		(function(){
 			var mobj = _map.el_map_obj;
+			$(".menu_container #menu_ok").attr("disabled", true);
 			var handler = google.maps.event.addListener(mobj, "click", function(ev){
 				google.maps.event.clearListeners(mobj, "click");
+				$(".menu_container #menu_ok").removeAttr("disabled");
 				mobj.panTo(ev.latLng);
 				dt.fromto = {to: ev.latLng};
 				dt.duration = {start: dtstart, end: new Date()}
@@ -305,8 +308,8 @@ function __show_next(){
 	if(_data.length > _cur){
 		_map.el_marker_clear();
 		google.maps.event.clearListeners(_map.el_map_obj, "click");
-		__show_entry(_data[_cur]);
 		$(".menu_container button").removeAttr("disabled");
+		__show_entry(_data[_cur]);
 	}else{
 		alert("すべて終了しました。ありがとうございました");
 		jump();
