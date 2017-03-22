@@ -13,7 +13,7 @@ This project aims to provide IT education support applications for senior. It in
 
 Pre-Requisites
 ----
-###Pre-reqs for SNS part
+### Pre-reqs for SNS part
 [OpenPNE 3.8.6 or later](http://www.openpne.jp/)    (Apache License v2.0)  
 [Plugins for OpenPNE](http://plugins.openpne.jp/)   (Apache License v2.0 / PHP License)  
 - opCommunityTopicPlugin
@@ -37,13 +37,13 @@ Pre-Requisites
 - opTagPlugin
 - opBookmarkPlugin
 
-####Pre-reqs for OpenPNE
+#### Pre-reqs for OpenPNE
 - [PHP 5.4.19 or later](http://www.php.net/)    (PHP License)
 - [mysql 5.5.32 or later](http://www.mysql.com/)    (GPL v2.0)
 - [Apache HTTPD 2.4.4 or later](http://httpd.apache.org/)   (Apache License v2.0)
 
 ----
-###Pre-reqs for Album part
+### Pre-reqs for Album part
 - [MongoDB	2.4.9](http://www.mongodb.org/)	(Affero GPL)
 - [mongoDB Java Driver	2.11.4](http://docs.mongodb.org/ecosystem/drivers/java/)	(Apache License v2.0)
 - [Wink	1.4.0](http://wink.apache.org/) (Apache License v2.0)
